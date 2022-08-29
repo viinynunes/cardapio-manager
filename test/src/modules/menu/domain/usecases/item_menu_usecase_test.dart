@@ -18,29 +18,20 @@ main() {
         name: 'Arroz, contra filé e batata frita',
         description: 'AAA',
         imgUrl: 'https://',
+        enabled: true,
         weekdayList: [1, 5]);
 
     when(repository.create(any))
         .thenAnswer((realInvocation) async => Right(item));
   });
 
-  group('create new Item Menu tests', () {
+  group('Tests to create a new Item Menu', () {
     test('should return a item Menu when everything is correct', () async {
       var result = await usecase.create(item);
 
       expect(result.fold(id, id), isA<ItemMenu>());
       expect(result.fold((l) => null, (r) => r.name),
           equals('Arroz, contra filé e batata frita'));
-    });
-
-    test('should return a ItemMenuError when ID is Empty', () async {
-      item.id = '';
-
-      var result = await usecase.create(item);
-
-      expect(result.fold(id, id), isA<ItemMenuError>());
-      expect(result.fold((l) => l.message, (r) => null),
-          equals('String cannot be empty'));
     });
 
     test('should return a ItemMenuError when name length has less then 2 chars',
@@ -58,6 +49,55 @@ main() {
       item.weekdayList = [];
 
       var result = await usecase.create(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('Invalid weekday list'));
+    });
+  });
+
+  group('Tests to update an Item Menu', () {
+    test('should return a item Menu when everything is correct', () async {
+      var result = await usecase.update(item);
+
+      expect(result.fold(id, id), isA<ItemMenu>());
+      expect(result.fold((l) => null, (r) => r.name),
+          equals('Arroz, contra filé e batata frita'));
+    });
+
+    test('should return a ItemMenuError when ID is Empty', () async {
+      item.id = '';
+
+      var result = await usecase.update(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('item menu id is invalid'));
+
+      item.id = null;
+
+      result = await usecase.update(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('item menu id is invalid'));
+    });
+
+    test('should return a ItemMenuError when name length has less then 2 chars',
+        () async {
+      item.name = 'a';
+
+      var result = await usecase.update(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('Enter a valid name'));
+    });
+
+    test('should return a ItemMenuError when weekday list is empty', () async {
+      item.weekdayList = [];
+
+      var result = await usecase.update(item);
 
       expect(result.fold(id, id), isA<ItemMenuError>());
       expect(result.fold((l) => l.message, (r) => null),
