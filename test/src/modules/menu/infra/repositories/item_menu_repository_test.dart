@@ -25,9 +25,11 @@ main() {
     when(datasource.create(any)).thenAnswer((realInvocation) async => item);
 
     when(datasource.update(any)).thenAnswer((realInvocation) async => item);
+
+    when(datasource.disable(any)).thenAnswer((realInvocation) async => true);
   });
 
-  group('Tests to create Item Menu', () {
+  group('Tests to create an Item Menu', () {
     test('Should return a ItemMenuModel from datasource', () async {
       final result = await repository.create(item);
 
@@ -46,7 +48,7 @@ main() {
     });
   });
 
-  group('Tests to update Item Menu', () {
+  group('Tests to update an Item Menu', () {
     test('Should return a ItemMenuModel from datasource', () async {
       final result = await repository.update(item);
 
@@ -58,6 +60,25 @@ main() {
       when(datasource.update(any)).thenThrow(Exception('Uncaught Error'));
 
       final result = await repository.update(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('Exception: Uncaught Error'));
+    });
+  });
+
+  group('Tests to disable an Item Menu', () {
+    test('Should return a ItemMenuModel from datasource', () async {
+      final result = await repository.disable('AAA');
+
+      expect(result.fold(id, id), isA<bool>());
+      expect(result.fold(id, id), equals(true));
+    });
+
+    test('should throw an ItemMenuError when something goes wrong', () async {
+      when(datasource.disable(any)).thenThrow(Exception('Uncaught Error'));
+
+      final result = await repository.disable('AAAA');
 
       expect(result.fold(id, id), isA<ItemMenuError>());
       expect(result.fold((l) => l.message, (r) => null),
