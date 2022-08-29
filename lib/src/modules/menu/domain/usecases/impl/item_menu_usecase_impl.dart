@@ -39,9 +39,12 @@ class ItemMenuUsecaseImpl implements IItemMenuUsecase {
   }
 
   @override
-  Future<Either<ItemMenuError, bool>> disable(String id) {
-    // TODO: implement disable
-    throw UnimplementedError();
+  Future<Either<ItemMenuError, bool>> disable(String id) async {
+    if (id.isEmpty) {
+      return Left(ItemMenuError('Invalid id'));
+    }
+
+    return _repository.disable(id);
   }
 
   @override
