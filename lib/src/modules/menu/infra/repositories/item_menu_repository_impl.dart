@@ -23,9 +23,15 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
   }
 
   @override
-  Future<Either<ItemMenuError, ItemMenu>> update(ItemMenu item) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Either<ItemMenuError, ItemMenu>> update(ItemMenu item) async {
+    try {
+      final result =
+          await _datasource.update(ItemMenuModel.fromItemMenu(item: item));
+
+      return Right(result);
+    } catch (e) {
+      return Left(ItemMenuError(e.toString()));
+    }
   }
 
   @override
