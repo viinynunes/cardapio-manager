@@ -35,9 +35,14 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
   }
 
   @override
-  Future<Either<ItemMenuError, bool>> disable(String id) {
-    // TODO: implement disable
-    throw UnimplementedError();
+  Future<Either<ItemMenuError, bool>> disable(String id) async {
+    try {
+      final result = await _datasource.disable(id);
+
+      return Right(result);
+    } catch (e) {
+      return Left(ItemMenuError(e.toString()));
+    }
   }
 
   @override
