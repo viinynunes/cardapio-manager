@@ -5,16 +5,12 @@ import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
 import 'package:dartz/dartz.dart';
 
 class ItemMenuUsecaseImpl implements IItemMenuUsecase {
-
   final IItemMenuRepository _repository;
 
   ItemMenuUsecaseImpl(this._repository);
 
   @override
   Future<Either<ItemMenuError, ItemMenu>> create(ItemMenu item) async {
-    if (item.id.isEmpty) {
-      return Left(ItemMenuError('String cannot be empty'));
-    }
     if (item.name.length < 2) {
       return Left(ItemMenuError('Enter a valid name'));
     }
@@ -27,9 +23,19 @@ class ItemMenuUsecaseImpl implements IItemMenuUsecase {
   }
 
   @override
-  Future<Either<ItemMenuError, ItemMenu>> update(ItemMenu item) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Either<ItemMenuError, ItemMenu>> update(ItemMenu item) async {
+    if (item.id == null || item.id!.isEmpty) {
+      return Left(ItemMenuError('item menu id is invalid'));
+    }
+    if (item.name.length < 2) {
+      return Left(ItemMenuError('Enter a valid name'));
+    }
+
+    if (item.weekdayList.isEmpty) {
+      return Left(ItemMenuError('Invalid weekday list'));
+    }
+
+    return _repository.create(item);
   }
 
   @override
