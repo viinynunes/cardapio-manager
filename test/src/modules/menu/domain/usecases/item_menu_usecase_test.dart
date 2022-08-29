@@ -23,6 +23,12 @@ main() {
 
     when(repository.create(any))
         .thenAnswer((realInvocation) async => Right(item));
+
+    when(repository.create(any))
+        .thenAnswer((realInvocation) async => Right(item));
+
+    when(repository.disable(any))
+        .thenAnswer((realInvocation) async => const Right(true));
   });
 
   group('Tests to create a new Item Menu', () {
@@ -102,6 +108,22 @@ main() {
       expect(result.fold(id, id), isA<ItemMenuError>());
       expect(result.fold((l) => l.message, (r) => null),
           equals('Invalid weekday list'));
+    });
+  });
+
+  group('Tests to disable Item Menu', () {
+    test('should return a bool', () async {
+      var result = await usecase.disable('AAA');
+
+      expect(result.fold(id, id), isA<bool>());
+      expect(result.fold(id, id), equals(true));
+    });
+
+    test('should return an ItemMenuError when id is empty item menu', () async {
+      var result = await usecase.disable('');
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null), equals('Invalid id'));
     });
   });
 }
