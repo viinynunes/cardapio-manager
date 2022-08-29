@@ -48,8 +48,7 @@ class ItemMenuUsecaseImpl implements IItemMenuUsecase {
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() {
-    // TODO: implement findAll
-    throw UnimplementedError();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() async {
+    return _repository.findAll();
   }
 }
