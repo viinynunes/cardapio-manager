@@ -29,6 +29,9 @@ main() {
 
     when(repository.disable(any))
         .thenAnswer((realInvocation) async => const Right(true));
+
+    when(repository.findAll())
+        .thenAnswer((realInvocation) async => Right(<ItemMenu>[item, item]));
   });
 
   group('Tests to create a new Item Menu', () {
@@ -124,6 +127,14 @@ main() {
 
       expect(result.fold(id, id), isA<ItemMenuError>());
       expect(result.fold((l) => l.message, (r) => null), equals('Invalid id'));
+    });
+  });
+
+  group('Tests to findAll method', () {
+    test('should return a list of ItemMenu', () async {
+      var result = await usecase.findAll();
+
+      expect(result.fold(id, id), isA<List<ItemMenu>>());
     });
   });
 }
