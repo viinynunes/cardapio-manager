@@ -1,0 +1,46 @@
+import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
+import 'package:cardapio_manager/src/modules/menu/domain/repositories/i_item_menu_repository.dart';
+import 'package:cardapio_manager/src/modules/menu/domain/usecases/i_item_menu_usecase.dart';
+import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
+import 'package:dartz/dartz.dart';
+
+class ItemMenuUsecaseImpl implements IItemMenuUsecase {
+
+  final IItemMenuRepository _repository;
+
+  ItemMenuUsecaseImpl(this._repository);
+
+  @override
+  Future<Either<ItemMenuError, ItemMenu>> create(ItemMenu item) async {
+    if (item.id.isEmpty) {
+      return Left(ItemMenuError('String cannot be empty'));
+    }
+    if (item.name.length < 2) {
+      return Left(ItemMenuError('Enter a valid name'));
+    }
+
+    if (item.weekdayList.isEmpty) {
+      return Left(ItemMenuError('Invalid weekday list'));
+    }
+
+    return _repository.create(item);
+  }
+
+  @override
+  Future<Either<ItemMenuError, ItemMenu>> update(ItemMenu item) {
+    // TODO: implement update
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ItemMenuError, bool>> disable(String id) {
+    // TODO: implement disable
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() {
+    // TODO: implement findAll
+    throw UnimplementedError();
+  }
+}
