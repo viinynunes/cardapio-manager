@@ -46,8 +46,13 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() {
-    // TODO: implement findAll
-    throw UnimplementedError();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() async {
+    try {
+      final result = await _datasource.findAll();
+
+      return Right(result);
+    } catch (e) {
+      return Left(ItemMenuError(e.toString()));
+    }
   }
 }
