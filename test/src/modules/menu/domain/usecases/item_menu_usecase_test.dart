@@ -1,0 +1,67 @@
+import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
+import 'package:cardapio_manager/src/modules/menu/domain/usecases/impl/item_menu_usecase_impl.dart';
+import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
+import 'package:dartz/dartz.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+
+import '../repositories_mocks.mocks.dart';
+
+main() {
+  final repository = MockIItemMenuRepository();
+  final usecase = ItemMenuUsecaseImpl(repository);
+  late ItemMenu item;
+
+  setUp(() {
+    item = ItemMenu(
+        id: 'AAAA',
+        name: 'Arroz, contra filé e batata frita',
+        description: 'AAA',
+        imgUrl: 'https://',
+        weekdayList: [1, 5]);
+
+    when(repository.create(any))
+        .thenAnswer((realInvocation) async => Right(item));
+  });
+
+  group('create new Item Menu tests', () {
+    test('should return a item Menu when everything is correct', () async {
+      var result = await usecase.create(item);
+
+      expect(result.fold(id, id), isA<ItemMenu>());
+      expect(result.fold((l) => null, (r) => r.name),
+          equals('Arroz, contra filé e batata frita'));
+    });
+
+    test('should return a ItemMenuError when ID is Empty', () async {
+      item.id = '';
+
+      var result = await usecase.create(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('String cannot be empty'));
+    });
+
+    test('should return a ItemMenuError when name length has less then 2 chars',
+        () async {
+      item.name = 'a';
+
+      var result = await usecase.create(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('Enter a valid name'));
+    });
+
+    test('should return a ItemMenuError when weekday list is empty', () async {
+      item.weekdayList = [];
+
+      var result = await usecase.create(item);
+
+      expect(result.fold(id, id), isA<ItemMenuError>());
+      expect(result.fold((l) => l.message, (r) => null),
+          equals('Invalid weekday list'));
+    });
+  });
+}
