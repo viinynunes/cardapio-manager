@@ -1,5 +1,5 @@
 class ItemMenu {
-  String id;
+  String? id;
   String name;
   String description;
   String imgUrl;
