@@ -7,17 +7,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:910746150746:android:cf06feb4b9ffe124d2f563",
+        "mobilesdk_app_id": "1:910746150746:android:771e72eb31ac8c48d2f563",
         "android_client_info": {
-          "package_name": "br.com.nunesv"
+          "package_name": "br.com.nunesv.cardapio"
         }
       },
       "oauth_client": [
         {
-          "client_id": "910746150746-mkbip9dfbr3uaiilijgro4qts2nujmkq.apps.googleusercontent.com",
+          "client_id": "910746150746-lpkaa8p0fi1v2i27i07oqud3r9j9n99m.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "br.com.nunesv",
+            "package_name": "br.com.nunesv.cardapio",
             "certificate_hash": "d3c8a8aaefe09f8c56401158d7ba629e25da05e2"
           }
         },
@@ -44,17 +44,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:910746150746:android:771e72eb31ac8c48d2f563",
+        "mobilesdk_app_id": "1:910746150746:android:4f0154a40ffb7339d2f563",
         "android_client_info": {
-          "package_name": "br.com.nunesv.cardapio"
+          "package_name": "br.com.nunesv.cardapio_manager"
         }
       },
       "oauth_client": [
         {
-          "client_id": "910746150746-lpkaa8p0fi1v2i27i07oqud3r9j9n99m.apps.googleusercontent.com",
+          "client_id": "910746150746-acivt1ghmb9gopljhknmjo9rlloppq29.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "br.com.nunesv.cardapio",
+            "package_name": "br.com.nunesv.cardapio_manager",
             "certificate_hash": "d3c8a8aaefe09f8c56401158d7ba629e25da05e2"
           }
         },
