@@ -25,7 +25,7 @@ class ItemMenuModel extends ItemMenu {
       : super(
             id: map['id'],
             name: map['name'],
-            description: map['descrption'],
+            description: map['description'],
             imgUrl: map['imgUrl'],
             enabled: map['enabled'],
             weekdayList: map['weekdayList'].cast<int>());
