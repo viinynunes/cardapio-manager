@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/usecases/impl/item_menu_usecase_impl.dart';
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
@@ -19,6 +21,7 @@ main() {
         description: 'AAA',
         imgUrl: 'https://',
         enabled: true,
+        imgFile: File(''),
         weekdayList: [1, 5]);
 
     when(repository.create(any))

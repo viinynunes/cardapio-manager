@@ -7,7 +7,8 @@ class ItemMenuModel extends ItemMenu {
       required super.description,
       required super.imgUrl,
       required super.enabled,
-      required super.weekdayList});
+      required super.weekdayList,
+      super.imgFile});
 
   ItemMenuModel.fromItemMenu({required ItemMenu item})
       : super(
@@ -17,6 +18,7 @@ class ItemMenuModel extends ItemMenu {
           imgUrl: item.imgUrl,
           enabled: item.enabled,
           weekdayList: item.weekdayList,
+          imgFile: item.imgFile,
         );
 
   ItemMenuModel.fromMap({required Map<String, dynamic> map})
