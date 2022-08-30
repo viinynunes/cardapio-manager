@@ -40,6 +40,8 @@ dependencies:
   firebase_storage: any
   cloud_firestore: any
   path_provider: any
+  flutter_bloc: any
+  flutter_modular: any
 
 dev_dependencies:
   flutter_test:
