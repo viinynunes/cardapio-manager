@@ -42,6 +42,7 @@ dependencies:
   path_provider: any
   flutter_bloc: any
   flutter_modular: any
+  image_picker: any
 
 dev_dependencies:
   flutter_test:
