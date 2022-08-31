@@ -16,7 +16,7 @@ class MainModule extends Module {
         Bind((i) => MenuFirebaseDatasourceImpl()),
         Bind((i) => ItemMenuRepositoryImpl(i())),
         Bind((i) => ItemMenuUsecaseImpl(i())),
-        Bind((i) => ItemMenuBloc(i(), i())),
+        Bind((i) => ItemMenuBloc(i())),
       ];
 
   @override
