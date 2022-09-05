@@ -1,7 +1,6 @@
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
 
 import '../../../domain/entities/item_menu.dart';
-import '../../../infra/models/item_menu_model.dart';
 
 abstract class ItemMenuStates {}
 
@@ -18,7 +17,7 @@ class ItemMenuGetListSuccessState implements ItemMenuStates {
 }
 
 class ItemMenuCreateOrUpdateSuccessState implements ItemMenuStates {
-  final ItemMenuModel item;
+  final ItemMenu item;
 
   ItemMenuCreateOrUpdateSuccessState(this.item);
 }
