@@ -29,7 +29,7 @@ class _ItemMenuPageState extends State<ItemMenuPage>
   late ItemMenuModel modelFromItemMenu;
   late ItemMenuModel newItemMenu;
   late bool newItem;
-  late File? image;
+  File? image;
 
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -60,15 +60,14 @@ class _ItemMenuPageState extends State<ItemMenuPage>
   }
 
   _saveItem() {
-    newItemMenu.name = nameController.text;
-    newItemMenu.description = descriptionController.text;
-    newItemMenu.imgUrl = newItem && image == null
-        ? URLS.itemMenuNoImageUrl
-        : widget.itemMenu!.imgUrl;
-    newItemMenu.enabled = itemEnabled;
-
-    newItemMenu.imgFile = image;
-    newItemMenu.weekdayList = weekdayList;
+    newItemMenu = ItemMenuModel(
+        id: newItem ? null : newItemMenu.id,
+        name: nameController.text,
+        description: descriptionController.text,
+        imgUrl: newItem ? URLS.itemMenuNoImageUrl : newItemMenu.imgUrl,
+        enabled: itemEnabled,
+        weekdayList: weekdayList,
+        imgFile: image);
   }
 
   @override
