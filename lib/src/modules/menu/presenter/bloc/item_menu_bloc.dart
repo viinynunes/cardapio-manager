@@ -16,6 +16,23 @@ class ItemMenuBloc extends Bloc<ItemMenuEvents, ItemMenuStates> {
       result.fold((l) => emit(ItemMenuErrorState(l)),
           (r) => emit(ItemMenuGetListSuccessState(r)));
     });
-  }
 
+    on<CreateItemMenuEvent>((event, emit) async {
+      emit(ItemMenuLoadingState());
+
+      final result = await itemUsecase.create(event.itemMenu);
+
+      result.fold((l) => emit(ItemMenuErrorState(l)),
+          (r) => emit(ItemMenuCreateOrUpdateSuccessState(r)));
+    });
+
+    on<UpdateItemMenuEvent>((event, emit) async {
+      emit(ItemMenuLoadingState());
+
+      final result = await itemUsecase.update(event.itemMenu);
+
+      result.fold((l) => emit(ItemMenuErrorState(l)),
+          (r) => emit(ItemMenuCreateOrUpdateSuccessState(r)));
+    });
+  }
 }
