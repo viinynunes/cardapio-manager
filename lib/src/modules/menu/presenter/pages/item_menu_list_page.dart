@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/events/item_menu_events.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/item_menu_bloc.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/states/item_menu_states.dart';
@@ -23,6 +24,18 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
     bloc.add(GetItemMenuListEvent());
   }
 
+  _saveOrUpdate({ItemMenu? item}) async {
+    final recItem = await Modular.to.pushNamed('/item/', arguments: [item]);
+
+    if (recItem != null && recItem is ItemMenu) {
+      if (item == null) {
+        bloc.add(CreateItemMenuEvent(recItem));
+      } else {
+        bloc.add(UpdateItemMenuEvent(recItem));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +44,9 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Modular.to.pushNamed('/item/', arguments: [null]),
+        onPressed: () {
+          _saveOrUpdate();
+        },
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
@@ -69,10 +84,28 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
                   return ItemMenuListTile(
                     item: item,
                     onTap: () {
-                      Modular.to.pushNamed('/item/', arguments: [item]);
+                      _saveOrUpdate(item: item);
                     },
                   );
                 },
+              );
+            }
+
+            if (state is ItemMenuCreateOrUpdateSuccessState) {
+              bloc.add(GetItemMenuListEvent());
+              return Overlay(
+                initialEntries: [
+                  OverlayEntry(builder: (_) {
+                    return Container(
+                      color: Colors.white70,
+                      child: Column(
+                        children: const [
+                          Text('Item salvo com sucesso!'),
+                        ],
+                      ),
+                    );
+                  })
+                ],
               );
             }
 
