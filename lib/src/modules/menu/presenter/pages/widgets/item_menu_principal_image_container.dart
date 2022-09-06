@@ -8,15 +8,16 @@ import '../../../../core/camera/presenter/bloc/camera_bloc.dart';
 import '../../../../core/camera/presenter/bloc/events/camera_events.dart';
 import '../../../../core/camera/presenter/bloc/states/camera_states.dart';
 import '../../../../core/camera/presenter/pages/camera_source_animated_selector.dart';
-import '../../utils/utils.dart';
 import 'file_image_container.dart';
 import 'network_image_container.dart';
 
 class ItemMenuPrincipalImageContainer extends StatefulWidget {
-  const ItemMenuPrincipalImageContainer({Key? key, required this.getFileImage})
+  const ItemMenuPrincipalImageContainer(
+      {Key? key, required this.getFileImage, required this.imgUrl})
       : super(key: key);
 
   final Function(File? file) getFileImage;
+  final String imgUrl;
 
   @override
   State<ItemMenuPrincipalImageContainer> createState() =>
@@ -60,9 +61,7 @@ class _ItemMenuPrincipalImageContainerState
                 widget.getFileImage(image);
                 return FileImageContainer(file: image);
               }
-              return const NetworkImageContainer(
-                imagePath: URLS.itemMenuNoImageUrl,
-              );
+              return NetworkImageContainer(imagePath: widget.imgUrl);
             },
           ),
           Align(

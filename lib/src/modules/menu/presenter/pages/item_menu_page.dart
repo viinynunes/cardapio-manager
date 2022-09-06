@@ -96,11 +96,14 @@ class _ItemMenuPageState extends State<ItemMenuPage>
               child: Column(
                 children: [
                   ItemMenuPrincipalImageContainer(
-                      getFileImage: (File? fileImage) {
-                    if (fileImage != null) {
-                      image = fileImage;
-                    }
-                  }),
+                    getFileImage: (File? fileImage) {
+                      if (fileImage != null) {
+                        image = fileImage;
+                      }
+                    },
+                    imgUrl:
+                        newItem ? URLS.itemMenuNoImageUrl : newItemMenu.imgUrl,
+                  ),
                   TextFormField(
                     controller: nameController,
                     decoration: InputDecoration(
