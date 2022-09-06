@@ -11,30 +11,38 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
   @override
   Future<ItemMenuModel> create(ItemMenuModel item) async {
     try {
+      final recMenu = await _menuCollection
+          .add(item.toMap())
+          .catchError((e) => throw Exception(e.toString()));
+
+      item.id = recMenu.id;
       if (item.imgFile != null) {
-        final recTask = _menuStorage
-            .child('images/menu/${item.name}')
-            .putFile(item.imgFile!);
-
-        final snap = await recTask.whenComplete(() {});
-
-        item.imgUrl = await snap.ref.getDownloadURL();
+        item.imgUrl = await _uploadFile(item);
       }
+
+      await _menuCollection.doc(item.id).update(item.toMap());
     } on FirebaseException catch (e) {
       throw ItemMenuError(e.message.toString());
     }
-
-    await _menuCollection.add(item.toMap()).then((value) {
-      item.id = value.id;
-      _menuCollection.doc(item.id).update(item.toMap());
-    }).catchError((e) => throw Exception(e.toString()));
 
     return item;
   }
 
   @override
-  Future<ItemMenuModel> update(ItemMenuModel item) {
-    throw UnimplementedError();
+  Future<ItemMenuModel> update(ItemMenuModel item) async {
+    if (item.imgFile != null) {
+      final ref = _menuStorage.child('images/menu/${item.id}');
+
+      await ref.delete();
+      item.imgUrl = await _uploadFile(item);
+    }
+
+    await _menuCollection
+        .doc(item.id)
+        .update(item.toMap())
+        .catchError((e) => throw Exception(e.toString()));
+
+    return item;
   }
 
   @override
@@ -54,5 +62,17 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
     }
 
     return menuList;
+  }
+
+  Future<String> _uploadFile(ItemMenuModel item) async {
+    try {
+      final recTask = await _menuStorage
+          .child('images/menu/${item.id}')
+          .putFile(item.imgFile!);
+
+      return recTask.ref.getDownloadURL();
+    } on FirebaseException catch (e) {
+      throw ItemMenuError(e.message.toString());
+    }
   }
 }
