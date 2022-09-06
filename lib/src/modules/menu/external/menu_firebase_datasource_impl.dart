@@ -46,9 +46,19 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
   }
 
   @override
-  Future<bool> disable(String id) {
-    // TODO: implement disable
-    throw UnimplementedError();
+  Future<bool> disable(String id) async {
+    final rec = await _menuCollection.where('id', isEqualTo: id).get();
+
+    final disabledModel = ItemMenuModel.fromMap(map: rec.docs.first.data());
+
+    disabledModel.enabled = false;
+
+    _menuCollection
+        .doc(disabledModel.id)
+        .update(disabledModel.toMap())
+        .catchError((e) => throw Exception(e.toString()));
+
+    return true;
   }
 
   @override
