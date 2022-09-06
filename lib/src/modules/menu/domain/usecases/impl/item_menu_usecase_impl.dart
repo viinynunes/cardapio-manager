@@ -35,7 +35,7 @@ class ItemMenuUsecaseImpl implements IItemMenuUsecase {
       return Left(ItemMenuError('Invalid weekday list'));
     }
 
-    return _repository.create(item);
+    return _repository.update(item);
   }
 
   @override
