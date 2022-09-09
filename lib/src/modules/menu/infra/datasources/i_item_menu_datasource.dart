@@ -8,4 +8,8 @@ abstract class IItemMenuDatasource {
   Future<bool> disable(String id);
 
   Future<List<ItemMenuModel>> findAll();
+
+  Future<List<ItemMenuModel>> findAllEnabled();
+
+  Future<List<ItemMenuModel>> findAllDisabled();
 }

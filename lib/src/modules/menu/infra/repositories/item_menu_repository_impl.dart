@@ -55,4 +55,26 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
       return Left(ItemMenuError(e.toString()));
     }
   }
+
+  @override
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabled() async {
+    try {
+      final result = await _datasource.findAllDisabled();
+
+      return Right(result);
+    } catch (e) {
+      return Left(ItemMenuError(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabled() async {
+    try {
+      final result = await _datasource.findAllEnabled();
+
+      return Right(result);
+    } catch (e) {
+      return Left(ItemMenuError(e.toString()));
+    }
+  }
 }

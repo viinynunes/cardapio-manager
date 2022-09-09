@@ -74,6 +74,38 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
     return menuList;
   }
 
+  @override
+  Future<List<ItemMenuModel>> findAllDisabled() async {
+    List<ItemMenuModel> menuList = [];
+
+    final snap = await _menuCollection
+        .where('enabled', isEqualTo: false)
+        .orderBy('name')
+        .get();
+
+    for (var e in snap.docs) {
+      menuList.add(ItemMenuModel.fromMap(map: e.data()));
+    }
+
+    return menuList;
+  }
+
+  @override
+  Future<List<ItemMenuModel>> findAllEnabled() async {
+    List<ItemMenuModel> menuList = [];
+
+    final snap = await _menuCollection
+        .where('enabled', isEqualTo: false)
+        .orderBy('name')
+        .get();
+
+    for (var e in snap.docs) {
+      menuList.add(ItemMenuModel.fromMap(map: e.data()));
+    }
+
+    return menuList;
+  }
+
   Future<String> _uploadFile(ItemMenuModel item) async {
     try {
       final recTask = await _menuStorage

@@ -11,4 +11,8 @@ abstract class IItemMenuUsecase {
   Future<Either<ItemMenuError, bool>> disable(String id);
 
   Future<Either<ItemMenuError, List<ItemMenu>>> findAll();
+
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabled();
+
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabled();
 }
