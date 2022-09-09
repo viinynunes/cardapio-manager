@@ -16,6 +16,12 @@ class ItemMenuGetListSuccessState implements ItemMenuStates {
   ItemMenuGetListSuccessState(this.menuList);
 }
 
+class ItemMenuGetFilteredListSuccessState implements ItemMenuStates {
+  final List<ItemMenu> menuList;
+
+  ItemMenuGetFilteredListSuccessState(this.menuList);
+}
+
 class ItemMenuCreateOrUpdateSuccessState implements ItemMenuStates {
   final ItemMenu item;
 

@@ -17,6 +17,12 @@ class ItemMenuListPage extends StatefulWidget {
 class _ItemMenuListPageState extends State<ItemMenuListPage> {
   final bloc = Modular.get<ItemMenuBloc>();
 
+  List<ItemMenu> itemMenuList = [];
+
+  bool isSearching = false;
+  String searchText = '';
+  final searchFocus = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -40,8 +46,53 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Cardápio'),
+        title: isSearching
+            ? TextField(
+                focusNode: searchFocus,
+                decoration: const InputDecoration(
+                  hintText: ' Pesquisar',
+                  hintStyle: TextStyle(color: Colors.white),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onChanged: (text) {
+                  bloc.add(FilterItemMenuListEvent(
+                      searchText: text, menuList: itemMenuList));
+                },
+              )
+            : const Text('Cardápio'),
         centerTitle: true,
+        actions: [
+          isSearching
+              ? IconButton(
+                  onPressed: () {
+                    bloc.add(GetItemMenuListEvent());
+                    searchText = '';
+                    setState(() => isSearching = !isSearching);
+                  },
+                  icon: const Icon(Icons.cancel))
+              : IconButton(
+                  onPressed: () {
+                    searchFocus.requestFocus();
+                    setState(() => isSearching = !isSearching);
+                  },
+                  icon: const Icon(Icons.search)),
+          PopupMenuButton(
+            icon: const Icon(Icons.filter_list),
+            itemBuilder: (_) {
+              return [
+                const PopupMenuItem(
+                  child: Text('Todos'),
+                ),
+                const PopupMenuItem(
+                  child: Text('Ativado'),
+                ),
+                const PopupMenuItem(
+                  child: Text('Desativado'),
+                ),
+              ];
+            },
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -75,12 +126,29 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
             }
 
             if (state is ItemMenuGetListSuccessState) {
-              final menuList = state.menuList;
+              itemMenuList = state.menuList;
 
               return ListView.builder(
-                itemCount: menuList.length,
+                itemCount: itemMenuList.length,
                 itemBuilder: (_, index) {
-                  final item = menuList[index];
+                  final item = itemMenuList[index];
+                  return ItemMenuListTile(
+                    item: item,
+                    onTap: () {
+                      _saveOrUpdate(item: item);
+                    },
+                  );
+                },
+              );
+            }
+
+            if (state is ItemMenuGetFilteredListSuccessState) {
+              final filteredList = state.menuList;
+
+              return ListView.builder(
+                itemCount: filteredList.length,
+                itemBuilder: (_, index) {
+                  final item = filteredList[index];
                   return ItemMenuListTile(
                     item: item,
                     onTap: () {

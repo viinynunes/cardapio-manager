@@ -21,3 +21,10 @@ class DisableItemMenuEvent implements ItemMenuEvents {
 }
 
 class GetItemMenuListEvent implements ItemMenuEvents {}
+
+class FilterItemMenuListEvent implements ItemMenuEvents {
+  final List<ItemMenu> menuList;
+  final String searchText;
+
+  FilterItemMenuListEvent({required this.searchText, required this.menuList});
+}

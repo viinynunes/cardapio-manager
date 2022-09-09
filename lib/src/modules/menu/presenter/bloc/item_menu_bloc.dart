@@ -3,11 +3,14 @@ import 'package:cardapio_manager/src/modules/menu/presenter/bloc/states/item_men
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/usecases/i_item_menu_usecase.dart';
+import '../../services/i_item_menu_services.dart';
 
 class ItemMenuBloc extends Bloc<ItemMenuEvents, ItemMenuStates> {
   final IItemMenuUsecase itemUsecase;
+  final IItemMenuService itemService;
 
-  ItemMenuBloc(this.itemUsecase) : super(ItemMenuIdleState()) {
+  ItemMenuBloc(this.itemUsecase, this.itemService)
+      : super(ItemMenuIdleState()) {
     on<GetItemMenuListEvent>((event, emit) async {
       emit(ItemMenuLoadingState());
 
@@ -33,6 +36,15 @@ class ItemMenuBloc extends Bloc<ItemMenuEvents, ItemMenuStates> {
 
       result.fold((l) => emit(ItemMenuErrorState(l)),
           (r) => emit(ItemMenuCreateOrUpdateSuccessState(r)));
+    });
+
+    on<FilterItemMenuListEvent>((event, emit) {
+      emit(ItemMenuLoadingState());
+
+      final menuList =
+          itemService.searchFilter(event.menuList, event.searchText);
+
+      emit(ItemMenuGetFilteredListSuccessState(menuList));
     });
   }
 }
