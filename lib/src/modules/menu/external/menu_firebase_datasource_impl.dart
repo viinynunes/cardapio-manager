@@ -65,7 +65,7 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
   Future<List<ItemMenuModel>> findAll() async {
     List<ItemMenuModel> menuList = [];
 
-    final result = await _menuCollection.get();
+    final result = await _menuCollection.orderBy('name').get();
 
     for (var index in result.docs) {
       menuList.add(ItemMenuModel.fromMap(map: index.data()));
