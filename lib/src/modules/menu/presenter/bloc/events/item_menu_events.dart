@@ -22,6 +22,12 @@ class DisableItemMenuEvent implements ItemMenuEvents {
 
 class GetItemMenuListEvent implements ItemMenuEvents {}
 
+class GetItemMenuListByStatusEvent implements ItemMenuEvents {
+  final bool enabled;
+
+  GetItemMenuListByStatusEvent(this.enabled);
+}
+
 class FilterItemMenuListEvent implements ItemMenuEvents {
   final List<ItemMenu> menuList;
   final String searchText;

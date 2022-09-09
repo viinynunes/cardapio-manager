@@ -80,14 +80,17 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
             icon: const Icon(Icons.filter_list),
             itemBuilder: (_) {
               return [
-                const PopupMenuItem(
-                  child: Text('Todos'),
+                PopupMenuItem(
+                  onTap: () => bloc.add(GetItemMenuListEvent()),
+                  child: const Text('Todos'),
                 ),
-                const PopupMenuItem(
-                  child: Text('Ativado'),
+                PopupMenuItem(
+                  onTap: () => bloc.add(GetItemMenuListByStatusEvent(true)),
+                  child: const Text('Ativado'),
                 ),
-                const PopupMenuItem(
-                  child: Text('Desativado'),
+                PopupMenuItem(
+                  onTap: () => bloc.add(GetItemMenuListByStatusEvent(false)),
+                  child: const Text('Desativado'),
                 ),
               ];
             },
