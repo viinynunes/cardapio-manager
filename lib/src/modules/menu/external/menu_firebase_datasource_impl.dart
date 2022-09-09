@@ -95,7 +95,7 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
     List<ItemMenuModel> menuList = [];
 
     final snap = await _menuCollection
-        .where('enabled', isEqualTo: false)
+        .where('enabled', isEqualTo: true)
         .orderBy('name')
         .get();
 
