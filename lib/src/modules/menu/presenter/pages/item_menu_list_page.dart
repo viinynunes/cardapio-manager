@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/events/item_menu_events.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/item_menu_bloc.dart';
@@ -45,6 +46,7 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const CustomDrawer(),
       appBar: AppBar(
         title: isSearching
             ? TextField(
