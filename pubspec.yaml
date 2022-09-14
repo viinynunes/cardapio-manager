@@ -43,6 +43,8 @@ dependencies:
   flutter_bloc: any
   flutter_modular: any
   image_picker: any
+  lottie: any
+  intl: any
 
 dev_dependencies:
   flutter_test:
