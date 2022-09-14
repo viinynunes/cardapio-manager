@@ -42,6 +42,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ListTile(
               onTap: () {
                 Modular.to.pop();
+                Modular.to.navigate('/order/');
               },
               leading: const Icon(Icons.reorder),
               title: const Center(child: Text('Pedidos')),
