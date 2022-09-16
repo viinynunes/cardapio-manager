@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:cardapio_manager/src/modules/menu/presenter/bloc/days_of_week_bloc.dart';
-import 'package:cardapio_manager/src/modules/menu/presenter/bloc/states/days_of_week_state.dart';
+import 'package:cardapio_manager/src/modules/core/weekday/presenter/bloc/days_of_week_bloc.dart';
+import 'package:cardapio_manager/src/modules/core/weekday/presenter/bloc/states/days_of_week_state.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/pages/tiles/weekday_list_tile.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/pages/widgets/item_menu_principal_image_container.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/utils/utils.dart';
@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../../core/weekday/presenter/bloc/events/days_of_week_event.dart';
 import '../../domain/entities/item_menu.dart';
 import '../../infra/models/item_menu_model.dart';
-import '../bloc/events/days_of_week_event.dart';
 
 class ItemMenuPage extends StatefulWidget {
   const ItemMenuPage({Key? key, this.itemMenu}) : super(key: key);

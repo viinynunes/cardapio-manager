@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../domain/entities/weekday.dart';
+import '../../../../core/weekday/domain/entities/weekday.dart';
 
 class WeekdayListTile extends StatefulWidget {
   const WeekdayListTile(

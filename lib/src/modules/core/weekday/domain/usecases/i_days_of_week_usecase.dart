@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 
-import '../../errors/item_menu_errors.dart';
+import '../../../../menu/errors/item_menu_errors.dart';
 import '../entities/weekday.dart';
 
 abstract class IDaysOfWeekUsecase {
