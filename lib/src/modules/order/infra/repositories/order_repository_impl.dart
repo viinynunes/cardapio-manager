@@ -30,7 +30,19 @@ class OrderRepositoryImpl implements IOrderRepository {
     try {
       final result = await _orderDatasource.getOrders();
 
-      _orderDatasource.sortOrderList(result);
+      return Right(result);
+    } on OrderError catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(OrderError(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDay(
+      DateTime day) async {
+    try {
+      final result = await _orderDatasource.getOrdersByDay(day);
 
       return Right(result);
     } on OrderError catch (e) {

@@ -39,7 +39,7 @@ class OrdersTile extends StatelessWidget {
                 flex: 3,
                 fit: FlexFit.tight,
                 child: Text(
-                  order.menuList.first.name,
+                  order.client.name,
                   textAlign: TextAlign.center,
                 ),
               ),

@@ -19,13 +19,13 @@ class OrdersPage extends StatefulWidget {
 class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
   final bloc = Modular.get<OrderBloc>();
   final dateFormat = DateFormat('dd/MM/yyyy');
-  late DateTime today;
+  late DateTime day;
 
   @override
   void initState() {
     super.initState();
-    today = DateTime.now();
-    bloc.add(GetOrdersEvent());
+    day = DateTime.now();
+    bloc.add(GetOrdersByDayEvent(day));
   }
 
   @override
@@ -40,18 +40,19 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
             onPressed: () async {
               final result = await showDatePicker(
                   context: context,
-                  initialDate: today,
+                  initialDate: day,
                   firstDate: DateTime(1900),
                   lastDate: DateTime(2200));
 
               setState(() {
                 if (result != null) {
-                  today = result;
+                  day = result;
+                  bloc.add(GetOrdersByDayEvent(day));
                 }
               });
             },
             child: Text(
-              dateFormat.format(today),
+              dateFormat.format(day),
             ),
           ),
         ],
@@ -62,6 +63,11 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
           if (state is OrderGetListSuccessState) {
             final orderList = state.orderList;
 
+            if (orderList.isEmpty) {
+              return const Center(
+                child: Text('Sem pedidos para a data selecionada'),
+              );
+            }
             return ListView.builder(
                 itemCount: orderList.length,
                 itemBuilder: (_, index) {

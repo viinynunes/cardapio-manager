@@ -36,25 +36,42 @@ class OrderFirebaseDatasource implements IOrderDatasource {
         .get();
 
     for (var i in orderSnap.docs) {
-      Timestamp timestamp = i.data()['registrationDate'];
-      final registrationDate = DateTime.parse(timestamp.toDate().toString());
-
-      List<ItemMenuModel> menuList = [];
-      for (var menu in i.data()['menuList']) {
-        menuList.add(ItemMenuModel.fromMap(map: menu));
-      }
-
-      orderList.add(OrderModel.fromMap(
-          map: i.data(),
-          registrationDate: registrationDate,
-          menuList: menuList));
+      orderList.add(_getOrderModel(i));
     }
 
     return orderList;
   }
 
   @override
-  void sortOrderList(List<OrderModel> orderList) {
-    orderList.sort((a, b) => b.registrationDate.compareTo(a.registrationDate));
+  Future<List<OrderModel>> getOrdersByDay(DateTime day) async {
+    List<OrderModel> orderList = [];
+
+    final filteredDay = DateTime(day.year, day.month, day.day);
+
+    final orderSnap = await _orderCollection
+        .where('registrationDate', isEqualTo: filteredDay)
+        .orderBy('client.name')
+        .get();
+
+    for (var i in orderSnap.docs) {
+      orderList.add(_getOrderModel(i));
+    }
+
+    return orderList;
+  }
+
+  _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) {
+    Timestamp timestamp = snap.data()['registrationDate'];
+    final registrationDate = DateTime.parse(timestamp.toDate().toString());
+
+    List<ItemMenuModel> menuList = [];
+    for (var menu in snap.data()['menuList']) {
+      menuList.add(ItemMenuModel.fromMap(map: menu));
+    }
+
+    return OrderModel.fromMap(
+        map: snap.data(),
+        registrationDate: registrationDate,
+        menuList: menuList);
   }
 }

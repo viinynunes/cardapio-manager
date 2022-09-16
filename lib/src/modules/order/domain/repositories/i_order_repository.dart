@@ -7,4 +7,6 @@ abstract class IOrderRepository {
   Future<Either<OrderError, order.Order>> cancel(order.Order order);
 
   Future<Either<OrderError, List<order.Order>>> getOrders();
+
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day);
 }
