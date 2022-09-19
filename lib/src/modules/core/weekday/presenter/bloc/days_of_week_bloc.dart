@@ -11,7 +11,7 @@ class DaysOfWeekBloc extends Bloc<DaysOfWeekEvent, DaysOfWeekState> {
     on<GetOrderedWeekdaysOrderedByToday>((event, emit) async {
       emit(DaysOfWeekLoadingState());
 
-      final result = usecase(DateTime.now());
+      final result = usecase(event.today);
 
       result.fold((l) => emit(DaysOfWeekErrorState(l)),
           (r) => emit(DaysOfWeekSuccessState(r)));
