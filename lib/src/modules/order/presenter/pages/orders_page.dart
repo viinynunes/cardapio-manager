@@ -1,8 +1,6 @@
 import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer.dart';
-import 'package:cardapio_manager/src/modules/order/presenter/bloc/states/order_states.dart';
-import 'package:cardapio_manager/src/modules/order/presenter/pages/tiles/orders_tile.dart';
+import 'package:cardapio_manager/src/modules/order/presenter/pages/widgets/order_list_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 
@@ -17,7 +15,8 @@ class OrdersPage extends StatefulWidget {
 }
 
 class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
-  final bloc = Modular.get<OrderBloc>();
+  final orderBloc = Modular.get<OrderBloc>();
+
   final dateFormat = DateFormat('dd/MM/yyyy');
   late DateTime day;
 
@@ -25,80 +24,61 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     day = DateTime.now();
-    bloc.add(GetOrdersByDayEvent(day));
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
         title: const Text('Pedidos'),
         centerTitle: true,
         actions: [
-          ElevatedButton(
-            onPressed: () async {
-              final result = await showDatePicker(
-                  context: context,
-                  initialDate: day,
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime(2200));
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () async {
+                final result = await showDatePicker(
+                    context: context,
+                    initialDate: day,
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime(2200));
 
-              setState(() {
-                if (result != null) {
-                  day = result;
-                  bloc.add(GetOrdersByDayEvent(day));
-                }
-              });
-            },
-            child: Text(
-              dateFormat.format(day),
+                setState(() {
+                  if (result != null) {
+                    day = result;
+                    orderBloc.add(GetOrdersByDayEvent(day));
+                  }
+                });
+              },
+              child: Text(
+                dateFormat.format(day),
+              ),
             ),
           ),
         ],
       ),
-      body: BlocBuilder<OrderBloc, OrderStates>(
-        bloc: bloc,
-        builder: (_, state) {
-          if (state is OrderGetListSuccessState) {
-            final orderList = state.orderList;
-
-            if (orderList.isEmpty) {
-              return const Center(
-                child: Text('Sem pedidos para a data selecionada'),
-              );
-            }
-            return ListView.builder(
-                itemCount: orderList.length,
-                itemBuilder: (_, index) {
-                  var order = orderList[index];
-                  return OrdersTile(order: order, onTap: () {});
-                });
-          }
-
-          if (state is OrderLoadingState) {
-            return Overlay(
-              initialEntries: [
-                OverlayEntry(builder: (_) {
-                  return Container(
-                    color: Colors.black26,
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                })
-              ],
-            );
-          }
-
-          if (state is OrderErrorState) {
-            return Center(
-              child: Text(state.orderError.message),
-            );
-          }
-
-          return Container();
-        },
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: size.width * 0.95,
+                padding: const EdgeInsets.all(8),
+                child: TextField(
+                  decoration: InputDecoration(
+                      hintText: 'Pesquisar',
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(width: 0.01))),
+                ),
+              ),
+              OrderListWidget(day: day),
+            ],
+          ),
+        ),
       ),
     );
   }
