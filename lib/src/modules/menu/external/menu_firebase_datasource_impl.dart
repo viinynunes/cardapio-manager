@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
 import 'package:cardapio_manager/src/modules/menu/infra/datasources/i_item_menu_datasource.dart';
 import 'package:cardapio_manager/src/modules/menu/infra/models/item_menu_model.dart';
@@ -62,10 +63,13 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
   }
 
   @override
-  Future<List<ItemMenuModel>> findAll() async {
+  Future<List<ItemMenuModel>> findByWeekday(Weekday weekday) async {
     List<ItemMenuModel> menuList = [];
 
-    final result = await _menuCollection.orderBy('name').get();
+    final result = await _menuCollection
+        .where('weekdayList', arrayContains: weekday.weekday)
+        .orderBy('name')
+        .get();
 
     for (var index in result.docs) {
       menuList.add(ItemMenuModel.fromMap(map: index.data()));
@@ -75,11 +79,12 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
   }
 
   @override
-  Future<List<ItemMenuModel>> findAllDisabled() async {
+  Future<List<ItemMenuModel>> findAllDisabledByWeekday(Weekday weekday) async {
     List<ItemMenuModel> menuList = [];
 
     final snap = await _menuCollection
         .where('enabled', isEqualTo: false)
+        .where('weekdayList', arrayContains: weekday.weekday)
         .orderBy('name')
         .get();
 
@@ -91,11 +96,12 @@ class MenuFirebaseDatasourceImpl implements IItemMenuDatasource {
   }
 
   @override
-  Future<List<ItemMenuModel>> findAllEnabled() async {
+  Future<List<ItemMenuModel>> findAllEnabledByWeekday(Weekday weekday) async {
     List<ItemMenuModel> menuList = [];
 
     final snap = await _menuCollection
         .where('enabled', isEqualTo: true)
+        .where('weekdayList', arrayContains: weekday.weekday)
         .orderBy('name')
         .get();
 

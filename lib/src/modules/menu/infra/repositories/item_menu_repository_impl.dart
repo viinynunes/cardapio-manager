@@ -58,9 +58,9 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabled() async {
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabledByWeekday(Weekday weekday) async {
     try {
-      final result = await _datasource.findAllDisabled();
+      final result = await _datasource.findAllDisabledByWeekday(weekday);
 
       return Right(result);
     } catch (e) {
@@ -69,9 +69,9 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabled() async {
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabledByWeekday(Weekday weekday) async {
     try {
-      final result = await _datasource.findAllEnabled();
+      final result = await _datasource.findAllEnabledByWeekday(weekday);
 
       return Right(result);
     } catch (e) {

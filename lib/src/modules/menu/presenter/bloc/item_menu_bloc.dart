@@ -51,8 +51,8 @@ class ItemMenuBloc extends Bloc<ItemMenuEvents, ItemMenuStates> {
       emit(ItemMenuLoadingState());
 
       final result = event.enabled
-          ? await itemUsecase.findAllEnabled()
-          : await itemUsecase.findAllDisabled();
+          ? await itemUsecase.findAllEnabledByWeekday(event.weekday)
+          : await itemUsecase.findAllDisabledByWeekday(event.weekday);
 
       result.fold((l) => emit(ItemMenuErrorState(l)),
           (r) => emit(ItemMenuGetListSuccessState(r)));

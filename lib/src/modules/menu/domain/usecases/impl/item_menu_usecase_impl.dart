@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/repositories/i_item_menu_repository.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/usecases/i_item_menu_usecase.dart';
@@ -48,17 +49,17 @@ class ItemMenuUsecaseImpl implements IItemMenuUsecase {
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() async {
-    return _repository.findAll();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findByWeekday(Weekday weekday) async {
+    return _repository.findByWeekday(weekday);
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabled() async {
-    return _repository.findAllDisabled();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabledByWeekday(Weekday weekday) async {
+    return _repository.findAllDisabledByWeekday(weekday);
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabled() async {
-    return _repository.findAllEnabled();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabledByWeekday(Weekday weekday) async {
+    return _repository.findAllEnabledByWeekday(weekday);
   }
 }

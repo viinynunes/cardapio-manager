@@ -13,7 +13,7 @@ abstract class IItemMenuRepository {
 
   Future<Either<ItemMenuError, List<ItemMenu>>> findByWeekday(Weekday weekday);
 
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabled();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabledByWeekday(Weekday weekday);
 
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabled();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findAllDisabledByWeekday(Weekday weekday);
 }

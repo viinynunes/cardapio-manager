@@ -30,8 +30,9 @@ class GetItemMenuListEvent implements ItemMenuEvents {
 
 class GetItemMenuListByStatusEvent implements ItemMenuEvents {
   final bool enabled;
+  final Weekday weekday;
 
-  GetItemMenuListByStatusEvent(this.enabled);
+  GetItemMenuListByStatusEvent({required this.enabled, required this.weekday});
 }
 
 class FilterItemMenuListEvent implements ItemMenuEvents {

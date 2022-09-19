@@ -10,7 +10,7 @@ abstract class IItemMenuDatasource {
 
   Future<List<ItemMenuModel>> findByWeekday(Weekday weekday);
 
-  Future<List<ItemMenuModel>> findAllEnabled();
+  Future<List<ItemMenuModel>> findAllEnabledByWeekday(Weekday weekday);
 
-  Future<List<ItemMenuModel>> findAllDisabled();
+  Future<List<ItemMenuModel>> findAllDisabledByWeekday(Weekday weekday);
 }

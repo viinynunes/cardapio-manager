@@ -1,4 +1,7 @@
 import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer.dart';
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
+import 'package:cardapio_manager/src/modules/core/weekday/presenter/bloc/days_of_week_bloc.dart';
+import 'package:cardapio_manager/src/modules/core/weekday/presenter/pages/weekday_scroll_horizontal_list_widget.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/events/item_menu_events.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/bloc/item_menu_bloc.dart';
@@ -16,9 +19,12 @@ class ItemMenuListPage extends StatefulWidget {
 }
 
 class _ItemMenuListPageState extends State<ItemMenuListPage> {
-  final bloc = Modular.get<ItemMenuBloc>();
+  final itemBloc = Modular.get<ItemMenuBloc>();
+  final daysBloc = Modular.get<DaysOfWeekBloc>();
 
   List<ItemMenu> itemMenuList = [];
+
+  late Weekday weekday;
 
   bool isSearching = false;
   String searchText = '';
@@ -28,7 +34,8 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
   void initState() {
     super.initState();
 
-    bloc.add(GetItemMenuListEvent());
+    weekday = Weekday(DateTime.now().weekday, 'name', true);
+    itemBloc.add(GetItemMenuListEvent(weekday));
   }
 
   _saveOrUpdate({ItemMenu? item}) async {
@@ -36,15 +43,17 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
 
     if (recItem != null && recItem is ItemMenu) {
       if (item == null) {
-        bloc.add(CreateItemMenuEvent(recItem));
+        itemBloc.add(CreateItemMenuEvent(recItem));
       } else {
-        bloc.add(UpdateItemMenuEvent(recItem));
+        itemBloc.add(UpdateItemMenuEvent(recItem));
       }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
@@ -57,7 +66,7 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
                 ),
                 style: const TextStyle(color: Colors.white),
                 onChanged: (text) {
-                  bloc.add(FilterItemMenuListEvent(
+                  itemBloc.add(FilterItemMenuListEvent(
                       searchText: text, menuList: itemMenuList));
                 },
               )
@@ -67,7 +76,7 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
           isSearching
               ? IconButton(
                   onPressed: () {
-                    bloc.add(GetItemMenuListEvent());
+                    itemBloc.add(GetItemMenuListEvent(weekday));
                     searchText = '';
                     setState(() => isSearching = !isSearching);
                   },
@@ -83,15 +92,17 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
             itemBuilder: (_) {
               return [
                 PopupMenuItem(
-                  onTap: () => bloc.add(GetItemMenuListEvent()),
+                  onTap: () => itemBloc.add(GetItemMenuListEvent(weekday)),
                   child: const Text('Todos'),
                 ),
                 PopupMenuItem(
-                  onTap: () => bloc.add(GetItemMenuListByStatusEvent(true)),
+                  onTap: () => itemBloc.add(GetItemMenuListByStatusEvent(
+                      enabled: true, weekday: weekday)),
                   child: const Text('Ativado'),
                 ),
                 PopupMenuItem(
-                  onTap: () => bloc.add(GetItemMenuListByStatusEvent(false)),
+                  onTap: () => itemBloc.add(GetItemMenuListByStatusEvent(
+                      enabled: false, weekday: weekday)),
                   child: const Text('Desativado'),
                 ),
               ];
@@ -106,84 +117,97 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
         child: const Icon(Icons.add),
       ),
       body: SafeArea(
-        child: BlocBuilder<ItemMenuBloc, ItemMenuStates>(
-          bloc: bloc,
-          builder: (_, state) {
-            if (state is ItemMenuLoadingState) {
-              return Overlay(
-                initialEntries: [
-                  OverlayEntry(
-                    builder: (context) {
-                      return Container(
-                        color: Colors.black38,
-                        child: const Center(child: CircularProgressIndicator()),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              WeekdayScrollHorizontalListWidget(
+                getWeekday: (Weekday weekday) {
+                  this.weekday = weekday;
+                  itemBloc.add(GetItemMenuListEvent(weekday));
+                },
+              ),
+              SizedBox(
+                height: size.height * 0.9,
+                width: size.width,
+                child: BlocBuilder<ItemMenuBloc, ItemMenuStates>(
+                  bloc: itemBloc,
+                  builder: (_, state) {
+                    if (state is ItemMenuLoadingState) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    if (state is ItemMenuErrorState) {
+                      return Center(
+                        child: Text(state.error.message),
                       );
-                    },
-                  ),
-                ],
-              );
-            }
+                    }
 
-            if (state is ItemMenuErrorState) {
-              return Center(
-                child: Text(state.error.message),
-              );
-            }
+                    if (state is ItemMenuGetListSuccessState) {
+                      itemMenuList = state.menuList;
 
-            if (state is ItemMenuGetListSuccessState) {
-              itemMenuList = state.menuList;
+                      return itemMenuList.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: itemMenuList.length,
+                              itemBuilder: (_, index) {
+                                final item = itemMenuList[index];
+                                return ItemMenuListTile(
+                                  item: item,
+                                  onTap: () {
+                                    _saveOrUpdate(item: item);
+                                  },
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text('Nenhum item encontrado'),
+                            );
+                    }
 
-              return ListView.builder(
-                itemCount: itemMenuList.length,
-                itemBuilder: (_, index) {
-                  final item = itemMenuList[index];
-                  return ItemMenuListTile(
-                    item: item,
-                    onTap: () {
-                      _saveOrUpdate(item: item);
-                    },
-                  );
-                },
-              );
-            }
+                    if (state is ItemMenuGetFilteredListSuccessState) {
+                      final filteredList = state.menuList;
 
-            if (state is ItemMenuGetFilteredListSuccessState) {
-              final filteredList = state.menuList;
+                      return filteredList.isNotEmpty
+                          ? ListView.builder(
+                              itemCount: filteredList.length,
+                              itemBuilder: (_, index) {
+                                final item = filteredList[index];
+                                return ItemMenuListTile(
+                                  item: item,
+                                  onTap: () {
+                                    _saveOrUpdate(item: item);
+                                  },
+                                );
+                              },
+                            )
+                          : const Center(
+                              child: Text('Nenhum item encontrado'),
+                            );
+                    }
 
-              return ListView.builder(
-                itemCount: filteredList.length,
-                itemBuilder: (_, index) {
-                  final item = filteredList[index];
-                  return ItemMenuListTile(
-                    item: item,
-                    onTap: () {
-                      _saveOrUpdate(item: item);
-                    },
-                  );
-                },
-              );
-            }
-
-            if (state is ItemMenuCreateOrUpdateSuccessState) {
-              bloc.add(GetItemMenuListEvent());
-              return Overlay(
-                initialEntries: [
-                  OverlayEntry(builder: (_) {
-                    return Container(
-                      color: Colors.white70,
-                      child: Column(
-                        children: const [
-                          Text('Item salvo com sucesso!'),
+                    if (state is ItemMenuCreateOrUpdateSuccessState) {
+                      itemBloc.add(GetItemMenuListEvent(weekday));
+                      return Overlay(
+                        initialEntries: [
+                          OverlayEntry(builder: (_) {
+                            return Container(
+                              color: Colors.white70,
+                              child: Column(
+                                children: const [
+                                  Text('Item salvo com sucesso!'),
+                                ],
+                              ),
+                            );
+                          })
                         ],
-                      ),
-                    );
-                  })
-                ],
-              );
-            }
+                      );
+                    }
 
-            return Container();
-          },
+                    return Container();
+                  },
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );
