@@ -77,20 +77,20 @@ class MockIItemMenuRepository extends _i1.Mock
           .Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
   @override
   _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>
-      findAllEnabled() => (super.noSuchMethod(
-          Invocation.method(#findAllEnabled, []),
-          returnValue:
-              _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
-                  _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(
-                      this, Invocation.method(#findAllEnabled, [])))) as _i4
-          .Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
+      findAllEnabledByWeekday(_i7.Weekday? weekday) => (super.noSuchMethod(
+              Invocation.method(#findAllEnabledByWeekday, [weekday]),
+              returnValue:
+                  _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
+                      _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(this,
+                          Invocation.method(#findAllEnabledByWeekday, [weekday]))))
+          as _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
   @override
   _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>
-      findAllDisabled() => (super.noSuchMethod(
-          Invocation.method(#findAllDisabled, []),
-          returnValue:
-              _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
-                  _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(
-                      this, Invocation.method(#findAllDisabled, [])))) as _i4
-          .Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
+      findAllDisabledByWeekday(_i7.Weekday? weekday) => (super.noSuchMethod(
+              Invocation.method(#findAllDisabledByWeekday, [weekday]),
+              returnValue:
+                  _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
+                      _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(this,
+                          Invocation.method(#findAllDisabledByWeekday, [weekday]))))
+          as _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
 }

@@ -60,15 +60,17 @@ class MockIItemMenuDatasource extends _i1.Mock
           returnValue: _i4.Future<List<_i2.ItemMenuModel>>.value(
               <_i2.ItemMenuModel>[])) as _i4.Future<List<_i2.ItemMenuModel>>);
   @override
-  _i4.Future<List<_i2.ItemMenuModel>> findAllEnabled() => (super.noSuchMethod(
-          Invocation.method(#findAllEnabled, []),
-          returnValue:
-              _i4.Future<List<_i2.ItemMenuModel>>.value(<_i2.ItemMenuModel>[]))
-      as _i4.Future<List<_i2.ItemMenuModel>>);
+  _i4.Future<List<_i2.ItemMenuModel>> findAllEnabledByWeekday(
+          _i5.Weekday? weekday) =>
+      (super.noSuchMethod(
+          Invocation.method(#findAllEnabledByWeekday, [weekday]),
+          returnValue: _i4.Future<List<_i2.ItemMenuModel>>.value(
+              <_i2.ItemMenuModel>[])) as _i4.Future<List<_i2.ItemMenuModel>>);
   @override
-  _i4.Future<List<_i2.ItemMenuModel>> findAllDisabled() => (super.noSuchMethod(
-          Invocation.method(#findAllDisabled, []),
-          returnValue:
-              _i4.Future<List<_i2.ItemMenuModel>>.value(<_i2.ItemMenuModel>[]))
-      as _i4.Future<List<_i2.ItemMenuModel>>);
+  _i4.Future<List<_i2.ItemMenuModel>> findAllDisabledByWeekday(
+          _i5.Weekday? weekday) =>
+      (super.noSuchMethod(
+          Invocation.method(#findAllDisabledByWeekday, [weekday]),
+          returnValue: _i4.Future<List<_i2.ItemMenuModel>>.value(
+              <_i2.ItemMenuModel>[])) as _i4.Future<List<_i2.ItemMenuModel>>);
 }

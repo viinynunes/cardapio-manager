@@ -14,6 +14,7 @@ main() {
   final repository = MockIItemMenuRepository();
   final usecase = ItemMenuUsecaseImpl(repository);
   late ItemMenu item;
+  late Weekday weekday;
 
   setUp(() {
     item = ItemMenu(
@@ -24,6 +25,8 @@ main() {
         enabled: true,
         imgFile: File(''),
         weekdayList: [1, 5]);
+
+    weekday = Weekday(1, 'Segunda-feira', false);
 
     when(repository.create(any))
         .thenAnswer((realInvocation) async => Right(item));
@@ -136,7 +139,7 @@ main() {
 
   group('Tests to findAll method', () {
     test('should return a list of ItemMenu', () async {
-      var result = await usecase.findByWeekday(Weekday(1, 'name', true));
+      var result = await usecase.findByWeekday(weekday);
 
       expect(result.fold(id, id), isA<List<ItemMenu>>());
     });
