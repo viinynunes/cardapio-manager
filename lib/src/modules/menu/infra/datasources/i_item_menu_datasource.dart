@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/infra/models/item_menu_model.dart';
 
 abstract class IItemMenuDatasource {
@@ -7,7 +8,7 @@ abstract class IItemMenuDatasource {
 
   Future<bool> disable(String id);
 
-  Future<List<ItemMenuModel>> findAll();
+  Future<List<ItemMenuModel>> findByWeekday(Weekday weekday);
 
   Future<List<ItemMenuModel>> findAllEnabled();
 

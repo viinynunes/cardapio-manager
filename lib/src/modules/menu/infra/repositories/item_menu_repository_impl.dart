@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/repositories/i_item_menu_repository.dart';
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
@@ -46,9 +47,9 @@ class ItemMenuRepositoryImpl implements IItemMenuRepository {
   }
 
   @override
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAll() async {
+  Future<Either<ItemMenuError, List<ItemMenu>>> findByWeekday(Weekday weekday) async {
     try {
-      final result = await _datasource.findAll();
+      final result = await _datasource.findByWeekday(weekday);
 
       return Right(result);
     } catch (e) {

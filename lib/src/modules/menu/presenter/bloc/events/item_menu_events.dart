@@ -1,3 +1,5 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
+
 import '../../../domain/entities/item_menu.dart';
 
 abstract class ItemMenuEvents {}
@@ -20,7 +22,11 @@ class DisableItemMenuEvent implements ItemMenuEvents {
   DisableItemMenuEvent(this.id);
 }
 
-class GetItemMenuListEvent implements ItemMenuEvents {}
+class GetItemMenuListEvent implements ItemMenuEvents {
+  final Weekday weekday;
+
+  GetItemMenuListEvent(this.weekday);
+}
 
 class GetItemMenuListByStatusEvent implements ItemMenuEvents {
   final bool enabled;

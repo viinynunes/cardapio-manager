@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
 import 'package:dartz/dartz.dart';
 
@@ -10,7 +11,7 @@ abstract class IItemMenuUsecase {
 
   Future<Either<ItemMenuError, bool>> disable(String id);
 
-  Future<Either<ItemMenuError, List<ItemMenu>>> findAll();
+  Future<Either<ItemMenuError, List<ItemMenu>>> findByWeekday(Weekday weekday);
 
   Future<Either<ItemMenuError, List<ItemMenu>>> findAllEnabled();
 
