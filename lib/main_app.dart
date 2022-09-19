@@ -7,6 +7,10 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+        theme: ThemeData(
+          useMaterial3: true,
+          colorSchemeSeed: Colors.cyanAccent,
+        ),
         routeInformationParser: Modular.routeInformationParser,
         routerDelegate: Modular.routerDelegate);
   }
