@@ -1,7 +1,7 @@
 class Weekday {
   int weekday;
   String name;
-  bool today;
+  bool selected = false;
 
-  Weekday(this.weekday, this.name, this.today);
+  Weekday(this.weekday, this.name, this.selected);
 }

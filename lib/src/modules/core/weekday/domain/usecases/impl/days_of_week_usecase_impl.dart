@@ -16,7 +16,7 @@ class DaysOfWeekUsecaseImpl implements IDaysOfWeekUsecase {
     final todayAux =
         list.singleWhere((element) => today.weekday == element.weekday);
 
-    todayAux.today = true;
+    todayAux.selected = true;
 
     return Right(list);
   }
