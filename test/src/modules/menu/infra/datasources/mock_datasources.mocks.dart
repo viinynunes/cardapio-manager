@@ -5,6 +5,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart'
+    as _i5;
 import 'package:cardapio_manager/src/modules/menu/infra/datasources/i_item_menu_datasource.dart'
     as _i3;
 import 'package:cardapio_manager/src/modules/menu/infra/models/item_menu_model.dart'
@@ -53,8 +55,19 @@ class MockIItemMenuDatasource extends _i1.Mock
       (super.noSuchMethod(Invocation.method(#disable, [id]),
           returnValue: _i4.Future<bool>.value(false)) as _i4.Future<bool>);
   @override
-  _i4.Future<List<_i2.ItemMenuModel>> findAll() => (super.noSuchMethod(
-          Invocation.method(#findAll, []),
+  _i4.Future<List<_i2.ItemMenuModel>> findByWeekday(_i5.Weekday? weekday) =>
+      (super.noSuchMethod(Invocation.method(#findByWeekday, [weekday]),
+          returnValue: _i4.Future<List<_i2.ItemMenuModel>>.value(
+              <_i2.ItemMenuModel>[])) as _i4.Future<List<_i2.ItemMenuModel>>);
+  @override
+  _i4.Future<List<_i2.ItemMenuModel>> findAllEnabled() => (super.noSuchMethod(
+          Invocation.method(#findAllEnabled, []),
+          returnValue:
+              _i4.Future<List<_i2.ItemMenuModel>>.value(<_i2.ItemMenuModel>[]))
+      as _i4.Future<List<_i2.ItemMenuModel>>);
+  @override
+  _i4.Future<List<_i2.ItemMenuModel>> findAllDisabled() => (super.noSuchMethod(
+          Invocation.method(#findAllDisabled, []),
           returnValue:
               _i4.Future<List<_i2.ItemMenuModel>>.value(<_i2.ItemMenuModel>[]))
       as _i4.Future<List<_i2.ItemMenuModel>>);

@@ -5,6 +5,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart'
+    as _i7;
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart'
     as _i6;
 import 'package:cardapio_manager/src/modules/menu/domain/repositories/i_item_menu_repository.dart'
@@ -65,11 +67,30 @@ class MockIItemMenuRepository extends _i1.Mock
                   this, Invocation.method(#disable, [id])))) as _i4
           .Future<_i2.Either<_i5.ItemMenuError, bool>>);
   @override
-  _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>> findAll() =>
-      (super.noSuchMethod(Invocation.method(#findAll, []),
-              returnValue: _i4.Future<
-                      _i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
+  _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>> findByWeekday(
+          _i7.Weekday? weekday) =>
+      (super.noSuchMethod(Invocation.method(#findByWeekday, [weekday]),
+          returnValue:
+              _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
+                  _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(this,
+                      Invocation.method(#findByWeekday, [weekday])))) as _i4
+          .Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>
+      findAllEnabled() => (super.noSuchMethod(
+          Invocation.method(#findAllEnabled, []),
+          returnValue:
+              _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
                   _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(
-                      this, Invocation.method(#findAll, []))))
-          as _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
+                      this, Invocation.method(#findAllEnabled, [])))) as _i4
+          .Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>
+      findAllDisabled() => (super.noSuchMethod(
+          Invocation.method(#findAllDisabled, []),
+          returnValue:
+              _i4.Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>.value(
+                  _FakeEither_0<_i5.ItemMenuError, List<_i6.ItemMenu>>(
+                      this, Invocation.method(#findAllDisabled, [])))) as _i4
+          .Future<_i2.Either<_i5.ItemMenuError, List<_i6.ItemMenu>>>);
 }

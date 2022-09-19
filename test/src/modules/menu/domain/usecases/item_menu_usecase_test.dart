@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/usecases/impl/item_menu_usecase_impl.dart';
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
@@ -27,13 +28,13 @@ main() {
     when(repository.create(any))
         .thenAnswer((realInvocation) async => Right(item));
 
-    when(repository.create(any))
+    when(repository.update(any))
         .thenAnswer((realInvocation) async => Right(item));
 
     when(repository.disable(any))
         .thenAnswer((realInvocation) async => const Right(true));
 
-    when(repository.findAll())
+    when(repository.findByWeekday(any))
         .thenAnswer((realInvocation) async => Right(<ItemMenu>[item, item]));
   });
 
@@ -135,7 +136,7 @@ main() {
 
   group('Tests to findAll method', () {
     test('should return a list of ItemMenu', () async {
-      var result = await usecase.findAll();
+      var result = await usecase.findByWeekday(Weekday(1, 'name', true));
 
       expect(result.fold(id, id), isA<List<ItemMenu>>());
     });

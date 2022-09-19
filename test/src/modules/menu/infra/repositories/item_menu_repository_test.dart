@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/menu/domain/entities/item_menu.dart';
 import 'package:cardapio_manager/src/modules/menu/errors/item_menu_errors.dart';
 import 'package:cardapio_manager/src/modules/menu/infra/models/item_menu_model.dart';
@@ -12,6 +13,7 @@ main() {
   final datasource = MockIItemMenuDatasource();
   final repository = ItemMenuRepositoryImpl(datasource);
   late ItemMenuModel item;
+  late Weekday weekday;
 
   setUp(() {
     item = ItemMenuModel(
@@ -22,13 +24,15 @@ main() {
         enabled: true,
         weekdayList: [1, 5]);
 
+    weekday = Weekday(1, 'segunda-feira', false);
+
     when(datasource.create(any)).thenAnswer((realInvocation) async => item);
 
     when(datasource.update(any)).thenAnswer((realInvocation) async => item);
 
     when(datasource.disable(any)).thenAnswer((realInvocation) async => true);
 
-    when(datasource.findAll())
+    when(datasource.findByWeekday(any))
         .thenAnswer((realInvocation) async => [item, item]);
   });
 
@@ -91,15 +95,15 @@ main() {
 
   group('Tests to find all method', () {
     test('Should return a List of ItemMenuModel from datasource', () async {
-      final result = await repository.findAll();
+      final result = await repository.findByWeekday(weekday);
 
       expect(result.fold(id, id), isA<List<ItemMenuModel>>());
     });
 
     test('should throw an ItemMenuError when something goes wrong', () async {
-      when(datasource.findAll()).thenThrow(Exception('Uncaught Error'));
+      when(datasource.findByWeekday(any)).thenThrow(Exception('Uncaught Error'));
 
-      final result = await repository.findAll();
+      final result = await repository.findByWeekday(weekday);
 
       expect(result.fold(id, id), isA<ItemMenuError>());
       expect(result.fold((l) => l.message, (r) => null),
