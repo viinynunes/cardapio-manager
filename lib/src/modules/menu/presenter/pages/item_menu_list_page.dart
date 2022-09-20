@@ -39,8 +39,7 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
   }
 
   _saveOrUpdate({ItemMenu? item}) async {
-    final recItem = await Modular.to.pushNamed('/item/', arguments: [item]);
-
+    final recItem = await Modular.to.pushNamed('/item/', arguments: [item, weekday]);
     if (recItem != null && recItem is ItemMenu) {
       if (item == null) {
         itemBloc.add(CreateItemMenuEvent(recItem));
@@ -121,9 +120,10 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
           child: Column(
             children: [
               WeekdayScrollHorizontalListWidget(
-                getWeekday: (Weekday weekday) {
-                  this.weekday = weekday;
-                  itemBloc.add(GetItemMenuListEvent(weekday));
+                selectedWeekday: weekday,
+                getWeekday: (Weekday recWeekday) {
+                  weekday = recWeekday;
+                  itemBloc.add(GetItemMenuListEvent(recWeekday));
                 },
               ),
               SizedBox(

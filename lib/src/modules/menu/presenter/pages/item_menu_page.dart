@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cardapio_manager/src/modules/core/weekday/domain/entities/weekday.dart';
 import 'package:cardapio_manager/src/modules/core/weekday/presenter/bloc/days_of_week_bloc.dart';
 import 'package:cardapio_manager/src/modules/core/weekday/presenter/bloc/states/days_of_week_state.dart';
 import 'package:cardapio_manager/src/modules/menu/presenter/pages/tiles/weekday_list_tile.dart';
@@ -14,9 +15,10 @@ import '../../domain/entities/item_menu.dart';
 import '../../infra/models/item_menu_model.dart';
 
 class ItemMenuPage extends StatefulWidget {
-  const ItemMenuPage({Key? key, this.itemMenu}) : super(key: key);
+  const ItemMenuPage({Key? key, this.itemMenu, required this.weekday}) : super(key: key);
 
   final ItemMenu? itemMenu;
+  final Weekday weekday;
 
   @override
   State<ItemMenuPage> createState() => _ItemMenuPageState();
@@ -43,7 +45,7 @@ class _ItemMenuPageState extends State<ItemMenuPage>
   void initState() {
     super.initState();
 
-    daysOfWeekBloc.add(GetOrderedWeekdaysOrderedByToday(DateTime.now()));
+    daysOfWeekBloc.add(GetOrderedWeekdaysOrderedByToday(DateTime.now(), widget.weekday));
 
     if (widget.itemMenu != null) {
       newItem = false;

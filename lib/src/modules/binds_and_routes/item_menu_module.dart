@@ -26,6 +26,7 @@ class ItemMenuModule extends Module {
           '/item/',
           child: (_, args) => ItemMenuPage(
             itemMenu: args.data[0],
+            weekday: args.data[1],
           ),
         )
       ];

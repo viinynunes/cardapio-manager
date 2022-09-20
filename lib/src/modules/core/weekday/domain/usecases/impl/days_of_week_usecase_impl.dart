@@ -6,7 +6,7 @@ import '../i_days_of_week_usecase.dart';
 
 class DaysOfWeekUsecaseImpl implements IDaysOfWeekUsecase {
   @override
-  Either<ItemMenuError, List<Weekday>> call(DateTime today) {
+  Either<ItemMenuError, List<Weekday>> call(DateTime today, Weekday selectedWeekday) {
     if (today.weekday <= 0 || today.weekday > 7) {
       return Left(ItemMenuError('Invalid weekday'));
     }
@@ -14,7 +14,7 @@ class DaysOfWeekUsecaseImpl implements IDaysOfWeekUsecase {
     List<Weekday> list = _getWeekdayList();
 
     final todayAux =
-        list.singleWhere((element) => today.weekday == element.weekday);
+        list.singleWhere((element) => selectedWeekday.weekday == element.weekday);
 
     todayAux.selected = true;
 

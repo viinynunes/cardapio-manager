@@ -9,9 +9,10 @@ import '../bloc/events/days_of_week_event.dart';
 import '../bloc/states/days_of_week_state.dart';
 
 class WeekdayScrollHorizontalListWidget extends StatefulWidget {
-  const WeekdayScrollHorizontalListWidget({Key? key, required this.getWeekday})
+  const WeekdayScrollHorizontalListWidget({Key? key, required this.getWeekday, required this.selectedWeekday})
       : super(key: key);
 
+  final Weekday selectedWeekday;
   final Function(Weekday weekday) getWeekday;
 
   @override
@@ -28,7 +29,7 @@ class _WeekdayScrollHorizontalListWidgetState
   @override
   void initState() {
     super.initState();
-    daysBloc.add(GetOrderedWeekdaysOrderedByToday(DateTime.now()));
+    daysBloc.add(GetOrderedWeekdaysOrderedByToday(DateTime.now(), widget.selectedWeekday));
   }
 
   @override
