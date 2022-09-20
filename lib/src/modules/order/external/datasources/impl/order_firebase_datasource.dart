@@ -20,9 +20,9 @@ class OrderFirebaseDatasource implements IOrderDatasource {
         .doc(order.client.id)
         .collection('orders')
         .doc(order.id)
-        .update(order.toMap(user: user));
+        .update(order.toMap(client: user));
 
-    _orderCollection.doc(order.id).update(order.toMap(user: user));
+    _orderCollection.doc(order.id).update(order.toMap(client: user));
 
     return order;
   }
@@ -50,7 +50,7 @@ class OrderFirebaseDatasource implements IOrderDatasource {
 
     final orderSnap = await _orderCollection
         .where('registrationDate', isEqualTo: filteredDay)
-        .orderBy('client.name')
+        .orderBy('number', descending: false)
         .get();
 
     for (var i in orderSnap.docs) {

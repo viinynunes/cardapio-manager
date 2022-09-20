@@ -8,12 +8,14 @@ import '../../domain/entities/order.dart';
 class OrderModel extends Order {
   OrderModel(
       {required String id,
+        required int number,
       required ClientModel client,
       required DateTime registrationDate,
       required OrderStatus status,
       required List<ItemMenu> menuList})
       : super(
             id: id,
+            number: number,
             client: client,
             registrationDate: registrationDate,
             status: status,
@@ -22,6 +24,7 @@ class OrderModel extends Order {
   OrderModel.fromOrder({required Order order})
       : super(
           id: order.id,
+          number: order.number,
           client: ClientModel.fromClient(order.client),
           registrationDate: order.registrationDate,
           status: order.status,
@@ -34,16 +37,18 @@ class OrderModel extends Order {
       required List<ItemMenuModel> menuList})
       : super(
           id: map['id'],
+          number: map['number'],
           client: ClientModel.fromMap(map['client']),
           registrationDate: registrationDate,
           status: OrderStatus.values.byName(map['status']),
           menuList: menuList,
         );
 
-  Map<String, dynamic> toMap({required Map<String, dynamic> user}) {
+  Map<String, dynamic> toMap({required Map<String, dynamic> client}) {
     final map = {
       'id': id,
-      'user': user,
+      'number': number,
+      'client': client,
       'registrationDate': registrationDate,
       'status': status.name,
       'menuList': menuList

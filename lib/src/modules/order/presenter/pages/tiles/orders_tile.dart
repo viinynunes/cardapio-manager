@@ -52,7 +52,7 @@ class _OrdersTileState extends State<OrdersTile> {
                       flex: 1,
                       fit: FlexFit.tight,
                       child: Text(
-                        widget.order.id,
+                        widget.order.number.toString(),
                         textAlign: TextAlign.center,
                       ),
                     ),
