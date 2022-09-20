@@ -30,9 +30,6 @@ class CameraSourceAnimatedSelector extends AnimatedWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             AnimatedContainer(
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8),
-                  color: Theme.of(context).secondaryHeaderColor),
               curve: Curves.bounceOut,
               width: 50,
               height: cameraSourceAnimation.value,
@@ -40,7 +37,7 @@ class CameraSourceAnimatedSelector extends AnimatedWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Colors.black38),
+                    color: Theme.of(context).hintColor),
                 child: Column(
                   children: [
                     Flexible(
@@ -74,12 +71,12 @@ class CameraSourceAnimatedSelector extends AnimatedWidget {
                 cameraSourceAnimation.value != 100 ? onForward() : onReverse();
               },
               style: ElevatedButton.styleFrom(
-                  primary: Theme.of(context).primaryColor.withOpacity(0.8)),
+                  backgroundColor: Theme.of(context).primaryColor.withOpacity(1)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
-                  Text('Alterar Foto'),
-                  Icon(Icons.camera_alt_rounded),
+                  Text('Alterar Foto', style: TextStyle(color: Colors.white),),
+                  Icon(Icons.camera_alt_rounded, color: Colors.white,),
                 ],
               ),
             ),
