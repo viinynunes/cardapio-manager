@@ -37,7 +37,7 @@ class _WeekdayScrollHorizontalListWidgetState
 
     return Container(
       margin: const EdgeInsets.only(top: 5, bottom: 5),
-      height: size.height * 0.07,
+      height: size.height * 0.08,
       width: size.width,
       child: BlocBuilder<DaysOfWeekBloc, DaysOfWeekState>(
         bloc: daysBloc,

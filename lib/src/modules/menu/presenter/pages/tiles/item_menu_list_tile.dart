@@ -17,7 +17,7 @@ class ItemMenuListTile extends StatelessWidget {
       child: Card(
         child: Container(
           padding: const EdgeInsets.all(8),
-          height: size.height * 0.2,
+          height: size.height * 0.25,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
             color: Colors.grey[200],
@@ -48,16 +48,20 @@ class ItemMenuListTile extends StatelessWidget {
                       fit: FlexFit.tight,
                       child: Text(item.name),
                     ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                     Flexible(
                       flex: 2,
                       fit: FlexFit.tight,
                       child: Text(
                         item.description,
+                        maxLines: 2,
                         style: const TextStyle(fontSize: 12),
                       ),
                     ),
                     Flexible(
-                      flex: 1,
+                      flex: 2,
                       fit: FlexFit.tight,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
