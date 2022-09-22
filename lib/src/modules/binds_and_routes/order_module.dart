@@ -3,15 +3,17 @@ import 'package:cardapio_manager/src/modules/order/external/datasources/impl/ord
 import 'package:cardapio_manager/src/modules/order/infra/repositories/order_repository_impl.dart';
 import 'package:cardapio_manager/src/modules/order/presenter/bloc/order_bloc.dart';
 import 'package:cardapio_manager/src/modules/order/presenter/pages/orders_page.dart';
+import 'package:cardapio_manager/src/modules/order/service/impl/order_service_impl.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class OrderModule extends Module {
   @override
   List<Bind> get binds => [
+        Bind((i) => OrderServiceImpl()),
         Bind((i) => OrderFirebaseDatasource()),
         Bind((i) => OrderRepositoryImpl(i())),
         Bind((i) => OrderUsecaseImpl(i())),
-        Bind((i) => OrderBloc(i()))
+        Bind((i) => OrderBloc(i(), i()))
       ];
 
   @override

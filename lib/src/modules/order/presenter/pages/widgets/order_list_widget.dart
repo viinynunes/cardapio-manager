@@ -10,9 +10,12 @@ import '../../bloc/states/order_states.dart';
 import '../tiles/orders_tile.dart';
 
 class OrderListWidget extends StatefulWidget {
-  const OrderListWidget({Key? key, required this.day}) : super(key: key);
+  const OrderListWidget(
+      {Key? key, required this.day, required this.getOrderList})
+      : super(key: key);
 
   final DateTime day;
+  final Function(List<Order> orderList) getOrderList;
 
   @override
   State<OrderListWidget> createState() => _OrderListWidgetState();
@@ -20,12 +23,6 @@ class OrderListWidget extends StatefulWidget {
 
 class _OrderListWidgetState extends State<OrderListWidget> {
   final bloc = Modular.get<OrderBloc>();
-
-  @override
-  void initState() {
-    super.initState();
-    bloc.add(GetOrdersByDayEvent(widget.day));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +65,8 @@ class _OrderListWidgetState extends State<OrderListWidget> {
         builder: (_, state) {
           if (state is OrderGetListSuccessState) {
             final orderList = state.orderList;
+
+            widget.getOrderList(orderList);
 
             if (orderList.isEmpty) {
               return const Center(

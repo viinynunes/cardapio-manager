@@ -1,9 +1,11 @@
 import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer.dart';
+import 'package:cardapio_manager/src/modules/order/domain/entities/enums/order_status_enum.dart';
 import 'package:cardapio_manager/src/modules/order/presenter/pages/widgets/order_list_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 
+import '../../domain/entities/order.dart';
 import '../bloc/events/order_events.dart';
 import '../bloc/order_bloc.dart';
 
@@ -19,11 +21,14 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
 
   final dateFormat = DateFormat('dd/MM/yyyy');
   late DateTime day;
+  List<Order> orderList = [];
+  List<Order> fullOrderList = [];
 
   @override
   void initState() {
     super.initState();
     day = DateTime.now();
+    orderBloc.add(GetOrdersByDayEvent(day));
   }
 
   @override
@@ -49,7 +54,6 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 setState(() {
                   if (result != null) {
                     day = result;
-                    orderBloc.add(GetOrdersByDayEvent(day));
                   }
                 });
               },
@@ -64,18 +68,76 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                width: size.width * 0.95,
-                padding: const EdgeInsets.all(8),
-                child: TextField(
-                  decoration: InputDecoration(
-                      hintText: 'Pesquisar',
-                      border: OutlineInputBorder(
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    width: size.width * 0.8,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Pesquisar',
+                        border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(width: 0.01))),
-                ),
+                          borderSide: const BorderSide(width: 0.01),
+                        ),
+                      ),
+                      onChanged: (searchText) {
+                        if (searchText.isEmpty) {
+                          orderBloc.add(GetOrdersByDayEvent(day));
+                        }
+                        setState(() {
+                          orderBloc.add(FilterOrderListByTextEvent(
+                              orderList, searchText));
+                        });
+                      },
+                    ),
+                  ),
+                  PopupMenuButton(
+                    icon: const Icon(Icons.filter_alt),
+                    onSelected: (e) {
+                      fullOrderList.addAll(orderList);
+                    },
+                    itemBuilder: (_) {
+                      return [
+                        PopupMenuItem(
+                            onTap: () {
+                              orderBloc.add(GetOrdersByDayEvent(day));
+                            },
+                            child: const Text('Todos')),
+                        PopupMenuItem(
+                            onTap: () {
+                              orderBloc.add(FilterOrderListByStatusEvent(
+                                  fullOrderList, OrderStatus.open));
+                            },
+                            child: const Text('Aberto')),
+                        PopupMenuItem(
+                            onTap: () {
+                              orderBloc.add(FilterOrderListByStatusEvent(
+                                  fullOrderList, OrderStatus.confirmed));
+                            },
+                            child: const Text('Confirmado')),
+                        PopupMenuItem(
+                            onTap: () {
+                              orderBloc.add(FilterOrderListByStatusEvent(
+                                  fullOrderList, OrderStatus.cancelled));
+                            },
+                            child: const Text('Cancelado')),
+                      ];
+                    },
+                  )
+                ],
               ),
-              OrderListWidget(day: day),
+              OrderListWidget(
+                day: day,
+                getOrderList: (List<Order> orderList) {
+                  this.orderList = orderList;
+                  if (fullOrderList.isEmpty) {
+                    fullOrderList.addAll(orderList);
+                  }
+                },
+              ),
             ],
           ),
         ),

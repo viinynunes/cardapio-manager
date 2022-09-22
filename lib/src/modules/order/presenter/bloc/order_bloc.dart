@@ -1,13 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../domain/usecases/i_order_usecase.dart';
+import '../../service/i_order_service.dart';
 import 'events/order_events.dart';
 import 'states/order_states.dart';
 
 class OrderBloc extends Bloc<OrderEvents, OrderStates> {
   final IOrderUsecase orderUsecase;
+  final IOrderService orderService;
 
-  OrderBloc(this.orderUsecase) : super(OrderIdleState()) {
+  OrderBloc(this.orderUsecase, this.orderService) : super(OrderIdleState()) {
     on<GetOrdersEvent>((event, emit) async {
       emit(OrderLoadingState());
 
@@ -24,6 +26,20 @@ class OrderBloc extends Bloc<OrderEvents, OrderStates> {
 
       result.fold((l) => emit(OrderErrorState(l)),
           (r) => emit(OrderGetListSuccessState(r)));
+    });
+
+    on<FilterOrderListByTextEvent>((event, emit) {
+      final result =
+          orderService.filterOrderListByText(event.orderList, event.searchText);
+
+      emit(OrderGetListSuccessState(result));
+    });
+
+    on<FilterOrderListByStatusEvent>((event, emit) {
+      final result =
+          orderService.filterOrderListByStatus(event.orderList, event.status);
+
+      emit(OrderGetListSuccessState(result));
     });
 
     on<ChangeOrderStatusEvent>((event, emit) async {

@@ -11,6 +11,20 @@ class GetOrdersByDayEvent extends OrderEvents {
   GetOrdersByDayEvent(this.day);
 }
 
+class FilterOrderListByTextEvent implements OrderEvents {
+  final List<Order> orderList;
+  final String searchText;
+
+  FilterOrderListByTextEvent(this.orderList, this.searchText);
+}
+
+class FilterOrderListByStatusEvent implements OrderEvents {
+  final List<Order> orderList;
+  final OrderStatus status;
+
+  FilterOrderListByStatusEvent(this.orderList, this.status);
+}
+
 class ChangeOrderStatusEvent extends OrderEvents {
   final Order order;
   final OrderStatus status;
