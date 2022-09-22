@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../domain/entities/order.dart';
@@ -16,110 +15,153 @@ class OrdersTile extends StatefulWidget {
 }
 
 class _OrdersTileState extends State<OrdersTile> {
+  String dropdownValue = dropDownButtonItems.first;
+
   @override
   Widget build(BuildContext context) {
-    final dateFormat = DateFormat('dd/MM/yyyy');
     final size = MediaQuery.of(context).size;
 
-    double height = size.height * 0.1;
-
-    return AnimatedContainer(
-      height: height,
-      duration: const Duration(seconds: 1),
+    return Container(
+      height: size.height * 0.23,
+      padding: const EdgeInsets.only(right: 8, left: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
       ),
       child: GestureDetector(
         onTap: widget.onTap,
         child: Card(
-          child: Row(
-            children: [
-              Flexible(
-                flex: 2,
-                fit: FlexFit.tight,
-                child: Text(
-                  dateFormat.format(widget.order.registrationDate),
-                  textAlign: TextAlign.center,
+          child: Container(
+            margin: const EdgeInsets.only(top: 3),
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          fit: FlexFit.tight,
+                          child: Row(
+                            children: [
+                              Text(
+                                'Número do pedido: ',
+                                style: _getTextStyle(fontSize: 20),
+                              ),
+                              Text(
+                                widget.order.number.toString(),
+                                style: _getTextStyle(fontSize: 18),
+                              )
+                            ],
+                          ),
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Status: ',
+                              style: _getTextStyle(fontSize: 16),
+                            ),
+                            Text(
+                              widget.order.status.name.toUpperCase(),
+                              textAlign: TextAlign.center,
+                              style: _getTextStyle(
+                                  fontSize: 14,
+                                  color: widget.order.status.name ==
+                                          OrderStatus.cancelled.name
+                                      ? Colors.red
+                                      : Colors.green),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-              Flexible(
-                flex: 4,
-                fit: FlexFit.tight,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: Text(
-                        widget.order.number.toString(),
-                        textAlign: TextAlign.center,
-                      ),
+                const Divider(),
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Cliente: ${widget.order.client.name}',
+                      style: _getTextStyle(fontSize: 18),
                     ),
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: Text(
-                        widget.order.client.name,
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    Flexible(
-                      flex: 1,
-                      fit: FlexFit.tight,
-                      child: ListView(
-                        children: widget.order.menuList
-                            .map((e) => Text(
-                                  e.name,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                      color: Theme.of(context).primaryColor),
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              ),
-              Flexible(
-                flex: 2,
-                fit: FlexFit.tight,
-                child: widget.order.status == OrderStatus.open
-                    ? Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                const Divider(),
+                Flexible(
+                  flex: 1,
+                  fit: FlexFit.tight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.order.status.name,
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                color: widget.order.status.name ==
-                                        OrderStatus.cancelled.name
-                                    ? Colors.red
-                                    : Colors.green),
+                            'Items: ',
+                            style: _getTextStyle(fontSize: 16),
                           ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Confirmar',
-                              textAlign: TextAlign.center,
+                          const Spacer(),
+                          SizedBox(
+                            height: 15,
+                            width: size.width * 0.3,
+                            child: ListView.builder(
+                              itemCount: widget.order.menuList.length,
+                              shrinkWrap: true,
+                              itemBuilder: (_, index) {
+                                final item = widget.order.menuList[index];
+                                return Text(
+                                    '${(index + 1).toString()} - ${item.name}');
+                              },
                             ),
-                          ),
+                          )
                         ],
-                      )
-                    : Text(
-                        widget.order.status.name,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            color: widget.order.status.name ==
-                                    OrderStatus.cancelled.name
-                                ? Colors.red
-                                : Colors.green),
                       ),
-              ),
-            ],
+                      DropdownButton<String>(
+                        elevation: 0,
+                        value: dropdownValue,
+                        onChanged: (item) {
+                          setState(() {
+                            dropdownValue = item!;
+                          });
+                        },
+                        style: _getTextStyle(fontSize: 18, color: Colors.black),
+                        items: dropDownButtonItems
+                            .map(
+                              (e) => DropdownMenuItem<String>(
+                                value: e,
+                                child: Text(e),
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  _getTextStyle({required double fontSize, Color? color}) {
+    return TextStyle(
+      fontSize: fontSize,
+      color: color,
+    );
+  }
 }
+
+final dropDownButtonItems = [
+  'Confirmar',
+  'Cancelar',
+];
