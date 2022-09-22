@@ -7,22 +7,24 @@ import '../../../infra/datasources/i_order_datasource.dart';
 import '../../../infra/models/order_model.dart';
 
 class OrderFirebaseDatasource implements IOrderDatasource {
-  final _userOrderCollection = FirebaseFirestore.instance.collection('users');
+  final _clientOrderCollection =
+      FirebaseFirestore.instance.collection('clients');
   final _orderCollection = FirebaseFirestore.instance.collection('orders');
 
   @override
-  Future<OrderModel> cancel(OrderModel order) async {
-    order.status = OrderStatus.cancelled;
+  Future<OrderModel> changeOrderStatus(
+      OrderModel order, OrderStatus status) async {
+    order.status = status;
 
-    final user = ClientModel.fromClient(order.client).toMap();
+    final client = ClientModel.fromClient(order.client).toMap();
 
-    _userOrderCollection
+    _clientOrderCollection
         .doc(order.client.id)
         .collection('orders')
         .doc(order.id)
-        .update(order.toMap(client: user));
+        .update(order.toMap(client: client));
 
-    _orderCollection.doc(order.id).update(order.toMap(client: user));
+    _orderCollection.doc(order.id).update(order.toMap(client: client));
 
     return order;
   }

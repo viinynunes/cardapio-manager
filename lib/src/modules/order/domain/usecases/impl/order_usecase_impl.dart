@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/order/domain/entities/enums/order_status_enum.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../errors/order_errors.dart';
@@ -11,7 +12,7 @@ class OrderUsecaseImpl implements IOrderUsecase {
   OrderUsecaseImpl(this._repository);
 
   @override
-  Future<Either<OrderError, order.Order>> cancel(order.Order order) async {
+  Future<Either<OrderError, order.Order>> changeOrderStatus(order.Order order, OrderStatus status) async {
     if (order.status.name == 'closed') {
       return Left(OrderError('Order Already closed'));
     }
@@ -24,7 +25,7 @@ class OrderUsecaseImpl implements IOrderUsecase {
       return Left(OrderError('ID cannot be empty'));
     }
 
-    return _repository.cancel(order);
+    return _repository.changeOrderStatus(order, status);
   }
 
   @override

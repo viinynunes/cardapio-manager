@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 
+import '../../domain/entities/enums/order_status_enum.dart';
 import '../../domain/entities/order.dart' as order;
 import '../../domain/repositories/i_order_repository.dart';
 import '../../errors/order_errors.dart';
@@ -12,10 +13,11 @@ class OrderRepositoryImpl implements IOrderRepository {
   OrderRepositoryImpl(this._orderDatasource);
 
   @override
-  Future<Either<OrderError, order.Order>> cancel(order.Order order) async {
+  Future<Either<OrderError, order.Order>> changeOrderStatus(
+      order.Order order, OrderStatus status) async {
     try {
-      final result =
-          await _orderDatasource.cancel(OrderModel.fromOrder(order: order));
+      final result = await _orderDatasource.changeOrderStatus(
+          OrderModel.fromOrder(order: order), status);
 
       return Right(result);
     } on OrderError catch (e) {

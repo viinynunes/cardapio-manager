@@ -17,15 +17,6 @@ class OrderBloc extends Bloc<OrderEvents, OrderStates> {
           (r) => emit(OrderGetListSuccessState(r)));
     });
 
-    on<CancelOrderEvent>((event, emit) async {
-      emit(OrderLoadingState());
-
-      final result = await orderUsecase.cancel(event.order);
-
-      result.fold(
-          (l) => emit(OrderErrorState(l)), (r) => emit(OrderSuccessState()));
-    });
-
     on<GetOrdersByDayEvent>((event, emit) async {
       emit(OrderLoadingState());
 
@@ -33,6 +24,16 @@ class OrderBloc extends Bloc<OrderEvents, OrderStates> {
 
       result.fold((l) => emit(OrderErrorState(l)),
           (r) => emit(OrderGetListSuccessState(r)));
+    });
+
+    on<ChangeOrderStatusEvent>((event, emit) async {
+      emit(OrderLoadingState());
+
+      final result =
+          await orderUsecase.changeOrderStatus(event.order, event.status);
+
+      result.fold(
+          (l) => emit(OrderErrorState(l)), (r) => emit(OrderSuccessState()));
     });
   }
 }

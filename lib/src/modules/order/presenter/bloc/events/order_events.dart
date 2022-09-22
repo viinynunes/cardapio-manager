@@ -1,8 +1,7 @@
+import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../domain/entities/order.dart';
 
 abstract class OrderEvents {}
-
-class SendOrderEvent extends OrderEvents {}
 
 class GetOrdersEvent extends OrderEvents {}
 
@@ -12,8 +11,9 @@ class GetOrdersByDayEvent extends OrderEvents {
   GetOrdersByDayEvent(this.day);
 }
 
-class CancelOrderEvent extends OrderEvents {
+class ChangeOrderStatusEvent extends OrderEvents {
   final Order order;
+  final OrderStatus status;
 
-  CancelOrderEvent(this.order);
+  ChangeOrderStatusEvent(this.order, this.status);
 }

@@ -4,11 +4,18 @@ import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../domain/entities/order.dart';
 
 class OrdersTile extends StatefulWidget {
-  const OrdersTile({Key? key, required this.order, required this.onTap})
+  const OrdersTile(
+      {Key? key,
+      required this.order,
+      required this.onTap,
+      required this.onCancel,
+      required this.onConfirm})
       : super(key: key);
 
   final Order order;
   final VoidCallback onTap;
+  final VoidCallback onCancel;
+  final VoidCallback onConfirm;
 
   @override
   State<OrdersTile> createState() => _OrdersTileState();
@@ -124,24 +131,38 @@ class _OrdersTileState extends State<OrdersTile> {
                           )
                         ],
                       ),
-                      DropdownButton<String>(
-                        elevation: 0,
-                        value: dropdownValue,
-                        onChanged: (item) {
-                          setState(() {
-                            dropdownValue = item!;
-                          });
-                        },
-                        style: _getTextStyle(fontSize: 18, color: Colors.black),
-                        items: dropDownButtonItems
-                            .map(
-                              (e) => DropdownMenuItem<String>(
-                                value: e,
-                                child: Text(e),
-                              ),
+                      widget.order.status != OrderStatus.cancelled
+                          ? DropdownButton<String>(
+                              elevation: 0,
+                              value: dropdownValue,
+                              onChanged: (item) {
+                                item == 'Cancelar'
+                                    ? widget.onCancel()
+                                    : widget.onConfirm();
+                                setState(() {
+                                  dropdownValue = item!;
+                                });
+                              },
+                              style: _getTextStyle(
+                                  fontSize: 18, color: Colors.black),
+                              items: dropDownButtonItems
+                                  .map(
+                                    (dropdownSelection) =>
+                                        DropdownMenuItem<String>(
+                                      value: dropdownSelection,
+                                      child: Text(
+                                        dropdownSelection,
+                                        style: TextStyle(
+                                            color:
+                                                dropdownSelection == 'Cancelar'
+                                                    ? Colors.red
+                                                    : Colors.black),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
                             )
-                            .toList(),
-                      ),
+                          : Container(),
                     ],
                   ),
                 ),

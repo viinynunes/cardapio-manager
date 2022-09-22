@@ -1,7 +1,9 @@
+import 'package:cardapio_manager/src/modules/order/domain/entities/order.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../bloc/events/order_events.dart';
 import '../../bloc/order_bloc.dart';
 import '../../bloc/states/order_states.dart';
@@ -22,13 +24,41 @@ class _OrderListWidgetState extends State<OrderListWidget> {
   @override
   void initState() {
     super.initState();
-
     bloc.add(GetOrdersByDayEvent(widget.day));
   }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    showConfirmationDialog(String action, Order order) {
+      return AlertDialog(
+        title: Center(child: Text('Deseja $action o pedido ?')),
+        actionsAlignment: MainAxisAlignment.spaceEvenly,
+        actions: [
+          TextButton(
+              onPressed: () {
+                Modular.to.pop();
+              },
+              child: const Text(
+                'Não',
+                style: TextStyle(fontSize: 20),
+              )),
+          TextButton(
+              onPressed: () {
+                bloc.add(ChangeOrderStatusEvent(
+                  order,
+                  action == 'cancelar'
+                      ? OrderStatus.cancelled
+                      : OrderStatus.confirmed,
+                ));
+                Modular.to.pop();
+                bloc.add(GetOrdersByDayEvent(widget.day));
+              },
+              child: const Text('Sim', style: TextStyle(fontSize: 20)))
+        ],
+      );
+    }
 
     return SizedBox(
       height: size.height * 0.8,
@@ -48,7 +78,24 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                 itemCount: orderList.length,
                 itemBuilder: (_, index) {
                   var order = orderList[index];
-                  return OrdersTile(order: order, onTap: () {});
+                  return OrdersTile(
+                    order: order,
+                    onTap: () {},
+                    onConfirm: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (_) {
+                            return showConfirmationDialog('confirmar', order);
+                          });
+                    },
+                    onCancel: () async {
+                      await showDialog(
+                          context: context,
+                          builder: (_) {
+                            return showConfirmationDialog('cancelar', order);
+                          });
+                    },
+                  );
                 });
           }
 
