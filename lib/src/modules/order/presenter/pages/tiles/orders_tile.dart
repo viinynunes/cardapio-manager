@@ -112,20 +112,22 @@ class _OrdersTileState extends State<OrdersTile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Items: ',
+                            'Items: ${widget.order.menuList.length.toString()}',
                             style: _getTextStyle(fontSize: 16),
                           ),
                           const Spacer(),
                           SizedBox(
                             height: 15,
-                            width: size.width * 0.3,
+                            width: size.width * 0.55,
                             child: ListView.builder(
                               itemCount: widget.order.menuList.length,
                               shrinkWrap: true,
                               itemBuilder: (_, index) {
                                 final item = widget.order.menuList[index];
                                 return Text(
-                                    '${(index + 1).toString()} - ${item.name}');
+                                  '${(index + 1).toString()} - ${item.name}',
+                                  maxLines: 1,
+                                );
                               },
                             ),
                           )
@@ -133,7 +135,7 @@ class _OrdersTileState extends State<OrdersTile> {
                       ),
                       widget.order.status != OrderStatus.cancelled
                           ? DropdownButton<String>(
-                              elevation: 0,
+                              elevation: 10,
                               value: dropdownValue,
                               onChanged: (item) {
                                 item == 'Cancelar'
