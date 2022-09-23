@@ -7,5 +7,5 @@ abstract class IClientDatasource {
 
   Future<bool> disable(ClientModel client);
 
-  Future<List<ClientModel>> finalAll(ClientModel client);
+  Future<List<ClientModel>> finalAll();
 }

@@ -2,6 +2,7 @@ import 'package:cardapio_manager/src/modules/core/client/domain/entities/client.
 import 'package:cardapio_manager/src/modules/core/client/domain/repositories/client_repository.dart';
 import 'package:cardapio_manager/src/modules/core/client/errors/client_errors.dart';
 import 'package:cardapio_manager/src/modules/core/client/infra/datasources/client_datasource.dart';
+import 'package:cardapio_manager/src/modules/core/client/infra/models/client_model.dart';
 import 'package:dartz/dartz.dart';
 
 class ClientRepositoryImpl implements IClientRepository {
@@ -10,8 +11,16 @@ class ClientRepositoryImpl implements IClientRepository {
   ClientRepositoryImpl(this._datasource);
 
   @override
-  Future<Either<ClientErrors, Client>> create(Client client) {
-    // TODO: implement create
+  Future<Either<ClientErrors, Client>> create(Client client) async {
+/*    try {
+      final result = await _datasource.create(ClientModel.fromClient(client));
+
+      return Right(result);
+    } catch (e) {
+      return Left(ClientErrors(e.toString()));
+    }*/
+
+    // TODO: implement update
     throw UnimplementedError();
   }
 
@@ -28,7 +37,7 @@ class ClientRepositoryImpl implements IClientRepository {
   }
 
   @override
-  Future<Either<ClientErrors, List<Client>>> finalAll(Client client) {
+  Future<Either<ClientErrors, List<Client>>> finalAll() {
     // TODO: implement finalAll
     throw UnimplementedError();
   }

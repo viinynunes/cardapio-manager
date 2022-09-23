@@ -1,11 +1,22 @@
 import 'package:cardapio_manager/src/modules/core/client/infra/models/client_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../infra/datasources/client_datasource.dart';
 
 class ClientFirebaseDatasourceImpl implements IClientDatasource {
+  final _clientCollection = FirebaseFirestore.instance.collection('clients');
+
   @override
-  Future<ClientModel> create(ClientModel client) {
-    // TODO: implement create
+  Future<ClientModel> create(ClientModel client) async {
+/*    final recClient = await _clientCollection.add(client.toMap());
+
+    client.id = recClient.id;
+
+    await _clientCollection.doc(client.id).update(client.toMap());
+
+    return client;*/
+
+    // TODO: implement disable
     throw UnimplementedError();
   }
 
@@ -16,7 +27,7 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
   }
 
   @override
-  Future<List<ClientModel>> finalAll(ClientModel client) {
+  Future<List<ClientModel>> finalAll() {
     // TODO: implement finalAll
     throw UnimplementedError();
   }
@@ -26,5 +37,4 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
     // TODO: implement update
     throw UnimplementedError();
   }
-
 }

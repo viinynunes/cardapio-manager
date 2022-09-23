@@ -9,5 +9,5 @@ abstract class IClientRepository {
 
   Future<Either<ClientErrors, bool>> disable(Client client);
 
-  Future<Either<ClientErrors, List<Client>>> finalAll(Client client);
+  Future<Either<ClientErrors, List<Client>>> finalAll();
 }
