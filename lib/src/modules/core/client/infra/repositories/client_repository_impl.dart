@@ -37,8 +37,13 @@ class ClientRepositoryImpl implements IClientRepository {
   }
 
   @override
-  Future<Either<ClientErrors, List<Client>>> finalAll() {
-    // TODO: implement finalAll
-    throw UnimplementedError();
+  Future<Either<ClientErrors, List<Client>>> findAll() async {
+    try {
+      final result = await _datasource.findAll();
+
+      return Right(result);
+    } catch (e) {
+      return Left(ClientErrors(e.toString()));
+    }
   }
 }

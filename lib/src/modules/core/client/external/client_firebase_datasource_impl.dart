@@ -16,7 +16,13 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
 
     return client;*/
 
-    // TODO: implement disable
+    // TODO: implement update
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<ClientModel> update(ClientModel client) {
+    // TODO: implement update
     throw UnimplementedError();
   }
 
@@ -27,14 +33,16 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
   }
 
   @override
-  Future<List<ClientModel>> finalAll() {
-    // TODO: implement finalAll
-    throw UnimplementedError();
-  }
+  Future<List<ClientModel>> findAll() async {
+    List<ClientModel> clientList = [];
 
-  @override
-  Future<ClientModel> update(ClientModel client) {
-    // TODO: implement update
-    throw UnimplementedError();
+    final clientSnap =
+        await _clientCollection.orderBy('name', descending: true).get();
+
+    for (var client in clientSnap.docs) {
+      clientList.add(ClientModel.fromMap(client.data()));
+    }
+
+    return clientList;
   }
 }

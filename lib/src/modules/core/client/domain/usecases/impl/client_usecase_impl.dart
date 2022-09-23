@@ -43,8 +43,7 @@ class ClientUsecaseImpl implements IClientUsecase {
   }
 
   @override
-  Future<Either<ClientErrors, List<Client>>> finalAll() {
-    // TODO: implement finalAll
-    throw UnimplementedError();
+  Future<Either<ClientErrors, List<Client>>> findAll() async {
+    return _repository.findAll();
   }
 }
