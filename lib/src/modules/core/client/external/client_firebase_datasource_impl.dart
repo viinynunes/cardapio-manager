@@ -18,9 +18,32 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
   }
 
   @override
-  Future<ClientModel> update(ClientModel client) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<ClientModel> update(ClientModel client) async {
+    await _clientCollection
+        .doc(client.id)
+        .update(client.toMap())
+        .catchError((e) => throw Exception(e.toString()));
+
+    final recClientOrders = await FirebaseFirestore.instance
+        .collection('orders')
+        .where('client.id', isEqualTo: client.id)
+        .get();
+
+    for (var order in recClientOrders.docs) {
+      await FirebaseFirestore.instance
+          .collection('orders')
+          .doc(order.id)
+          .update({'client': client.toMap()});
+
+      await FirebaseFirestore.instance
+          .collection('clients')
+          .doc(client.id)
+          .collection('orders')
+          .doc(order.id)
+          .update({'client': client.toMap()});
+    }
+
+    return client;
   }
 
   @override

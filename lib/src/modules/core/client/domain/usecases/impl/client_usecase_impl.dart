@@ -28,9 +28,24 @@ class ClientUsecaseImpl implements IClientUsecase {
   }
 
   @override
-  Future<Either<ClientErrors, Client>> update(Client client) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Either<ClientErrors, Client>> update(Client client) async {
+    if (client.id.isEmpty) {
+      return Left(ClientErrors('Invalid ID'));
+    }
+
+    if (client.name.isEmpty || client.name.length < 2) {
+      return Left(ClientErrors('Invalid name'));
+    }
+
+    if (!isEmail(client.email)) {
+      return Left(ClientErrors('Invalid email'));
+    }
+
+    if (client.phone.length != 11) {
+      return Left(ClientErrors('Invalid phone'));
+    }
+
+    return _repository.update(client);
   }
 
   @override
