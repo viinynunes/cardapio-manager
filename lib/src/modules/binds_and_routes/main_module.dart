@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/binds_and_routes/client_module.dart';
 import 'package:cardapio_manager/src/modules/binds_and_routes/item_menu_module.dart';
 import 'package:cardapio_manager/src/modules/binds_and_routes/order_module.dart';
 import 'package:cardapio_manager/src/modules/core/camera/presenter/bloc/camera_bloc.dart';
@@ -23,5 +24,6 @@ class MainModule extends Module {
   List<ModularRoute> get routes => [
         ModuleRoute('/', module: ItemMenuModule()),
         ModuleRoute('/order/', module: OrderModule()),
+        ModuleRoute('/client/', module: ClientModule()),
       ];
 }
