@@ -1,5 +1,6 @@
 import 'package:cardapio_manager/src/modules/core/client/infra/models/client_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../infra/datasources/client_datasource.dart';
 
@@ -13,6 +14,12 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
     client.id = recClient.id;
 
     await _clientCollection.doc(client.id).update(client.toMap());
+
+    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: client.email, password: 'newUserResetPassword@%676@');
+
+    await FirebaseAuth.instance
+        .sendPasswordResetEmail(email: client.email.trim());
 
     return client;
   }
