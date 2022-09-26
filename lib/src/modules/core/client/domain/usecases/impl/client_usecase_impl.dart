@@ -49,9 +49,12 @@ class ClientUsecaseImpl implements IClientUsecase {
   }
 
   @override
-  Future<Either<ClientErrors, bool>> disable(Client client) {
-    // TODO: implement disable
-    throw UnimplementedError();
+  Future<Either<ClientErrors, bool>> disable(Client client) async {
+    if (client.id.isEmpty) {
+      return Left(ClientErrors('Invalid ID'));
+    }
+
+    return _repository.disable(client);
   }
 
   @override

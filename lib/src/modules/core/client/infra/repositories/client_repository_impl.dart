@@ -33,9 +33,14 @@ class ClientRepositoryImpl implements IClientRepository {
   }
 
   @override
-  Future<Either<ClientErrors, bool>> disable(Client client) {
-    // TODO: implement disable
-    throw UnimplementedError();
+  Future<Either<ClientErrors, bool>> disable(Client client) async {
+    try {
+      final result = await _datasource.disable(ClientModel.fromClient(client));
+
+      return Right(result);
+    } catch (e) {
+      return Left(ClientErrors(e.toString()));
+    }
   }
 
   @override
