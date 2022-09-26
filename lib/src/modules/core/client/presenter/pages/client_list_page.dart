@@ -32,8 +32,6 @@ class _ClientListPageState extends State<ClientListPage> {
     if (recClient != null && recClient is Client) {
       clientBloc.add(CreateOrUpdateClientEvent(recClient));
     }
-
-    clientBloc.add(GetClientListEvent());
   }
 
   @override
@@ -63,6 +61,22 @@ class _ClientListPageState extends State<ClientListPage> {
                 child: BlocBuilder<ClientBloc, ClientStates>(
                   bloc: clientBloc,
                   builder: (_, state) {
+                    if (state is ClientErrorState) {
+                      return Center(
+                        child: Text(state.error.message),
+                      );
+                    }
+
+                    if (state is ClientLoadingState) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
+                    if (state is ClientCreateOrUpdateSuccessState) {
+                      clientBloc.add(GetClientListEvent());
+                    }
+
                     if (state is ClientGetListSuccessState) {
                       final clientList = state.clientList;
 
