@@ -55,6 +55,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               leading: const Icon(Icons.menu_book),
               title: const Center(child: Text('Menu')),
             ),
+            ListTile(
+              onTap: () {
+                Modular.to.pop();
+                Modular.to.navigate('/client/');
+              },
+              leading: const Icon(Icons.account_circle),
+              title: const Center(child: Text('Clientes')),
+            ),
           ],
         ),
       ),
