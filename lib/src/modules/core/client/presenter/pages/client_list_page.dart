@@ -1,6 +1,7 @@
 import 'package:cardapio_manager/src/modules/core/client/presenter/bloc/client_bloc.dart';
 import 'package:cardapio_manager/src/modules/core/client/presenter/bloc/events/client_events.dart';
 import 'package:cardapio_manager/src/modules/core/client/presenter/bloc/states/client_states.dart';
+import 'package:cardapio_manager/src/modules/core/client/presenter/pages/tiles/client_list_tile.dart';
 import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,10 +85,10 @@ class _ClientListPageState extends State<ClientListPage> {
                         itemCount: clientList.length,
                         itemBuilder: (_, index) {
                           final client = clientList[index];
-                          return ListTile(
-                            onTap: () async => _createOrUpdate(client: client),
-                            title: Text(client.name),
-                          );
+                          return ClientListTile(
+                              client: client,
+                              onTap: () async =>
+                                  _createOrUpdate(client: client));
                         },
                       );
                     }
