@@ -9,17 +9,29 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
 
   @override
   Future<ClientModel> create(ClientModel client) async {
-    final recClient = await _clientCollection.add(client.toMap());
+    final signUpClient = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: client.email,
+            password: '@#&@@(())5newUserResetPassword@%676@')
+        .catchError((e) => throw Exception(e.toString()));
 
-    client.id = recClient.id;
-
-    await _clientCollection.doc(client.id).update(client.toMap());
-
-    await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: client.email, password: 'newUserResetPassword@%676@');
+    signUpClient.user != null
+        ? client.id = signUpClient.user!.uid
+        : throw Exception('Invalid new user ID');
 
     await FirebaseAuth.instance
-        .sendPasswordResetEmail(email: client.email.trim());
+        .sendPasswordResetEmail(email: client.email)
+        .catchError((e) => throw Exception(e.toString()));
+
+    await _clientCollection
+        .doc(client.id)
+        .set(client.toMap())
+        .catchError((e) => throw Exception(e.toString()));
+
+    await _clientCollection
+        .doc(client.id)
+        .update(client.toMap())
+        .catchError((e) => throw Exception(e.toString()));
 
     return client;
   }
