@@ -12,7 +12,7 @@ class ClientUsecaseImpl implements IClientUsecase {
 
   @override
   Future<Either<ClientErrors, Client>> create(Client client) async {
-/*    if (client.name.isEmpty || client.name.length < 2) {
+    if (client.name.isEmpty || client.name.length < 2) {
       return Left(ClientErrors('Invalid name'));
     }
 
@@ -24,10 +24,7 @@ class ClientUsecaseImpl implements IClientUsecase {
       return Left(ClientErrors('Invalid phone'));
     }
 
-    return _repository.create(client);*/
-
-    // TODO: implement update
-    throw UnimplementedError();
+    return _repository.create(client);
   }
 
   @override

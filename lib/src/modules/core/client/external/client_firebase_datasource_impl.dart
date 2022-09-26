@@ -8,16 +8,13 @@ class ClientFirebaseDatasourceImpl implements IClientDatasource {
 
   @override
   Future<ClientModel> create(ClientModel client) async {
-/*    final recClient = await _clientCollection.add(client.toMap());
+    final recClient = await _clientCollection.add(client.toMap());
 
     client.id = recClient.id;
 
     await _clientCollection.doc(client.id).update(client.toMap());
 
-    return client;*/
-
-    // TODO: implement update
-    throw UnimplementedError();
+    return client;
   }
 
   @override

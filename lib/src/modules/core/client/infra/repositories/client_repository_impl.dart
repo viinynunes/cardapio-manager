@@ -12,16 +12,13 @@ class ClientRepositoryImpl implements IClientRepository {
 
   @override
   Future<Either<ClientErrors, Client>> create(Client client) async {
-/*    try {
+    try {
       final result = await _datasource.create(ClientModel.fromClient(client));
 
       return Right(result);
     } catch (e) {
       return Left(ClientErrors(e.toString()));
-    }*/
-
-    // TODO: implement update
-    throw UnimplementedError();
+    }
   }
 
   @override
