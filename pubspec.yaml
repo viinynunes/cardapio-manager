@@ -45,6 +45,7 @@ dependencies:
   image_picker: any
   lottie: any
   intl: any
+  string_validator: any
 
 dev_dependencies:
   flutter_test:
