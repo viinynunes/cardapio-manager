@@ -16,7 +16,10 @@ class OrderServiceImpl implements IOrderService {
           order.number
               .toString()
               .toLowerCase()
-              .contains(searchText.toLowerCase())) {
+              .contains(searchText.toLowerCase()) ||
+          order.status.name.toLowerCase().contains(searchText.toLowerCase()) ||
+          order.menuList.any((element) =>
+              element.name.toLowerCase().contains(searchText.toLowerCase()))) {
         filteredList.add(order);
       }
     }
