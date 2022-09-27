@@ -18,6 +18,11 @@ class ClientListPage extends StatefulWidget {
 
 class _ClientListPageState extends State<ClientListPage> {
   final clientBloc = Modular.get<ClientBloc>();
+  List<Client> clientList = [];
+  List<Client> clientFullList = [];
+
+  bool isSearching = false;
+  final searchFocus = FocusNode();
 
   @override
   void initState() {
@@ -42,9 +47,39 @@ class _ClientListPageState extends State<ClientListPage> {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
-        title: const Text('Clientes'),
+        title: isSearching
+            ? TextField(
+                focusNode: searchFocus,
+                decoration: const InputDecoration(hintText: 'Pesquisar'),
+                onChanged: (searchText) {
+                  if (searchText.isEmpty) {
+                    clientBloc.add(GetClientListEvent());
+                  }
+                  clientBloc.add(
+                      FilterClientListByTextEvent(clientFullList, searchText));
+                },
+              )
+            : const Text('Clientes'),
         centerTitle: true,
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.search))],
+        actions: [
+          isSearching
+              ? IconButton(
+                  onPressed: () {
+                    clientBloc.add(GetClientListEvent());
+                    setState(() {
+                      isSearching = isSearching = false;
+                    });
+                  },
+                  icon: const Icon(Icons.clear))
+              : IconButton(
+                  onPressed: () {
+                    searchFocus.requestFocus();
+                    setState(() {
+                      isSearching = true;
+                    });
+                  },
+                  icon: const Icon(Icons.search))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -79,6 +114,10 @@ class _ClientListPageState extends State<ClientListPage> {
                     }
 
                     if (state is ClientGetListSuccessState) {
+                      this.clientList = state.clientList;
+                      if (clientFullList.isEmpty) {
+                        clientFullList = state.clientList;
+                      }
                       final clientList = state.clientList;
 
                       return ListView.builder(

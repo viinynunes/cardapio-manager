@@ -15,3 +15,10 @@ class DisableClient implements ClientEvents {
 
   DisableClient(this.client);
 }
+
+class FilterClientListByTextEvent implements ClientEvents {
+  final List<Client> clientList;
+  final String searchText;
+
+  FilterClientListByTextEvent(this.clientList, this.searchText);
+}
