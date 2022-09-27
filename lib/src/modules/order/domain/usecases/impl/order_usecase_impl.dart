@@ -37,4 +37,9 @@ class OrderUsecaseImpl implements IOrderUsecase {
   Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day) async {
     return _repository.getOrdersByDay(day);
   }
+
+  @override
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(DateTime day, OrderStatus status) {
+    return _repository.getOrdersByDayAndStatus(day, status);
+  }
 }

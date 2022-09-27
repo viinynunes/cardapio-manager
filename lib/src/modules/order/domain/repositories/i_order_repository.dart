@@ -11,4 +11,6 @@ abstract class IOrderRepository {
   Future<Either<OrderError, List<order.Order>>> getOrders();
 
   Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day);
+
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(DateTime day, OrderStatus status);
 }

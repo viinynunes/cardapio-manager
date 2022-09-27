@@ -62,6 +62,26 @@ class OrderFirebaseDatasource implements IOrderDatasource {
     return orderList;
   }
 
+  @override
+  Future<List<OrderModel>> getOrdersByDayAndStatus(
+      DateTime day, OrderStatus status) async {
+    List<OrderModel> orderList = [];
+
+    final filteredDay = DateTime(day.year, day.month, day.day);
+
+    final orderSnap = await _orderCollection
+        .where('registrationDate', isEqualTo: filteredDay)
+        .where('status', isEqualTo: status.name)
+        .orderBy('number', descending: false)
+        .get();
+
+    for (var i in orderSnap.docs) {
+      orderList.add(_getOrderModel(i));
+    }
+
+    return orderList;
+  }
+
   _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) {
     Timestamp timestamp = snap.data()['registrationDate'];
     final registrationDate = DateTime.parse(timestamp.toDate().toString());

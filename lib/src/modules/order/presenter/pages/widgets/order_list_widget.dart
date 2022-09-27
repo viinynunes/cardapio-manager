@@ -10,9 +10,11 @@ import '../../bloc/states/order_states.dart';
 import '../tiles/orders_tile.dart';
 
 class OrderListWidget extends StatefulWidget {
-  const OrderListWidget(
-      {Key? key, required this.day, required this.getOrderList})
-      : super(key: key);
+  const OrderListWidget({
+    Key? key,
+    required this.day,
+    required this.getOrderList,
+  }) : super(key: key);
 
   final DateTime day;
   final Function(List<Order> orderList) getOrderList;
@@ -49,8 +51,8 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                       ? OrderStatus.cancelled
                       : OrderStatus.confirmed,
                 ));
-                Modular.to.pop();
                 bloc.add(GetOrdersByDayEvent(widget.day));
+                Modular.to.pop();
               },
               child: const Text('Sim', style: TextStyle(fontSize: 20)))
         ],

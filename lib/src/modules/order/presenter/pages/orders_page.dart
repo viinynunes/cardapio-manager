@@ -22,7 +22,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
   final dateFormat = DateFormat('dd/MM/yyyy');
   late DateTime day;
   List<Order> orderList = [];
-  List<Order> fullOrderList = [];
+  List<Order> orderFullList = [];
 
   @override
   void initState() {
@@ -54,6 +54,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 setState(() {
                   if (result != null) {
                     day = result;
+                    orderBloc.add(GetOrdersByDayEvent(day));
                   }
                 });
               },
@@ -89,7 +90,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         }
                         setState(() {
                           orderBloc.add(FilterOrderListByTextEvent(
-                              orderList, searchText));
+                              orderFullList, searchText));
                         });
                       },
                     ),
@@ -97,7 +98,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                   PopupMenuButton(
                     icon: const Icon(Icons.filter_alt),
                     onSelected: (e) {
-                      fullOrderList.addAll(orderList);
+                      orderFullList.addAll(orderList);
                     },
                     itemBuilder: (_) {
                       return [
@@ -109,19 +110,19 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                         PopupMenuItem(
                             onTap: () {
                               orderBloc.add(FilterOrderListByStatusEvent(
-                                  fullOrderList, OrderStatus.open));
+                                  day, OrderStatus.open));
                             },
                             child: const Text('Aberto')),
                         PopupMenuItem(
                             onTap: () {
                               orderBloc.add(FilterOrderListByStatusEvent(
-                                  fullOrderList, OrderStatus.confirmed));
+                                  day, OrderStatus.confirmed));
                             },
                             child: const Text('Confirmado')),
                         PopupMenuItem(
                             onTap: () {
                               orderBloc.add(FilterOrderListByStatusEvent(
-                                  fullOrderList, OrderStatus.cancelled));
+                                  day, OrderStatus.cancelled));
                             },
                             child: const Text('Cancelado')),
                       ];
@@ -133,11 +134,11 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                 day: day,
                 getOrderList: (List<Order> orderList) {
                   this.orderList = orderList;
-                  if (fullOrderList.isEmpty) {
-                    fullOrderList.addAll(orderList);
+                  if (orderFullList.isEmpty) {
+                    orderFullList.addAll(orderList);
                   }
                 },
-              ),
+              )
             ],
           ),
         ),

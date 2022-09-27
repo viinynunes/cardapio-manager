@@ -19,10 +19,10 @@ class FilterOrderListByTextEvent implements OrderEvents {
 }
 
 class FilterOrderListByStatusEvent implements OrderEvents {
-  final List<Order> orderList;
+  final DateTime day;
   final OrderStatus status;
 
-  FilterOrderListByStatusEvent(this.orderList, this.status);
+  FilterOrderListByStatusEvent(this.day, this.status);
 }
 
 class ChangeOrderStatusEvent extends OrderEvents {

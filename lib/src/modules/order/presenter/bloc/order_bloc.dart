@@ -35,11 +35,12 @@ class OrderBloc extends Bloc<OrderEvents, OrderStates> {
       emit(OrderGetListSuccessState(result));
     });
 
-    on<FilterOrderListByStatusEvent>((event, emit) {
+    on<FilterOrderListByStatusEvent>((event, emit) async {
       final result =
-          orderService.filterOrderListByStatus(event.orderList, event.status);
+          await orderUsecase.getOrdersByDayAndStatus(event.day, event.status);
 
-      emit(OrderGetListSuccessState(result));
+      result.fold((l) => emit(OrderErrorState(l)),
+          (r) => emit(OrderGetListSuccessState(r)));
     });
 
     on<ChangeOrderStatusEvent>((event, emit) async {
