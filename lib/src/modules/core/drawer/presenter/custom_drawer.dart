@@ -30,7 +30,9 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   top: 5,
                   right: 5,
                   child: IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Modular.to.pushReplacementNamed('../auth/');
+                    },
                     icon: const Icon(
                       Icons.logout,
                       color: Colors.white,
