@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cardapio_manager/src/modules/core/auth/domain/entities/user.dart';
 
 class UserModel extends User {
@@ -15,13 +17,13 @@ class UserModel extends User {
           enabled: user.enabled,
         );
 
-  UserModel.fromMap(Map<String, dynamic> map)
-      : super(
-          id: map['id'],
-          name: map['name'],
-          email: map['email'],
-          enabled: map['enabled'],
-        );
+  static UserModel fromMap(Map<String, dynamic> map) {
+    return UserModel(
+        id: map['id'],
+        name: map['name'],
+        email: map['email'],
+        enabled: map['enabled']);
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,4 +33,8 @@ class UserModel extends User {
       'enabled': enabled,
     };
   }
+
+  String toJson() => json.encode(toMap());
+
+  static UserModel fromJson(String source) => fromMap(json.decode(source));
 }
