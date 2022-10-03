@@ -1,4 +1,10 @@
+import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/events/logged_user_events.dart';
+import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/events/login_events.dart';
+import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/logged_user_bloc.dart';
+import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/login_bloc.dart';
+import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/states/logged_user_states.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class CustomDrawer extends StatefulWidget {
@@ -9,6 +15,16 @@ class CustomDrawer extends StatefulWidget {
 }
 
 class _CustomDrawerState extends State<CustomDrawer> {
+  final loggedUserBloc = Modular.get<LoggedUserBloc>();
+  final loginBloc = Modular.get<LoginBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    loggedUserBloc.add(GetLoggedUserEvent());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -19,19 +35,37 @@ class _CustomDrawerState extends State<CustomDrawer> {
           children: [
             Stack(
               children: [
-                const UserAccountsDrawerHeader(
-                  accountName: Text('Nunes'),
-                  accountEmail: Text('nunes@outlook.com'),
-                  currentAccountPicture: CircleAvatar(
-                    child: Icon(Icons.account_circle),
-                  ),
+                BlocBuilder<LoggedUserBloc, LoggedUserStates>(
+                  bloc: loggedUserBloc,
+                  builder: (_, state) {
+                    if (state is LoggedUserLoginSuccessState) {
+                      return UserAccountsDrawerHeader(
+                        accountName: Text(state.user.name),
+                        accountEmail: Text(state.user.email),
+                        currentAccountPicture: const CircleAvatar(
+                          child: Icon(Icons.account_circle),
+                        ),
+                      );
+                    }
+
+                    if (state is LoggedUserErrorState) {
+                      return Center(
+                        child: Text(
+                            'Erro ao realizar o login: ${state.error.message}'),
+                      );
+                    }
+
+                    return Container();
+                  },
                 ),
                 Positioned(
                   top: 5,
                   right: 5,
                   child: IconButton(
                     onPressed: () {
-                      Modular.to.pushReplacementNamed('../auth/');
+                      loginBloc.add(LogoutEvent());
+
+                      Modular.to.pushReplacementNamed('/auth/');
                     },
                     icon: const Icon(
                       Icons.logout,
@@ -44,6 +78,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ListTile(
               onTap: () {
                 Modular.to.pop();
+                Modular.to.navigate('/home/');
+              },
+              leading: const Icon(Icons.home),
+              title: const Center(child: Text('Home')),
+            ),
+            ListTile(
+              onTap: () {
+                Modular.to.pop();
                 Modular.to.navigate('/order/');
               },
               leading: const Icon(Icons.reorder),
@@ -52,7 +94,7 @@ class _CustomDrawerState extends State<CustomDrawer> {
             ListTile(
               onTap: () {
                 Modular.to.pop();
-                Modular.to.navigate('/');
+                Modular.to.navigate('/menu/');
               },
               leading: const Icon(Icons.menu_book),
               title: const Center(child: Text('Menu')),

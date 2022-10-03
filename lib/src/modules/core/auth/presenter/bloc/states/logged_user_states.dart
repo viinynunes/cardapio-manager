@@ -8,10 +8,12 @@ class LoggedUserIdleState implements LoggedUserStates {}
 
 class LoggedUserLoadingState implements LoggedUserStates {}
 
-class LoggedUserSuccessState implements LoggedUserStates {
+class LoggedUserSuccessState implements LoggedUserStates {}
+
+class LoggedUserLoginSuccessState implements LoggedUserStates {
   final User user;
 
-  LoggedUserSuccessState(this.user);
+  LoggedUserLoginSuccessState(this.user);
 }
 
 class LoggedUserErrorState implements LoggedUserStates {

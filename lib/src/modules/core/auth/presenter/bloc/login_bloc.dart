@@ -20,5 +20,15 @@ class LoginBloc extends Bloc<LoginEvents, LoginStates> {
         loggedUserBloc.add(SaveLoggedUserEvent(user));
       });
     });
+
+    on<LogoutEvent>((event, emit) async {
+      emit(LoginLoadingState());
+
+      final result = await loginUsecase.logout();
+
+      result.fold((l) => emit(LoginErrorState(l)), (r) async {
+        loggedUserBloc.add(LogoutLoggedUserEvent());
+      });
+    });
   }
 }

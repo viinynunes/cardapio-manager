@@ -13,7 +13,7 @@ class LoggedUserBloc extends Bloc<LoggedUserEvents, LoggedUserStates> {
       final result = await usecase.getLoggedUser();
 
       result.fold((l) => emit(LoggedUserErrorState(l)),
-          (r) => emit(LoggedUserSuccessState(r)));
+          (r) => emit(LoggedUserLoginSuccessState(r)));
     });
 
     on<SaveLoggedUserEvent>((event, emit) async {
@@ -22,7 +22,16 @@ class LoggedUserBloc extends Bloc<LoggedUserEvents, LoggedUserStates> {
       final loggedResult = await usecase.saveLoggedUser(event.user);
 
       loggedResult.fold((l) => emit(LoggedUserErrorState(l)),
-          (r) => emit(LoggedUserSuccessState(r)));
+          (r) => emit(LoggedUserLoginSuccessState(r)));
+    });
+
+    on<LogoutLoggedUserEvent>((event, emit) async {
+      emit(LoggedUserLoadingState());
+
+      final result = await usecase.logout();
+
+      result.fold((l) => emit(LoggedUserErrorState(l)),
+          (r) => emit(LoggedUserSuccessState()));
     });
   }
 }

@@ -39,4 +39,15 @@ class LoginFirebaseDatasourceImpl implements ILoginDatasource {
       }
     }
   }
+
+  @override
+  Future<bool> logout() async {
+    await FirebaseAuth.instance
+        .signOut()
+        .catchError((e) => throw Exception(e.toString()));
+    _userData = {};
+    _firebaseUser = null;
+
+    return true;
+  }
 }

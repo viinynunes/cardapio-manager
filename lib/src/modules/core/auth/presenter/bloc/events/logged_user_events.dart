@@ -9,3 +9,5 @@ class SaveLoggedUserEvent implements LoggedUserEvents {
 
   SaveLoggedUserEvent(this.user);
 }
+
+class LogoutLoggedUserEvent implements LoggedUserEvents {}

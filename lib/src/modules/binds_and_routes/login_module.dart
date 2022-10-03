@@ -8,10 +8,11 @@ import 'package:flutter_modular/flutter_modular.dart';
 class LoginModule extends Module {
   @override
   List<Bind> get binds => [
+        //Firebase Login
         Bind((i) => LoginFirebaseDatasourceImpl()),
         Bind((i) => LoginRepositoryImpl(i())),
         Bind((i) => LoginUsecaseImpl(i())),
-        Bind((i) => LoginBloc(i()))
+        Bind((i) => LoginBloc(i(), i())),
       ];
 
   @override

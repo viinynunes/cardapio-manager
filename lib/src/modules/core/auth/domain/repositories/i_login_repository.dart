@@ -5,4 +5,6 @@ import '../entities/user.dart';
 
 abstract class ILoginRepository {
   Future<Either<UserErrors, User>> login(String email, String password);
+
+  Future<Either<UserErrors, bool>> logout();
 }
