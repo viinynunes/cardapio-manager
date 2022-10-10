@@ -39,7 +39,8 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
   }
 
   _saveOrUpdate({ItemMenu? item}) async {
-    final recItem = await Modular.to.pushNamed('/item/', arguments: [item, weekday]);
+    final recItem =
+        await Modular.to.pushNamed('./item/', arguments: [item, weekday]);
     if (recItem != null && recItem is ItemMenu) {
       if (item == null) {
         itemBloc.add(CreateItemMenuEvent(recItem));
