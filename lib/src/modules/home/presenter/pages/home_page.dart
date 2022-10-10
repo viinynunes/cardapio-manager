@@ -89,6 +89,12 @@ class _HomePageState extends State<HomePage> {
                   if (state is OrderReportSuccessState) {
                     final reportList = state.orderSumReportList;
 
+                    int reportListTotalItems = 0;
+
+                    for (var e in reportList) {
+                      reportListTotalItems += e.totalSumOrders;
+                    }
+
                     return reportList.isNotEmpty
                         ? Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -102,16 +108,24 @@ class _HomePageState extends State<HomePage> {
                                     PieChartData(
                                       sectionsSpace: 5,
                                       centerSpaceRadius: size.width * 0.1,
-                                      sections: reportList
-                                          .map((e) => PieChartSectionData(
-                                              color: Color((math.Random()
-                                                              .nextDouble() *
-                                                          0xFFFFFF)
-                                                      .toInt())
-                                                  .withOpacity(1.0),
-                                              value:
-                                                  e.totalSumOrders.toDouble()))
-                                          .toList(),
+                                      sections: reportList.map(
+                                        (e) {
+                                          final percentageTitle =
+                                              (e.totalSumOrders /
+                                                      reportListTotalItems) *
+                                                  100;
+                                          return PieChartSectionData(
+                                            title:
+                                                '${percentageTitle.toStringAsFixed(0)}%',
+                                            value: e.totalSumOrders.toDouble(),
+                                            color: Color((math.Random()
+                                                            .nextDouble() *
+                                                        0xFFFFFF)
+                                                    .toInt())
+                                                .withOpacity(1.0),
+                                          );
+                                        },
+                                      ).toList(),
                                     ),
                                   ),
                                 ),
