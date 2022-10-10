@@ -55,6 +55,7 @@ class _HomePageState extends State<HomePage> {
                 setState(() {
                   if (result != null) {
                     selectedDay = result;
+                    orderReportBloc.add(GetOrderReportByDay(selectedDay));
                   }
                 });
               },
@@ -88,48 +89,53 @@ class _HomePageState extends State<HomePage> {
                   if (state is OrderReportSuccessState) {
                     final reportList = state.orderSumReportList;
 
-                    return Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          flex: 2,
-                          fit: FlexFit.tight,
-                          child: AspectRatio(
-                            aspectRatio: 1,
-                            child: PieChart(
-                              PieChartData(
-                                sectionsSpace: 5,
-                                centerSpaceRadius: size.width * 0.1,
-                                sections: reportList
-                                    .map((e) => PieChartSectionData(
-                                        color: Color(
-                                                (math.Random().nextDouble() *
-                                                        0xFFFFFF)
-                                                    .toInt())
-                                            .withOpacity(1.0),
-                                        value: e.totalSumOrders.toDouble()))
-                                    .toList(),
+                    return reportList.isNotEmpty
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                flex: 2,
+                                fit: FlexFit.tight,
+                                child: AspectRatio(
+                                  aspectRatio: 1,
+                                  child: PieChart(
+                                    PieChartData(
+                                      sectionsSpace: 5,
+                                      centerSpaceRadius: size.width * 0.1,
+                                      sections: reportList
+                                          .map((e) => PieChartSectionData(
+                                              color: Color((math.Random()
+                                                              .nextDouble() *
+                                                          0xFFFFFF)
+                                                      .toInt())
+                                                  .withOpacity(1.0),
+                                              value:
+                                                  e.totalSumOrders.toDouble()))
+                                          .toList(),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        ),
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Container(
-                              height: size.height * 0.3,
-                              color: Colors.blueAccent.withOpacity(0.3),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: reportList
-                                    .map((e) => ListTile(
-                                          title: Text(e.itemName),
-                                        ))
-                                    .toList(),
-                              )),
-                        )
-                      ],
-                    );
+                              Flexible(
+                                flex: 1,
+                                fit: FlexFit.tight,
+                                child: Container(
+                                    height: size.height * 0.3,
+                                    color: Colors.blueAccent.withOpacity(0.3),
+                                    child: Column(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: reportList
+                                          .map((e) => ListTile(
+                                                title: Text(e.itemName),
+                                              ))
+                                          .toList(),
+                                    )),
+                              )
+                            ],
+                          )
+                        : const Center(
+                            child: Text('Nenhum pedido no dia'),
+                          );
                   }
 
                   return Container();
