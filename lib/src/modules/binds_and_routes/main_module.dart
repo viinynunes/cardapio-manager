@@ -12,6 +12,10 @@ import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/logged_use
 import 'package:cardapio_manager/src/modules/core/auth/presenter/bloc/login_bloc.dart';
 import 'package:cardapio_manager/src/modules/core/camera/presenter/bloc/camera_bloc.dart';
 import 'package:cardapio_manager/src/modules/core/camera/services/impl/image_picker_service.dart';
+import 'package:cardapio_manager/src/modules/core/reports/domain/usecases/impl/order_report_usecase_impl.dart';
+import 'package:cardapio_manager/src/modules/core/reports/external/order_report_firebase_datasource_impl.dart';
+import 'package:cardapio_manager/src/modules/core/reports/infra/repositories/order_report_repository_impl.dart';
+import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/order_report_bloc.dart';
 import 'package:cardapio_manager/src/modules/home/presenter/pages/home_page.dart';
 import 'package:cardapio_manager/src/modules/spash/presenter/pages/initial_splash.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -40,6 +44,12 @@ class MainModule extends Module {
         Bind((i) => LoginRepositoryImpl(i())),
         Bind((i) => LoginUsecaseImpl(i())),
         Bind((i) => LoginBloc(i(), i())),
+
+        //Order Report Dependencies
+        Bind((i) => OrderReportFirebaseDatasourceImpl()),
+        Bind((i) => OrderReportRepositoryImpl(i())),
+        Bind((i) => OrderReportUsecaseImpl(i())),
+        Bind((i) => OrderReportBloc(i())),
       ];
 
   @override
