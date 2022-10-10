@@ -39,6 +39,8 @@ class OrderReportFirebaseDatasourceImpl implements IOrderReportDatasource {
       }
     }
 
+    orderSumList.removeWhere((element) => element.totalSumOrders == 0);
+
     return orderSumList;
   }
 }
