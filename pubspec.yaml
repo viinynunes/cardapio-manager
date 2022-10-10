@@ -47,6 +47,7 @@ dependencies:
   intl: any
   string_validator: any
   shared_preferences: any
+  fl_chart: any
 
 dev_dependencies:
   flutter_test:
