@@ -41,6 +41,8 @@ class OrderReportFirebaseDatasourceImpl implements IOrderReportDatasource {
 
     orderSumList.removeWhere((element) => element.totalSumOrders == 0);
 
+    orderSumList.sort((a, b) => b.totalSumOrders.compareTo(a.totalSumOrders));
+
     return orderSumList;
   }
 }
