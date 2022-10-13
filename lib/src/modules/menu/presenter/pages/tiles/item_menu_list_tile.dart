@@ -20,7 +20,7 @@ class ItemMenuListTile extends StatelessWidget {
           height: size.height * 0.25,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
-            color: Colors.grey[200],
+            color: Theme.of(context).primaryColor.withOpacity(0.05),
           ),
           child: Row(
             children: [

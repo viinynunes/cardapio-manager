@@ -9,7 +9,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp.router(
         theme: ThemeData(
           useMaterial3: true,
-          colorSchemeSeed: Colors.blue,
+          colorSchemeSeed: Colors.red,
         ),
         routeInformationParser: Modular.routeInformationParser,
         routerDelegate: Modular.routerDelegate);

@@ -128,7 +128,7 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
                 },
               ),
               SizedBox(
-                height: size.height * 0.9,
+                height: size.height * 0.8,
                 width: size.width,
                 child: BlocBuilder<ItemMenuBloc, ItemMenuStates>(
                   bloc: itemBloc,
