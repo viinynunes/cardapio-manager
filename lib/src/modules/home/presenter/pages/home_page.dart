@@ -104,142 +104,167 @@ class _HomePageState extends State<HomePage> {
                   reportListTotalItems += e.totalSumOrders;
                 }
 
-                return Column(
-                  children: [
-                    reportList.isNotEmpty
-                        ? Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                flex: 2,
-                                fit: FlexFit.tight,
-                                child: AspectRatio(
-                                  aspectRatio: 1,
-                                  child: PieChart(
-                                    PieChartData(
-                                        sectionsSpace: 5,
-                                        centerSpaceRadius: size.width * 0.1,
-                                        sections: List.generate(
-                                            reportList.length, (index) {
-                                          final e = reportList[index];
+                return SizedBox(
+                  height: size.height * 0.85,
+                  width: size.width,
+                  child: Column(
+                    children: [
+                      reportList.isNotEmpty
+                          ? Flexible(
+                              flex: 1,
+                              fit: FlexFit.tight,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Flexible(
+                                    flex: 2,
+                                    fit: FlexFit.tight,
+                                    child: AspectRatio(
+                                      aspectRatio: 1,
+                                      child: PieChart(
+                                        PieChartData(
+                                            sectionsSpace: 5,
+                                            centerSpaceRadius: size.width * 0.1,
+                                            sections: List.generate(
+                                                reportList.length, (index) {
+                                              final e = reportList[index];
 
-                                          final percentageTitle =
-                                              (e.totalSumOrders /
+                                              final percentageTitle = (e
+                                                          .totalSumOrders /
                                                       reportListTotalItems) *
                                                   100;
 
-                                          return PieChartSectionData(
-                                            title:
-                                                '${percentageTitle.toStringAsFixed(0)}%',
-                                            value: e.totalSumOrders.toDouble(),
-                                            color: randomColorArray[index],
-                                          );
-                                        })),
-                                  ),
-                                ),
-                              ),
-                              Flexible(
-                                flex: 1,
-                                fit: FlexFit.tight,
-                                child: Container(
-                                  height: size.height * 0.3,
-                                  decoration: BoxDecoration(
-                                      color: Colors.blueAccent.withOpacity(0.2),
-                                      borderRadius: BorderRadius.circular(8)),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: List.generate(
-                                      reportList.length,
-                                      (index) {
-                                        final e = reportList[index];
-
-                                        return HomeOrderReportSumReportTile(
-                                          report: e,
-                                          color: randomColorArray[index],
-                                        );
-                                      },
+                                              return PieChartSectionData(
+                                                title:
+                                                    '${percentageTitle.toStringAsFixed(0)}%',
+                                                value:
+                                                    e.totalSumOrders.toDouble(),
+                                                color: randomColorArray[index],
+                                              );
+                                            })),
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                            ],
-                          )
-                        : const Center(
-                            child: Text('Nenhum pedido no dia'),
-                          ),
-                    SizedBox(
-                      height: size.height * 0.01,
-                    ),
-                    Container(
-                      height: size.height * 0.50,
-                      padding: const EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.blueAccent.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(24),
-                      ),
-                      child: Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: const [
-                              Flexible(
-                                flex: 3,
-                                fit: FlexFit.tight,
-                                child: Text('Item',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 16)),
+                                  Flexible(
+                                    flex: 1,
+                                    fit: FlexFit.tight,
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.blueAccent
+                                              .withOpacity(0.2),
+                                          borderRadius:
+                                              BorderRadius.circular(8)),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: List.generate(
+                                          reportList.length,
+                                          (index) {
+                                            final e = reportList[index];
+
+                                            return HomeOrderReportSumReportTile(
+                                              report: e,
+                                              color: randomColorArray[index],
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
                               ),
+                            )
+                          : const Flexible(
+                              child: Center(
+                                child: Text('Nenhum pedido no dia'),
+                              ),
+                            ),
+                      SizedBox(
+                        height: size.height * 0.01,
+                      ),
+                      Flexible(
+                        flex: 2,
+                        fit: FlexFit.tight,
+                        child: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.blueAccent.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Column(
+                            children: [
                               Flexible(
                                 flex: 1,
                                 fit: FlexFit.tight,
-                                child: Text('Quantidade',
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(fontSize: 16)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: const [
+                                    Flexible(
+                                      flex: 3,
+                                      fit: FlexFit.tight,
+                                      child: Text('Item',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 16)),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      fit: FlexFit.tight,
+                                      child: Text('Quantidade',
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(fontSize: 16)),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                height: size.height * 0.02,
+                              ),
+                              Flexible(
+                                flex: 6,
+                                fit: FlexFit.tight,
+                                child: ListView.builder(
+                                  itemCount: reportList.length,
+                                  itemBuilder: (_, index) {
+                                    final report = reportList[index];
+                                    return Padding(
+                                      padding: const EdgeInsets.all(16),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Flexible(
+                                            flex: 3,
+                                            fit: FlexFit.tight,
+                                            child: Text(
+                                              report.itemName,
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                          ),
+                                          Flexible(
+                                            flex: 1,
+                                            fit: FlexFit.tight,
+                                            child: Text(
+                                                report.totalSumOrders
+                                                    .toString(),
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                    fontSize: 16)),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                ),
                               ),
                             ],
                           ),
-                          SizedBox(
-                            height: size.height * 0.02,
-                          ),
-                          SizedBox(
-                            height: size.height * 0.4,
-                            child: ListView.builder(
-                              itemCount: reportList.length,
-                              itemBuilder: (_, index) {
-                                final report = reportList[index];
-                                return Padding(
-                                  padding: const EdgeInsets.all(16),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        flex: 3,
-                                        fit: FlexFit.tight,
-                                        child: Text(
-                                          report.itemName,
-                                          style: const TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        flex: 1,
-                                        fit: FlexFit.tight,
-                                        child: Text(
-                                            report.totalSumOrders.toString(),
-                                            textAlign: TextAlign.center,
-                                            style:
-                                                const TextStyle(fontSize: 16)),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               }
 
