@@ -60,7 +60,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
     }
 
     return SizedBox(
-      height: size.height * 0.8,
+      height: size.height * 0.75,
       width: size.width,
       child: BlocBuilder<OrderBloc, OrderStates>(
         bloc: bloc,

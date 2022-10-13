@@ -29,7 +29,7 @@ class _OrdersTileState extends State<OrdersTile> {
     final size = MediaQuery.of(context).size;
 
     return Container(
-      height: size.height * 0.23,
+      height: size.height * 0.28,
       padding: const EdgeInsets.only(right: 8, left: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -43,50 +43,46 @@ class _OrdersTileState extends State<OrdersTile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: Container(
-                    margin: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Flexible(
-                          flex: 1,
-                          fit: FlexFit.tight,
-                          child: Row(
-                            children: [
-                              Text(
-                                'Número do pedido: ',
-                                style: _getTextStyle(fontSize: 20),
-                              ),
-                              Text(
-                                widget.order.number.toString(),
-                                style: _getTextStyle(fontSize: 18),
-                              )
-                            ],
-                          ),
-                        ),
-                        Row(
+                Container(
+                  margin: const EdgeInsets.only(bottom: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        fit: FlexFit.tight,
+                        child: Row(
                           children: [
                             Text(
-                              'Status: ',
-                              style: _getTextStyle(fontSize: 16),
+                              'Número do pedido: ',
+                              style: _getTextStyle(fontSize: 20),
                             ),
                             Text(
-                              widget.order.status.name.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: _getTextStyle(
-                                  fontSize: 14,
-                                  color: widget.order.status.name ==
-                                          OrderStatus.cancelled.name
-                                      ? Colors.red
-                                      : Colors.green),
-                            ),
+                              widget.order.number.toString(),
+                              style: _getTextStyle(fontSize: 18),
+                            )
                           ],
                         ),
-                      ],
-                    ),
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            'Status: ',
+                            style: _getTextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            widget.order.status.name.toUpperCase(),
+                            textAlign: TextAlign.center,
+                            style: _getTextStyle(
+                                fontSize: 14,
+                                color: widget.order.status.name ==
+                                        OrderStatus.cancelled.name
+                                    ? Colors.red
+                                    : Colors.green),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
                 const Divider(),
@@ -103,7 +99,7 @@ class _OrdersTileState extends State<OrdersTile> {
                 ),
                 const Divider(),
                 Flexible(
-                  flex: 1,
+                  flex: 2,
                   fit: FlexFit.tight,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,24 +107,31 @@ class _OrdersTileState extends State<OrdersTile> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Items: ${widget.order.menuList.length.toString()}',
-                            style: _getTextStyle(fontSize: 16),
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: Text(
+                              'Items: ${widget.order.menuList.length.toString()}',
+                              style: _getTextStyle(fontSize: 16),
+                            ),
                           ),
                           const Spacer(),
-                          SizedBox(
-                            height: 15,
-                            width: size.width * 0.55,
-                            child: ListView.builder(
-                              itemCount: widget.order.menuList.length,
-                              shrinkWrap: true,
-                              itemBuilder: (_, index) {
-                                final item = widget.order.menuList[index];
-                                return Text(
-                                  '${(index + 1).toString()} - ${item.name}',
-                                  maxLines: 1,
-                                );
-                              },
+                          Flexible(
+                            flex: 2,
+                            fit: FlexFit.tight,
+                            child: SizedBox(
+                              width: size.width * 0.55,
+                              child: ListView.builder(
+                                itemCount: widget.order.menuList.length,
+                                shrinkWrap: true,
+                                itemBuilder: (_, index) {
+                                  final item = widget.order.menuList[index];
+                                  return Text(
+                                    '${(index + 1).toString()} - ${item.name}',
+                                    maxLines: 1,
+                                  );
+                                },
+                              ),
                             ),
                           )
                         ],
