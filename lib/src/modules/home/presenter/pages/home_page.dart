@@ -151,23 +151,26 @@ class _HomePageState extends State<HomePage> {
                                     fit: FlexFit.tight,
                                     child: Container(
                                       decoration: BoxDecoration(
-                                          color: Colors.blueAccent
-                                              .withOpacity(0.2),
+                                          color: Theme.of(context)
+                                              .primaryColor
+                                              .withOpacity(0.05),
                                           borderRadius:
                                               BorderRadius.circular(8)),
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: List.generate(
-                                          reportList.length,
-                                          (index) {
-                                            final e = reportList[index];
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: List.generate(
+                                            reportList.length,
+                                            (index) {
+                                              final e = reportList[index];
 
-                                            return HomeOrderReportSumReportTile(
-                                              report: e,
-                                              color: randomColorArray[index],
-                                            );
-                                          },
+                                              return HomeOrderReportSumReportTile(
+                                                report: e,
+                                                color: randomColorArray[index],
+                                              );
+                                            },
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -189,7 +192,9 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Colors.blueAccent.withOpacity(0.2),
+                            color: Theme.of(context)
+                                .primaryColor
+                                .withOpacity(0.05),
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: Column(
@@ -206,14 +211,14 @@ class _HomePageState extends State<HomePage> {
                                       fit: FlexFit.tight,
                                       child: Text('Item',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 16)),
+                                          style: TextStyle(fontSize: 15)),
                                     ),
                                     Flexible(
                                       flex: 1,
                                       fit: FlexFit.tight,
                                       child: Text('Quantidade',
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 16)),
+                                          textAlign: TextAlign.right,
+                                          style: TextStyle(fontSize: 15)),
                                     ),
                                   ],
                                 ),
