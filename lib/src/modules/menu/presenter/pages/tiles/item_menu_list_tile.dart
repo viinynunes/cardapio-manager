@@ -66,7 +66,7 @@ class ItemMenuListTile extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
-                          alignment: Alignment.bottomRight,
+                          alignment: Alignment.bottomCenter,
                           child: Text(
                             item.enabled ? 'ativado' : 'desativado',
                             style: TextStyle(
