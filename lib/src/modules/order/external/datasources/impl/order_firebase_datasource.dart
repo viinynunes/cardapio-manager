@@ -56,7 +56,7 @@ class OrderFirebaseDatasource implements IOrderDatasource {
         .get();
 
     for (var i in orderSnap.docs) {
-      orderList.add(_getOrderModel(i));
+      orderList.add(await _getOrderModel(i));
     }
 
     return orderList;
@@ -82,13 +82,17 @@ class OrderFirebaseDatasource implements IOrderDatasource {
     return orderList;
   }
 
-  _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) {
+  _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) async {
     Timestamp timestamp = snap.data()['registrationDate'];
     final registrationDate = DateTime.parse(timestamp.toDate().toString());
 
     List<ItemMenuModel> menuList = [];
     for (var menu in snap.data()['menuList']) {
-      menuList.add(ItemMenuModel.fromMap(map: menu));
+      final item = await FirebaseFirestore.instance
+          .collection('menu')
+          .where('id', isEqualTo: menu['id'])
+          .get();
+      menuList.add(ItemMenuModel.fromMap(map: item.docs.first.data()));
     }
 
     return OrderModel.fromMap(
