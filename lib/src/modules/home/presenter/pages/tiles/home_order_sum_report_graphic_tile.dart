@@ -1,8 +1,8 @@
 import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:flutter/material.dart';
 
-class HomeOrderReportSumReportTile extends StatelessWidget {
-  const HomeOrderReportSumReportTile(
+class HomeOrderReportSumReportGraphicTile extends StatelessWidget {
+  const HomeOrderReportSumReportGraphicTile(
       {Key? key, required this.report, required this.color})
       : super(key: key);
 

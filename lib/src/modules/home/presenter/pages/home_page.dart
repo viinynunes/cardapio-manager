@@ -2,7 +2,7 @@ import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/events/order_report_events.dart';
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/order_report_bloc.dart';
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/states/order_report_states.dart';
-import 'package:cardapio_manager/src/modules/home/presenter/pages/tiles/home_order_sum_report_tile.dart';
+import 'package:cardapio_manager/src/modules/home/presenter/pages/tiles/home_order_sum_report_graphic_tile.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -165,7 +165,7 @@ class _HomePageState extends State<HomePage> {
                                             (index) {
                                               final e = reportList[index];
 
-                                              return HomeOrderReportSumReportTile(
+                                              return HomeOrderReportSumReportGraphicTile(
                                                 report: e,
                                                 color: randomColorArray[index],
                                               );
