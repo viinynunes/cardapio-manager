@@ -1,4 +1,5 @@
 import 'package:cardapio_manager/src/styles/color_scheme.dart';
+import 'package:cardapio_manager/src/styles/text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -11,10 +12,18 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: colorSchemeLight,
+          textTheme: const TextTheme(
+            titleMedium: titleMediumLight,
+            labelMedium: labelMediumLight,
+          ),
         ),
         darkTheme: ThemeData(
           useMaterial3: true,
           colorScheme: colorSchemeDark,
+          textTheme: const TextTheme(
+            titleMedium: titleMediumDark,
+            labelMedium: labelMediumDark,
+          ),
         ),
         routeInformationParser: Modular.routeInformationParser,
         routerDelegate: Modular.routerDelegate);
