@@ -129,7 +129,8 @@ class _HomePageState extends State<HomePage> {
                                       child: PieChart(
                                         PieChartData(
                                             sectionsSpace: 5,
-                                            centerSpaceRadius: size.width * 0.1,
+                                            centerSpaceRadius:
+                                                size.width * 0.13,
                                             sections: List.generate(
                                                 reportList.length, (index) {
                                               final e = reportList[index];
