@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
 
     final randomColorArray = [
-      Theme.of(context).secondaryHeaderColor,
+      Theme.of(context).indicatorColor,
       Colors.purpleAccent,
       Colors.orange,
       Colors.redAccent,
@@ -56,7 +56,10 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
+            child: OutlinedButton(
+              style: ButtonStyle(
+                  side:
+                      MaterialStateProperty.all(const BorderSide(width: 0.1))),
               onPressed: () async {
                 final result = await showDatePicker(
                     context: context,
@@ -193,6 +196,7 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
+                            color: Theme.of(context).dialogBackgroundColor,
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: Column(
@@ -201,11 +205,9 @@ class _HomePageState extends State<HomePage> {
                                 flex: 1,
                                 fit: FlexFit.tight,
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
                                   children: const [
                                     Flexible(
-                                      flex: 3,
+                                      flex: 2,
                                       fit: FlexFit.tight,
                                       child: Text('Item',
                                           textAlign: TextAlign.center,
@@ -215,7 +217,7 @@ class _HomePageState extends State<HomePage> {
                                       flex: 1,
                                       fit: FlexFit.tight,
                                       child: Text('Quantidade',
-                                          textAlign: TextAlign.right,
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(fontSize: 15)),
                                     ),
                                   ],
@@ -228,10 +230,12 @@ class _HomePageState extends State<HomePage> {
                                 flex: 6,
                                 fit: FlexFit.tight,
                                 child: ListView.builder(
+                                  physics: const BouncingScrollPhysics(),
                                   itemCount: reportList.length,
                                   itemBuilder: (_, index) {
                                     final report = reportList[index];
-                                    return HomeOrderSumPrincipalListTile(report: report);
+                                    return HomeOrderSumPrincipalListTile(
+                                        report: report);
                                   },
                                 ),
                               ),
