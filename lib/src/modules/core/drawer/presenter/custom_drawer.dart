@@ -40,10 +40,6 @@ class _CustomDrawerState extends State<CustomDrawer> {
                   builder: (_, state) {
                     if (state is LoggedUserLoginSuccessState) {
                       return UserAccountsDrawerHeader(
-                        decoration: BoxDecoration(
-                          color:
-                              Theme.of(context).primaryColor.withOpacity(0.8),
-                        ),
                         accountName: Text(state.user.name),
                         accountEmail: Text(state.user.email),
                         currentAccountPicture: CircleAvatar(

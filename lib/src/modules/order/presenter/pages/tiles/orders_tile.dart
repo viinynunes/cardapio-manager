@@ -161,7 +161,8 @@ class _OrdersTileState extends State<OrdersTile> {
                                             color:
                                                 dropdownSelection == 'Cancelar'
                                                     ? Colors.red
-                                                    : Colors.black),
+                                                    : Theme.of(context)
+                                                        .indicatorColor),
                                       ),
                                     ),
                                   )

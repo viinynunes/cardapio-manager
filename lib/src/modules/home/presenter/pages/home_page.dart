@@ -2,6 +2,7 @@ import 'package:cardapio_manager/src/modules/core/drawer/presenter/custom_drawer
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/events/order_report_events.dart';
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/order_report_bloc.dart';
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/states/order_report_states.dart';
+import 'package:cardapio_manager/src/modules/home/presenter/pages/tiles/home_order_sum_principal_list_tile.dart';
 import 'package:cardapio_manager/src/modules/home/presenter/pages/tiles/home_order_sum_report_graphic_tile.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _HomePageState extends State<HomePage> {
     final size = MediaQuery.of(context).size;
 
     final randomColorArray = [
-      Theme.of(context).primaryColor,
+      Theme.of(context).secondaryHeaderColor,
       Colors.purpleAccent,
       Colors.orange,
       Colors.redAccent,
@@ -192,9 +193,6 @@ class _HomePageState extends State<HomePage> {
                         child: Container(
                           padding: const EdgeInsets.all(8),
                           decoration: BoxDecoration(
-                            color: Theme.of(context)
-                                .primaryColor
-                                .withOpacity(0.05),
                             borderRadius: BorderRadius.circular(24),
                           ),
                           child: Column(
@@ -233,34 +231,7 @@ class _HomePageState extends State<HomePage> {
                                   itemCount: reportList.length,
                                   itemBuilder: (_, index) {
                                     final report = reportList[index];
-                                    return Padding(
-                                      padding: const EdgeInsets.all(16),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Flexible(
-                                            flex: 3,
-                                            fit: FlexFit.tight,
-                                            child: Text(
-                                              report.itemName,
-                                              style:
-                                                  const TextStyle(fontSize: 16),
-                                            ),
-                                          ),
-                                          Flexible(
-                                            flex: 1,
-                                            fit: FlexFit.tight,
-                                            child: Text(
-                                                report.totalSumOrders
-                                                    .toString(),
-                                                textAlign: TextAlign.center,
-                                                style: const TextStyle(
-                                                    fontSize: 16)),
-                                          ),
-                                        ],
-                                      ),
-                                    );
+                                    return HomeOrderSumPrincipalListTile(report: report);
                                   },
                                 ),
                               ),
