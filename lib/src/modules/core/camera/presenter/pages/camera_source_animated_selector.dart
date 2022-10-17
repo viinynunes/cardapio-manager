@@ -37,7 +37,7 @@ class CameraSourceAnimatedSelector extends AnimatedWidget {
               child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    color: Theme.of(context).hintColor),
+                    color: Theme.of(context).primaryColor.withOpacity(0.5)),
                 child: Column(
                   children: [
                     Flexible(
@@ -71,12 +71,19 @@ class CameraSourceAnimatedSelector extends AnimatedWidget {
                 cameraSourceAnimation.value != 100 ? onForward() : onReverse();
               },
               style: ElevatedButton.styleFrom(
-                  backgroundColor: Theme.of(context).primaryColor.withOpacity(1)),
+                  backgroundColor:
+                      Theme.of(context).primaryColor.withOpacity(1)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: const [
-                  Text('Alterar Foto', style: TextStyle(color: Colors.white),),
-                  Icon(Icons.camera_alt_rounded, color: Colors.white,),
+                  Text(
+                    'Alterar Foto',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Icon(
+                    Icons.camera_alt_rounded,
+                    color: Colors.white,
+                  ),
                 ],
               ),
             ),
