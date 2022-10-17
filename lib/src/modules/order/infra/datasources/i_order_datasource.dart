@@ -1,3 +1,4 @@
+import '../../../core/reports/infra/models/order_sum_report_model.dart';
 import '../../domain/entities/enums/order_status_enum.dart';
 import '../models/order_model.dart';
 
@@ -8,5 +9,9 @@ abstract class IOrderDatasource {
 
   Future<List<OrderModel>> getOrdersByDay(DateTime day);
 
-  Future<List<OrderModel>> getOrdersByDayAndStatus(DateTime day, OrderStatus status);
+  Future<List<OrderModel>> getOrdersByDayAndStatus(
+      DateTime day, OrderStatus status);
+
+  Future<List<OrderModel>> getOrdersByDayAndReport(
+      DateTime day, OrderSumReportModel report);
 }

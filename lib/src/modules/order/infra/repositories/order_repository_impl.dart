@@ -1,5 +1,7 @@
+import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../core/reports/infra/models/order_sum_report_model.dart';
 import '../../domain/entities/enums/order_status_enum.dart';
 import '../../domain/entities/order.dart' as order;
 import '../../domain/repositories/i_order_repository.dart';
@@ -55,10 +57,26 @@ class OrderRepositoryImpl implements IOrderRepository {
   }
 
   @override
-  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(DateTime day,
-      OrderStatus status) async {
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(
+      DateTime day, OrderStatus status) async {
     try {
-      final result = await _orderDatasource.getOrdersByDayAndStatus(day, status);
+      final result =
+          await _orderDatasource.getOrdersByDayAndStatus(day, status);
+
+      return Right(result);
+    } on OrderError catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(OrderError(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndReport(
+      DateTime day, OrderSumReport report) async {
+    try {
+      final result = await _orderDatasource.getOrdersByDayAndReport(
+          day, OrderSumReportModel.fromOrderSumReport(orderSumReport: report));
 
       return Right(result);
     } on OrderError catch (e) {

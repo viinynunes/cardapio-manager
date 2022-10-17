@@ -13,4 +13,11 @@ class OrderSumReportModel extends OrderSumReport {
             itemID: map['itemID'],
             totalSumOrders: map['totalSumOrders'],
             itemName: map['itemName']);
+
+  OrderSumReportModel.fromOrderSumReport(
+      {required OrderSumReport orderSumReport})
+      : super(
+            itemID: orderSumReport.itemID,
+            itemName: orderSumReport.itemName,
+            totalSumOrders: orderSumReport.totalSumOrders);
 }

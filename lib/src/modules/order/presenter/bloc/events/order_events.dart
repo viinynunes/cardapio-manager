@@ -1,3 +1,5 @@
+import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
+
 import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../domain/entities/order.dart';
 
@@ -9,6 +11,13 @@ class GetOrdersByDayEvent extends OrderEvents {
   final DateTime day;
 
   GetOrdersByDayEvent(this.day);
+}
+
+class GetOrdersByDayAndReportEvent extends OrderEvents {
+  final DateTime day;
+  final OrderSumReport report;
+
+  GetOrdersByDayAndReportEvent(this.day, this.report);
 }
 
 class FilterOrderListByTextEvent implements OrderEvents {

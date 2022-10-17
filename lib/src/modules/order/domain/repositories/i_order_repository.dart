@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../errors/order_errors.dart';
@@ -12,5 +13,9 @@ abstract class IOrderRepository {
 
   Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day);
 
-  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(DateTime day, OrderStatus status);
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(
+      DateTime day, OrderStatus status);
+
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndReport(
+      DateTime day, OrderSumReport report);
 }

@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/client/infra/models/client_model.dart';
@@ -77,6 +78,26 @@ class OrderFirebaseDatasource implements IOrderDatasource {
 
     for (var i in orderSnap.docs) {
       orderList.add(_getOrderModel(i));
+    }
+
+    return orderList;
+  }
+
+  @override
+  Future<List<OrderModel>> getOrdersByDayAndReport(
+      DateTime day, OrderSumReport report) async {
+    List<OrderModel> orderList = [];
+    day = DateTime(day.year, day.month, day.day);
+
+    final orderSnap =
+        await _orderCollection.where('registrationDate', isEqualTo: day).get();
+
+    for (var item in orderSnap.docs) {
+      for (var menuItem in item.get('menuList')) {
+        if (menuItem['id'] == report.itemID) {
+          orderList.add(await _getOrderModel(item));
+        }
+      }
     }
 
     return orderList;

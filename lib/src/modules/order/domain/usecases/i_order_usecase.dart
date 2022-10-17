@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:cardapio_manager/src/modules/order/domain/entities/enums/order_status_enum.dart';
 import 'package:dartz/dartz.dart';
 
@@ -12,5 +13,9 @@ abstract class IOrderUsecase {
 
   Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day);
 
-  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(DateTime day, OrderStatus status);
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(
+      DateTime day, OrderStatus status);
+
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndReport(
+      DateTime day, OrderSumReport report);
 }

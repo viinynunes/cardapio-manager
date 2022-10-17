@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:cardapio_manager/src/modules/order/domain/entities/enums/order_status_enum.dart';
 import 'package:dartz/dartz.dart';
 
@@ -12,7 +13,8 @@ class OrderUsecaseImpl implements IOrderUsecase {
   OrderUsecaseImpl(this._repository);
 
   @override
-  Future<Either<OrderError, order.Order>> changeOrderStatus(order.Order order, OrderStatus status) async {
+  Future<Either<OrderError, order.Order>> changeOrderStatus(
+      order.Order order, OrderStatus status) async {
     if (order.status.name == 'closed') {
       return Left(OrderError('Order Already closed'));
     }
@@ -34,12 +36,20 @@ class OrderUsecaseImpl implements IOrderUsecase {
   }
 
   @override
-  Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day) async {
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDay(
+      DateTime day) async {
     return _repository.getOrdersByDay(day);
   }
 
   @override
-  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(DateTime day, OrderStatus status) {
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(
+      DateTime day, OrderStatus status) {
     return _repository.getOrdersByDayAndStatus(day, status);
+  }
+
+  @override
+  Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndReport(
+      DateTime day, OrderSumReport report) async {
+    return _repository.getOrdersByDayAndReport(day, report);
   }
 }
