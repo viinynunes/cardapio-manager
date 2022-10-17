@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
           textTheme: const TextTheme(
             titleMedium: titleMediumLight,
             labelMedium: labelMediumLight,
+            bodyMedium: bodyMediumLight
           ),
         ),
         darkTheme: ThemeData(
@@ -23,6 +24,7 @@ class MainApp extends StatelessWidget {
           textTheme: const TextTheme(
             titleMedium: titleMediumDark,
             labelMedium: labelMediumDark,
+            bodyMedium: bodyMediumDark,
           ),
         ),
         routeInformationParser: Modular.routeInformationParser,
