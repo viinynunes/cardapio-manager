@@ -143,6 +143,9 @@ class _HomePageState extends State<HomePage> {
                                               return PieChartSectionData(
                                                 title:
                                                     '${percentageTitle.toStringAsFixed(0)}%',
+                                                titleStyle: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
                                                 value:
                                                     e.totalSumOrders.toDouble(),
                                                 color: randomColorArray[index],
@@ -206,20 +209,33 @@ class _HomePageState extends State<HomePage> {
                                 flex: 1,
                                 fit: FlexFit.tight,
                                 child: Row(
-                                  children: const [
+                                  children: [
                                     Flexible(
-                                      flex: 2,
+                                      flex: 3,
                                       fit: FlexFit.tight,
                                       child: Text('Item',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 15)),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium),
                                     ),
                                     Flexible(
                                       flex: 1,
                                       fit: FlexFit.tight,
-                                      child: Text('Quantidade',
+                                      child: Text('Total',
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 15)),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium),
+                                    ),
+                                    Flexible(
+                                      flex: 1,
+                                      fit: FlexFit.tight,
+                                      child: Text('',
+                                          textAlign: TextAlign.center,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .labelMedium),
                                     ),
                                   ],
                                 ),
@@ -236,7 +252,13 @@ class _HomePageState extends State<HomePage> {
                                   itemBuilder: (_, index) {
                                     final report = reportList[index];
                                     return HomeOrderSumPrincipalListTile(
-                                        report: report);
+                                      report: report,
+                                      onTap: () {
+                                        Modular.to.pushNamed(
+                                            '/order/home-order-details/',
+                                            arguments: [report]);
+                                      },
+                                    );
                                   },
                                 ),
                               ),
