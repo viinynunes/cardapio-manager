@@ -6,6 +6,8 @@ import 'package:cardapio_manager/src/modules/order/presenter/pages/orders_page.d
 import 'package:cardapio_manager/src/modules/order/service/impl/order_service_impl.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../order/presenter/pages/home_order_details_page.dart';
+
 class OrderModule extends Module {
   @override
   List<Bind> get binds => [
@@ -19,5 +21,9 @@ class OrderModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (_, __) => const OrdersPage()),
+        ChildRoute('/home-order-details/',
+            child: (_, args) => HomeOrderDetailsPage(
+                  report: args.data[0],
+                )),
       ];
 }

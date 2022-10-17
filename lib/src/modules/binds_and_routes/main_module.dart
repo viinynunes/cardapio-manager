@@ -16,12 +16,12 @@ import 'package:cardapio_manager/src/modules/core/reports/domain/usecases/impl/o
 import 'package:cardapio_manager/src/modules/core/reports/external/order_report_firebase_datasource_impl.dart';
 import 'package:cardapio_manager/src/modules/core/reports/infra/repositories/order_report_repository_impl.dart';
 import 'package:cardapio_manager/src/modules/core/reports/presenter/bloc/order_report_bloc.dart';
-import 'package:cardapio_manager/src/modules/home/presenter/pages/home_page.dart';
 import 'package:cardapio_manager/src/modules/spash/presenter/pages/initial_splash.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 import '../core/weekday/domain/usecases/impl/days_of_week_usecase_impl.dart';
 import '../core/weekday/presenter/bloc/days_of_week_bloc.dart';
+import 'home_module.dart';
 
 class MainModule extends Module {
   @override
@@ -55,7 +55,7 @@ class MainModule extends Module {
   @override
   List<ModularRoute> get routes => [
         ChildRoute('/', child: (_, __) => const InitialSplash()),
-        ChildRoute('/home/', child: (_, __) => const HomePage()),
+        ModuleRoute('/home/', module: HomeModule()),
         ModuleRoute('/menu/', module: ItemMenuModule()),
         ModuleRoute('/auth/', module: LoginModule()),
         ModuleRoute('/order/', module: OrderModule()),
