@@ -84,6 +84,7 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                           borderSide: const BorderSide(width: 0.01),
                         ),
                       ),
+                      style: Theme.of(context).textTheme.bodyMedium,
                       onChanged: (searchText) {
                         if (searchText.isEmpty) {
                           orderBloc.add(GetOrdersByDayEvent(day));

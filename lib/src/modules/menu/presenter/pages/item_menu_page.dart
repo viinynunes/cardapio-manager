@@ -115,6 +115,7 @@ class _ItemMenuPageState extends State<ItemMenuPage>
                       labelText: 'Nome',
                       hintText: 'Nome',
                     ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                     validator: (text) {
                       if (text!.length < 2) {
                         return 'Nome Inválido';
@@ -126,18 +127,17 @@ class _ItemMenuPageState extends State<ItemMenuPage>
                   SizedBox(
                     height: size.height * 0.02,
                   ),
-                  SizedBox(
-                    child: TextFormField(
-                      controller: descriptionController,
-                      maxLines: 3,
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        labelText: 'Descrição',
-                        hintText: 'Descrição',
+                  TextFormField(
+                    controller: descriptionController,
+                    maxLines: 3,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(8),
                       ),
+                      labelText: 'Descrição',
+                      hintText: 'Descrição',
                     ),
+                    style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   SizedBox(
                     height: size.height * 0.02,

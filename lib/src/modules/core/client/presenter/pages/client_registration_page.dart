@@ -92,6 +92,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                         label: const Text('Nome'),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
+                    style: Theme.of(context).textTheme.bodyMedium,
                     textInputAction: TextInputAction.next,
                     validator: (name) {
                       if (name!.length < 2) {
@@ -111,6 +112,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                         label: const Text('Email'),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
+                    style: Theme.of(context).textTheme.bodyMedium,
                     textInputAction: TextInputAction.next,
                     keyboardType: TextInputType.emailAddress,
                     validator: (email) {
@@ -130,6 +132,7 @@ class _ClientRegistrationPageState extends State<ClientRegistrationPage> {
                         label: const Text('Telefone'),
                         border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8))),
+                    style: Theme.of(context).textTheme.bodyMedium,
                     keyboardType: TextInputType.phone,
                     maxLength: 11,
                     validator: (phone) {

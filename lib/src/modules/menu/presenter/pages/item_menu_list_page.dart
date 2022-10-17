@@ -64,7 +64,7 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
                   hintText: ' Pesquisar',
                   hintStyle: TextStyle(color: Colors.white),
                 ),
-                style: const TextStyle(color: Colors.white),
+                style: Theme.of(context).textTheme.bodyMedium,
                 onChanged: (text) {
                   itemBloc.add(FilterItemMenuListEvent(
                       searchText: text, menuList: itemMenuList));
@@ -93,16 +93,19 @@ class _ItemMenuListPageState extends State<ItemMenuListPage> {
               return [
                 PopupMenuItem(
                   onTap: () => itemBloc.add(GetItemMenuListEvent(weekday)),
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
                   child: const Text('Todos'),
                 ),
                 PopupMenuItem(
                   onTap: () => itemBloc.add(GetItemMenuListByStatusEvent(
                       enabled: true, weekday: weekday)),
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
                   child: const Text('Ativado'),
                 ),
                 PopupMenuItem(
                   onTap: () => itemBloc.add(GetItemMenuListByStatusEvent(
                       enabled: false, weekday: weekday)),
+                  textStyle: Theme.of(context).textTheme.bodyMedium,
                   child: const Text('Desativado'),
                 ),
               ];
