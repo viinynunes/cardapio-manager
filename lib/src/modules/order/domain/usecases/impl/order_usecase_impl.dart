@@ -52,4 +52,11 @@ class OrderUsecaseImpl implements IOrderUsecase {
       DateTime day, OrderSumReport report) async {
     return _repository.getOrdersByDayAndReport(day, report);
   }
+
+  @override
+  Future<Either<OrderError, List<order.Order>>>
+      getOrdersByDayAndStatusAndReport(
+          DateTime day, OrderStatus status, OrderSumReport report) async {
+    return _repository.getOrdersByDayAndStatusAndReport(day, status, report);
+  }
 }

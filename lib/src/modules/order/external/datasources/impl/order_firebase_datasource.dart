@@ -1,7 +1,7 @@
-import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../../core/client/infra/models/client_model.dart';
+import '../../../../core/reports/infra/models/order_sum_report_model.dart';
 import '../../../../menu/infra/models/item_menu_model.dart';
 import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../infra/datasources/i_order_datasource.dart';
@@ -84,8 +84,32 @@ class OrderFirebaseDatasource implements IOrderDatasource {
   }
 
   @override
+  Future<List<OrderModel>> getOrdersByDayAndStatusAndReport(
+      DateTime day, OrderStatus status, OrderSumReportModel report) async {
+    List<OrderModel> orderList = [];
+
+    final filteredDay = DateTime(day.year, day.month, day.day);
+
+    final orderSnap = await _orderCollection
+        .where('registrationDate', isEqualTo: filteredDay)
+        .where('status', isEqualTo: status.name)
+        .orderBy('number', descending: false)
+        .get();
+
+    for (var item in orderSnap.docs) {
+      for (var menuItem in item.get('menuList')) {
+        if (menuItem['id'] == report.itemID) {
+          orderList.add(await _getOrderModel(item));
+        }
+      }
+    }
+
+    return orderList;
+  }
+
+  @override
   Future<List<OrderModel>> getOrdersByDayAndReport(
-      DateTime day, OrderSumReport report) async {
+      DateTime day, OrderSumReportModel report) async {
     List<OrderModel> orderList = [];
     day = DateTime(day.year, day.month, day.day);
 
@@ -103,7 +127,8 @@ class OrderFirebaseDatasource implements IOrderDatasource {
     return orderList;
   }
 
-  Future<OrderModel> _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) async {
+  Future<OrderModel> _getOrderModel(
+      QueryDocumentSnapshot<Map<String, dynamic>> snap) async {
     Timestamp timestamp = snap.data()['registrationDate'];
     final registrationDate = DateTime.parse(timestamp.toDate().toString());
 

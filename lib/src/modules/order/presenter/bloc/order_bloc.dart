@@ -59,8 +59,18 @@ class OrderBloc extends Bloc<OrderEvents, OrderStates> {
       final result =
           await orderUsecase.getOrdersByDayAndReport(event.day, event.report);
 
-      result.fold(
-          (l) => emit(OrderErrorState(l)), (r) => emit(OrderGetListSuccessState(r)));
+      result.fold((l) => emit(OrderErrorState(l)),
+          (r) => emit(OrderGetListSuccessState(r)));
+    });
+
+    on<GetOrderListByDayAndStatusAndItemEvent>((event, emit) async {
+      emit(OrderLoadingState());
+
+      final result = await orderUsecase.getOrdersByDayAndStatusAndReport(
+          event.day, event.status, event.report);
+
+      result.fold((l) => emit(OrderErrorState(l)),
+          (r) => emit(OrderGetListSuccessState(r)));
     });
   }
 }

@@ -85,4 +85,22 @@ class OrderRepositoryImpl implements IOrderRepository {
       return Left(OrderError(e.toString()));
     }
   }
+
+  @override
+  Future<Either<OrderError, List<order.Order>>>
+      getOrdersByDayAndStatusAndReport(
+          DateTime day, OrderStatus status, OrderSumReport report) async {
+    try {
+      final result = await _orderDatasource.getOrdersByDayAndStatusAndReport(
+          day,
+          status,
+          OrderSumReportModel.fromOrderSumReport(orderSumReport: report));
+
+      return Right(result);
+    } on OrderError catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(OrderError(e.toString()));
+    }
+  }
 }

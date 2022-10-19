@@ -16,6 +16,10 @@ abstract class IOrderUsecase {
   Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndStatus(
       DateTime day, OrderStatus status);
 
+  Future<Either<OrderError, List<order.Order>>>
+      getOrdersByDayAndStatusAndReport(
+          DateTime day, OrderStatus status, OrderSumReport report);
+
   Future<Either<OrderError, List<order.Order>>> getOrdersByDayAndReport(
       DateTime day, OrderSumReport report);
 }

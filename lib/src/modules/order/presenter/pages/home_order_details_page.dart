@@ -1,4 +1,5 @@
 import 'package:cardapio_manager/src/modules/core/reports/domain/entities/order_sum_report.dart';
+import 'package:cardapio_manager/src/modules/order/domain/entities/enums/order_status_enum.dart';
 import 'package:cardapio_manager/src/modules/order/presenter/bloc/events/order_events.dart';
 import 'package:cardapio_manager/src/modules/order/presenter/bloc/order_bloc.dart';
 import 'package:cardapio_manager/src/modules/order/presenter/bloc/states/order_states.dart';
@@ -26,7 +27,8 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
   void initState() {
     super.initState();
 
-    orderBloc.add(GetOrdersByDayAndReportEvent(DateTime.now(), widget.report));
+    orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+        DateTime.now(), OrderStatus.open, widget.report));
   }
 
   @override
@@ -78,18 +80,54 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     shrinkWrap: true,
-                    children: const [
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Center(child: Text('Aberto')),
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+                              widget.selectedDay,
+                              OrderStatus.open,
+                              widget.report));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Center(child: Text('Aberto')),
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Center(child: Text('Confirmado')),
+                      GestureDetector(
+                        onTap: () {
+                          orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+                              widget.selectedDay,
+                              OrderStatus.confirmed,
+                              widget.report));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Center(child: Text('Confirmado')),
+                        ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Center(child: Text('Cancelado')),
+                      GestureDetector(
+                        onTap: () {
+                          orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+                              widget.selectedDay,
+                              OrderStatus.cancelled,
+                              widget.report));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Center(child: Text('Cancelado')),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+                              widget.selectedDay,
+                              OrderStatus.closed,
+                              widget.report));
+                        },
+                        child: const Padding(
+                          padding: EdgeInsets.only(left: 10, right: 10),
+                          child: Center(child: Text('Fechado')),
+                        ),
                       ),
                     ],
                   ),

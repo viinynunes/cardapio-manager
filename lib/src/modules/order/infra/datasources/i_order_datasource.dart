@@ -12,6 +12,9 @@ abstract class IOrderDatasource {
   Future<List<OrderModel>> getOrdersByDayAndStatus(
       DateTime day, OrderStatus status);
 
+  Future<List<OrderModel>> getOrdersByDayAndStatusAndReport(
+      DateTime day, OrderStatus status, OrderSumReportModel report);
+
   Future<List<OrderModel>> getOrdersByDayAndReport(
       DateTime day, OrderSumReportModel report);
 }

@@ -34,6 +34,14 @@ class FilterOrderListByStatusEvent implements OrderEvents {
   FilterOrderListByStatusEvent(this.day, this.status);
 }
 
+class GetOrderListByDayAndStatusAndItemEvent implements OrderEvents {
+  final DateTime day;
+  final OrderStatus status;
+  final OrderSumReport report;
+
+  GetOrderListByDayAndStatusAndItemEvent(this.day, this.status, this.report);
+}
+
 class ChangeOrderStatusEvent extends OrderEvents {
   final Order order;
   final OrderStatus status;
