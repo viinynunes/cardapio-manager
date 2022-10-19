@@ -39,7 +39,7 @@ class OrderFirebaseDatasource implements IOrderDatasource {
         .get();
 
     for (var i in orderSnap.docs) {
-      orderList.add(_getOrderModel(i));
+      orderList.add(await _getOrderModel(i));
     }
 
     return orderList;
@@ -77,7 +77,7 @@ class OrderFirebaseDatasource implements IOrderDatasource {
         .get();
 
     for (var i in orderSnap.docs) {
-      orderList.add(_getOrderModel(i));
+      orderList.add(await _getOrderModel(i));
     }
 
     return orderList;
@@ -103,7 +103,7 @@ class OrderFirebaseDatasource implements IOrderDatasource {
     return orderList;
   }
 
-  _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) async {
+  Future<OrderModel> _getOrderModel(QueryDocumentSnapshot<Map<String, dynamic>> snap) async {
     Timestamp timestamp = snap.data()['registrationDate'];
     final registrationDate = DateTime.parse(timestamp.toDate().toString());
 
