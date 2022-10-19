@@ -66,8 +66,8 @@ class _OrdersTileState extends State<OrdersTile> {
                         child: Row(
                           children: [
                             Text(
-                              'Número do pedido: ',
-                              style: _getTextStyle(fontSize: 20),
+                              'Pedido: ',
+                              style: _getTextStyle(fontSize: 18),
                             ),
                             Text(
                               widget.order.number.toString(),
@@ -124,7 +124,7 @@ class _OrdersTileState extends State<OrdersTile> {
                             fit: FlexFit.tight,
                             child: Text(
                               'Items: ${widget.order.menuList.length.toString()}',
-                              style: _getTextStyle(fontSize: 16),
+                              style: _getTextStyle(fontSize: 18),
                             ),
                           ),
                           Flexible(
