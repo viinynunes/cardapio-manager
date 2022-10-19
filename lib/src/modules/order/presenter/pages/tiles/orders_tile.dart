@@ -9,11 +9,13 @@ class OrdersTile extends StatefulWidget {
       {Key? key,
       required this.order,
       required this.onTap,
-      required this.selectedDay})
+      required this.selectedDay,
+      required this.whenActionCompleted})
       : super(key: key);
 
   final Order order;
   final VoidCallback onTap;
+  final VoidCallback whenActionCompleted;
   final DateTime selectedDay;
 
   @override
@@ -34,6 +36,7 @@ class _OrdersTileState extends State<OrdersTile> {
                 action: action,
                 order: order,
                 selectedDay: widget.selectedDay,
+                whenActionCompleted: widget.whenActionCompleted,
               ));
     }
 

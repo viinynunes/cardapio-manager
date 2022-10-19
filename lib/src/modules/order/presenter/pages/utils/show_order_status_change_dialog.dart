@@ -11,12 +11,14 @@ class ShowOrderStatusChangeDialog extends StatelessWidget {
       {Key? key,
       required this.action,
       required this.order,
-      required this.selectedDay})
+      required this.selectedDay,
+      required this.whenActionCompleted})
       : super(key: key);
 
   final String action;
   final Order order;
   final DateTime selectedDay;
+  final VoidCallback whenActionCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +44,7 @@ class ShowOrderStatusChangeDialog extends StatelessWidget {
                     ? OrderStatus.cancelled
                     : OrderStatus.confirmed,
               ));
-              bloc.add(GetOrdersByDayEvent(selectedDay));
+              whenActionCompleted();
               Modular.to.pop();
             },
             child: const Text('Sim', style: TextStyle(fontSize: 20)))

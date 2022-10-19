@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
+import '../../bloc/events/order_events.dart';
 import '../../bloc/order_bloc.dart';
 import '../../bloc/states/order_states.dart';
 import '../tiles/orders_tile.dart';
@@ -52,6 +53,8 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                     order: order,
                     onTap: () {},
                     selectedDay: widget.day,
+                    whenActionCompleted: () =>
+                        bloc.add(GetOrdersByDayEvent(widget.day)),
                   );
                 });
           }
