@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../domain/entities/order.dart';
+import '../../bloc/events/order_events.dart';
+import '../../bloc/order_bloc.dart';
 
 class OrdersTile extends StatefulWidget {
   const OrdersTile(
       {Key? key,
       required this.order,
       required this.onTap,
-      required this.onCancel,
-      required this.onConfirm})
+      required this.selectedDay})
       : super(key: key);
 
   final Order order;
   final VoidCallback onTap;
-  final VoidCallback onCancel;
-  final VoidCallback onConfirm;
+  final DateTime selectedDay;
 
   @override
   State<OrdersTile> createState() => _OrdersTileState();
@@ -23,10 +24,42 @@ class OrdersTile extends StatefulWidget {
 
 class _OrdersTileState extends State<OrdersTile> {
   String dropdownValue = dropDownButtonItems.first;
+  final bloc = Modular.get<OrderBloc>();
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    showConfirmationDialog(String action, Order order) async {
+      await showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+                title: Center(child: Text('Deseja $action o pedido ?')),
+                actionsAlignment: MainAxisAlignment.spaceEvenly,
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Modular.to.pop();
+                      },
+                      child: const Text(
+                        'Não',
+                        style: TextStyle(fontSize: 20),
+                      )),
+                  TextButton(
+                      onPressed: () {
+                        bloc.add(ChangeOrderStatusEvent(
+                          order,
+                          action == 'cancelar'
+                              ? OrderStatus.cancelled
+                              : OrderStatus.confirmed,
+                        ));
+                        bloc.add(GetOrdersByDayEvent(widget.selectedDay));
+                        Modular.to.pop();
+                      },
+                      child: const Text('Sim', style: TextStyle(fontSize: 20)))
+                ],
+              ));
+    }
 
     return Container(
       height: size.height * 0.28,
@@ -140,13 +173,15 @@ class _OrdersTileState extends State<OrdersTile> {
                           ? DropdownButton<String>(
                               elevation: 10,
                               value: dropdownValue,
-                              onChanged: (item) {
+                              onChanged: (item) async {
                                 item == 'Cancelar'
-                                    ? widget.onCancel()
-                                    : widget.onConfirm();
-                                setState(() {
+                                    ? await showConfirmationDialog(
+                                        'cancelar', widget.order)
+                                    : await showConfirmationDialog(
+                                        'confirmar', widget.order);
+                                /*setState(() {
                                   dropdownValue = item!;
-                                });
+                                });*/
                               },
                               style: _getTextStyle(
                                   fontSize: 18, color: Colors.black),

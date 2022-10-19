@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-import '../../../domain/entities/enums/order_status_enum.dart';
-import '../../bloc/events/order_events.dart';
 import '../../bloc/order_bloc.dart';
 import '../../bloc/states/order_states.dart';
 import '../tiles/orders_tile.dart';
@@ -30,35 +28,6 @@ class _OrderListWidgetState extends State<OrderListWidget> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
 
-    showConfirmationDialog(String action, Order order) {
-      return AlertDialog(
-        title: Center(child: Text('Deseja $action o pedido ?')),
-        actionsAlignment: MainAxisAlignment.spaceEvenly,
-        actions: [
-          TextButton(
-              onPressed: () {
-                Modular.to.pop();
-              },
-              child: const Text(
-                'Não',
-                style: TextStyle(fontSize: 20),
-              )),
-          TextButton(
-              onPressed: () {
-                bloc.add(ChangeOrderStatusEvent(
-                  order,
-                  action == 'cancelar'
-                      ? OrderStatus.cancelled
-                      : OrderStatus.confirmed,
-                ));
-                bloc.add(GetOrdersByDayEvent(widget.day));
-                Modular.to.pop();
-              },
-              child: const Text('Sim', style: TextStyle(fontSize: 20)))
-        ],
-      );
-    }
-
     return SizedBox(
       height: size.height * 0.75,
       width: size.width,
@@ -82,20 +51,7 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   return OrdersTile(
                     order: order,
                     onTap: () {},
-                    onConfirm: () async {
-                      await showDialog(
-                          context: context,
-                          builder: (_) {
-                            return showConfirmationDialog('confirmar', order);
-                          });
-                    },
-                    onCancel: () async {
-                      await showDialog(
-                          context: context,
-                          builder: (_) {
-                            return showConfirmationDialog('cancelar', order);
-                          });
-                    },
+                    selectedDay: widget.day,
                   );
                 });
           }
