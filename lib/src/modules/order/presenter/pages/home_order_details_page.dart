@@ -23,6 +23,8 @@ class HomeOrderDetailsPage extends StatefulWidget {
 class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
   final orderBloc = Modular.get<OrderBloc>();
 
+  OrderStatus selectedStatus = OrderStatus.open;
+
   @override
   void initState() {
     super.initState();
@@ -83,50 +85,84 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          setState(() => selectedStatus = OrderStatus.open);
                           orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
                               widget.selectedDay,
                               OrderStatus.open,
                               widget.report));
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Center(child: Text('Aberto')),
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              color: selectedStatus == OrderStatus.open
+                                  ? Theme.of(context)
+                                      .indicatorColor
+                                      .withOpacity(0.2)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(32)),
+                          child: const Center(child: Text('Aberto')),
                         ),
                       ),
                       GestureDetector(
                         onTap: () {
+                          setState(
+                              () => selectedStatus = OrderStatus.confirmed);
                           orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
                               widget.selectedDay,
                               OrderStatus.confirmed,
                               widget.report));
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Center(child: Text('Confirmado')),
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              color: selectedStatus == OrderStatus.confirmed
+                                  ? Theme.of(context)
+                                      .indicatorColor
+                                      .withOpacity(0.2)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(32)),
+                          child: const Center(child: Text('Confirmado')),
                         ),
                       ),
                       GestureDetector(
                         onTap: () {
-                          orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
-                              widget.selectedDay,
-                              OrderStatus.cancelled,
-                              widget.report));
-                        },
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Center(child: Text('Cancelado')),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
+                          setState(() => selectedStatus = OrderStatus.closed);
                           orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
                               widget.selectedDay,
                               OrderStatus.closed,
                               widget.report));
                         },
-                        child: const Padding(
-                          padding: EdgeInsets.only(left: 10, right: 10),
-                          child: Center(child: Text('Fechado')),
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              color: selectedStatus == OrderStatus.closed
+                                  ? Theme.of(context)
+                                      .indicatorColor
+                                      .withOpacity(0.2)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(32)),
+                          child: const Center(child: Text('Fechado')),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(
+                              () => selectedStatus = OrderStatus.cancelled);
+                          orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+                              widget.selectedDay,
+                              OrderStatus.cancelled,
+                              widget.report));
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.only(left: 10, right: 10),
+                          decoration: BoxDecoration(
+                              color: selectedStatus == OrderStatus.cancelled
+                                  ? Theme.of(context)
+                                      .indicatorColor
+                                      .withOpacity(0.2)
+                                  : Colors.transparent,
+                              borderRadius: BorderRadius.circular(32)),
+                          child: const Center(child: Text('Cancelado')),
                         ),
                       ),
                     ],
@@ -155,17 +191,36 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
                   if (state is OrderGetListSuccessState) {
                     final orderList = state.orderList;
 
-                    return ListView.builder(
-                      itemCount: orderList.length,
-                      itemBuilder: (_, index) {
-                        final order = orderList[index];
-                        return OrdersTile(
-                          order: order,
-                          onTap: () {},
-                          selectedDay: widget.selectedDay,
-                        );
-                      },
-                    );
+                    return orderList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: orderList.length,
+                            itemBuilder: (_, index) {
+                              final order = orderList[index];
+                              return OrdersTile(
+                                order: order,
+                                onTap: () {},
+                                selectedDay: widget.selectedDay,
+                                whenActionCompleted: () =>
+                                    GetOrderListByDayAndStatusAndItemEvent(
+                                        widget.selectedDay,
+                                        selectedStatus,
+                                        widget.report),
+                              );
+                            },
+                          )
+                        : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.shopping_cart_outlined,
+                                size: 100,
+                              ),
+                              Text(
+                                'Nenhum Pedido Encontrado',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              )
+                            ],
+                          );
                   }
 
                   return Container();
