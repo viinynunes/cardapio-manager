@@ -1,10 +1,8 @@
+import 'package:cardapio_manager/src/modules/order/presenter/pages/utils/show_order_status_change_dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 
 import '../../../domain/entities/enums/order_status_enum.dart';
 import '../../../domain/entities/order.dart';
-import '../../bloc/events/order_events.dart';
-import '../../bloc/order_bloc.dart';
 
 class OrdersTile extends StatefulWidget {
   const OrdersTile(
@@ -24,7 +22,6 @@ class OrdersTile extends StatefulWidget {
 
 class _OrdersTileState extends State<OrdersTile> {
   String dropdownValue = dropDownButtonItems.first;
-  final bloc = Modular.get<OrderBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,31 +30,10 @@ class _OrdersTileState extends State<OrdersTile> {
     showConfirmationDialog(String action, Order order) async {
       await showDialog(
           context: context,
-          builder: (_) => AlertDialog(
-                title: Center(child: Text('Deseja $action o pedido ?')),
-                actionsAlignment: MainAxisAlignment.spaceEvenly,
-                actions: [
-                  TextButton(
-                      onPressed: () {
-                        Modular.to.pop();
-                      },
-                      child: const Text(
-                        'Não',
-                        style: TextStyle(fontSize: 20),
-                      )),
-                  TextButton(
-                      onPressed: () {
-                        bloc.add(ChangeOrderStatusEvent(
-                          order,
-                          action == 'cancelar'
-                              ? OrderStatus.cancelled
-                              : OrderStatus.confirmed,
-                        ));
-                        bloc.add(GetOrdersByDayEvent(widget.selectedDay));
-                        Modular.to.pop();
-                      },
-                      child: const Text('Sim', style: TextStyle(fontSize: 20)))
-                ],
+          builder: (_) => ShowOrderStatusChangeDialog(
+                action: action,
+                order: order,
+                selectedDay: widget.selectedDay,
               ));
     }
 
