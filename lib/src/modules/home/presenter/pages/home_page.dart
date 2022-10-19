@@ -256,7 +256,7 @@ class _HomePageState extends State<HomePage> {
                                       onTap: () {
                                         Modular.to.pushNamed(
                                             '/order/home-order-details/',
-                                            arguments: [report]);
+                                            arguments: [report, selectedDay]);
                                       },
                                     );
                                   },

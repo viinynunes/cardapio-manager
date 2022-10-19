@@ -23,7 +23,7 @@ class OrderModule extends Module {
         ChildRoute('/', child: (_, __) => const OrdersPage()),
         ChildRoute('/home-order-details/',
             child: (_, args) => HomeOrderDetailsPage(
-                  report: args.data[0],
+                  report: args.data[0], selectedDay: args.data[1],
                 )),
       ];
 }
