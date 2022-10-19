@@ -38,7 +38,7 @@ class _OrdersTileState extends State<OrdersTile> {
     }
 
     return Container(
-      height: size.height * 0.28,
+      height: size.height * 0.27,
       padding: const EdgeInsets.only(right: 8, left: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
@@ -124,7 +124,6 @@ class _OrdersTileState extends State<OrdersTile> {
                               style: _getTextStyle(fontSize: 16),
                             ),
                           ),
-                          const Spacer(),
                           Flexible(
                             flex: 2,
                             fit: FlexFit.tight,
@@ -138,6 +137,7 @@ class _OrdersTileState extends State<OrdersTile> {
                                   return Text(
                                     '${(index + 1).toString()} - ${item.name}',
                                     maxLines: 1,
+                                    style: const TextStyle(fontSize: 12),
                                   );
                                 },
                               ),
