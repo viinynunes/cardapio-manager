@@ -48,6 +48,7 @@ dependencies:
   string_validator: any
   shared_preferences: any
   fl_chart: any
+  custom_floating_action_button: any
 
 dev_dependencies:
   flutter_test:
