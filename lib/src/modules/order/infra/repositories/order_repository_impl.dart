@@ -30,6 +30,22 @@ class OrderRepositoryImpl implements IOrderRepository {
   }
 
   @override
+  Future<Either<OrderError, bool>> changeOrderListStatus(
+      List<order.Order> orderList, OrderStatus status) async {
+    try {
+      final result = await _orderDatasource.changeOrderListStatus(
+          orderList.map((e) => OrderModel.fromOrder(order: e)).toList(),
+          status);
+
+      return Right(result);
+    } on OrderError catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(OrderError(e.toString()));
+    }
+  }
+
+  @override
   Future<Either<OrderError, List<order.Order>>> getOrders() async {
     try {
       final result = await _orderDatasource.getOrders();

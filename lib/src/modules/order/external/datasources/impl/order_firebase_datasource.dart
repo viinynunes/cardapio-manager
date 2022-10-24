@@ -31,6 +31,27 @@ class OrderFirebaseDatasource implements IOrderDatasource {
   }
 
   @override
+  Future<bool> changeOrderListStatus(
+      List<OrderModel> orderList, OrderStatus status) async {
+    for (OrderModel order in orderList) {
+
+      order.status = status;
+
+      final client = ClientModel.fromClient(order.client).toMap();
+
+      await _clientOrderCollection
+          .doc(order.client.id)
+          .collection('orders')
+          .doc(order.id)
+          .update(order.toMap(client: client));
+
+      await _orderCollection.doc(order.id).update(order.toMap(client: client));
+    }
+
+    return true;
+  }
+
+  @override
   Future<List<OrderModel>> getOrders() async {
     List<OrderModel> orderList = [];
 

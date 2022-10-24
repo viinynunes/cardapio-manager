@@ -42,7 +42,9 @@ class ShowOrderStatusChangeDialog extends StatelessWidget {
                 order,
                 action == 'cancelar'
                     ? OrderStatus.cancelled
-                    : OrderStatus.confirmed,
+                    : action == 'confirmar'
+                        ? OrderStatus.confirmed
+                        : OrderStatus.closed,
               ));
               whenActionCompleted();
               Modular.to.pop();

@@ -48,3 +48,10 @@ class ChangeOrderStatusEvent extends OrderEvents {
 
   ChangeOrderStatusEvent(this.order, this.status);
 }
+
+class ChangeOrderListStatusEvent extends OrderEvents {
+  final List<Order> orderList;
+  final OrderStatus status;
+
+  ChangeOrderListStatusEvent(this.orderList, this.status);
+}

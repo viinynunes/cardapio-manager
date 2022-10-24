@@ -5,6 +5,9 @@ import '../models/order_model.dart';
 abstract class IOrderDatasource {
   Future<OrderModel> changeOrderStatus(OrderModel order, OrderStatus status);
 
+  Future<bool> changeOrderListStatus(
+      List<OrderModel> orderList, OrderStatus status);
+
   Future<List<OrderModel>> getOrders();
 
   Future<List<OrderModel>> getOrdersByDay(DateTime day);

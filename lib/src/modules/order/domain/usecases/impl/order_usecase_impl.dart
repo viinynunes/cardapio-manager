@@ -15,12 +15,8 @@ class OrderUsecaseImpl implements IOrderUsecase {
   @override
   Future<Either<OrderError, order.Order>> changeOrderStatus(
       order.Order order, OrderStatus status) async {
-    if (order.status.name == 'closed') {
-      return Left(OrderError('Order Already closed'));
-    }
-
-    if (order.status.name == 'cancelled') {
-      return Left(OrderError('Order Already Cancelled'));
+    if (order.status == status) {
+      return Left(OrderError('Order Already $status'));
     }
 
     if (order.id.isEmpty) {
@@ -28,6 +24,22 @@ class OrderUsecaseImpl implements IOrderUsecase {
     }
 
     return _repository.changeOrderStatus(order, status);
+  }
+
+  @override
+  Future<Either<OrderError, bool>> changeOrderListStatus(
+      List<order.Order> orderList, OrderStatus status) async {
+    for (var order in orderList) {
+      if (order.status == status) {
+        return Left(OrderError('Order Already $status'));
+      }
+
+      if (order.id.isEmpty) {
+        return Left(OrderError('ID cannot be empty'));
+      }
+    }
+
+    return _repository.changeOrderListStatus(orderList, status);
   }
 
   @override

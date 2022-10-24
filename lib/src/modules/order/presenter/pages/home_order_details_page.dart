@@ -198,6 +198,11 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
                       );
                     }
 
+                    if (state is OrderSuccessState) {
+                      orderBloc.add(GetOrderListByDayAndStatusAndItemEvent(
+                          DateTime.now(), selectedStatus, widget.report));
+                    }
+
                     if (state is OrderGetListSuccessState) {
                       orderList = state.orderList;
 
@@ -262,6 +267,7 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
             context: context,
             builder: (_) => ShowOrderListStatusChangeDialog(
                 orderList: orderList,
+                status: OrderStatus.confirmed,
                 selectedDay: widget.selectedDay,
                 whenActionCompleted: () => orderBloc.add(
                     GetOrderListByDayAndStatusAndItemEvent(
@@ -274,6 +280,7 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
             context: context,
             builder: (_) => ShowOrderListStatusChangeDialog(
                 orderList: orderList,
+                status: OrderStatus.cancelled,
                 selectedDay: widget.selectedDay,
                 whenActionCompleted: () => orderBloc.add(
                     GetOrderListByDayAndStatusAndItemEvent(
@@ -286,6 +293,7 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
             context: context,
             builder: (_) => ShowOrderListStatusChangeDialog(
                 orderList: orderList,
+                status: OrderStatus.closed,
                 selectedDay: widget.selectedDay,
                 whenActionCompleted: () => orderBloc.add(
                     GetOrderListByDayAndStatusAndItemEvent(

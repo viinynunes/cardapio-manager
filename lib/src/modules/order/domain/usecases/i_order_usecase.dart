@@ -9,6 +9,9 @@ abstract class IOrderUsecase {
   Future<Either<OrderError, order.Order>> changeOrderStatus(
       order.Order order, OrderStatus status);
 
+  Future<Either<OrderError, bool>> changeOrderListStatus(
+      List<order.Order> orderList, OrderStatus status);
+
   Future<Either<OrderError, List<order.Order>>> getOrders();
 
   Future<Either<OrderError, List<order.Order>>> getOrdersByDay(DateTime day);
