@@ -107,25 +107,38 @@ class _OrdersPageState extends State<OrdersPage> with TickerProviderStateMixin {
                             onTap: () {
                               orderBloc.add(GetOrdersByDayEvent(day));
                             },
-                            child: const Text('Todos')),
+                            child: Text('Todos',
+                                style: Theme.of(context).textTheme.titleSmall)),
                         PopupMenuItem(
                             onTap: () {
                               orderBloc.add(FilterOrderListByStatusEvent(
                                   day, OrderStatus.open));
                             },
-                            child: const Text('Aberto')),
+                            child: Text('Aberto',
+                                style: Theme.of(context).textTheme.titleSmall)),
                         PopupMenuItem(
                             onTap: () {
                               orderBloc.add(FilterOrderListByStatusEvent(
                                   day, OrderStatus.confirmed));
                             },
-                            child: const Text('Confirmado')),
+                            child: Text('Confirmado',
+                                style: Theme.of(context).textTheme.titleSmall)),
+                        PopupMenuItem(
+                            onTap: () {
+                              orderBloc.add(FilterOrderListByStatusEvent(
+                                  day, OrderStatus.closed));
+                            },
+                            child: Text('Fechado',
+                                style: Theme.of(context).textTheme.titleSmall)),
                         PopupMenuItem(
                             onTap: () {
                               orderBloc.add(FilterOrderListByStatusEvent(
                                   day, OrderStatus.cancelled));
                             },
-                            child: const Text('Cancelado')),
+                            child: Text(
+                              'Cancelado',
+                              style: Theme.of(context).textTheme.titleSmall,
+                            )),
                       ];
                     },
                   )
