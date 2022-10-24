@@ -1,4 +1,5 @@
 import 'package:cardapio_manager/src/modules/survey/domain/entities/survey.dart';
+import 'package:cardapio_manager/src/modules/survey/presenter/pages/tiles/survey_response_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -29,7 +30,6 @@ class _SurveyResponseListPageState extends State<SurveyResponseListPage> {
 
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -41,10 +41,18 @@ class _SurveyResponseListPageState extends State<SurveyResponseListPage> {
             bloc: surveyResponseBloc,
             builder: (_, state) {
               if (state is GetSurveyResponseListSuccessState) {
+                double total = 0;
+
+                for (var response in state.surveyResponseList) {
+                  total += response.satisfaction;
+                }
+
+                final media = total / state.surveyResponseList.length;
+
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(state.surveyResponseList.length.toString()),
+                    child: Text('Média: ${media.toString()}'),
                   ),
                 );
               }
@@ -75,9 +83,8 @@ class _SurveyResponseListPageState extends State<SurveyResponseListPage> {
                         itemBuilder: (_, index) {
                           final surveyResponse = surveyResponseList[index];
 
-                          return ListTile(
-                            title: Text(surveyResponse.client.name),
-                          );
+                          return SurveyResponseListTile(
+                              surveyResponse: surveyResponse);
                         },
                       )
                     : const Center(
