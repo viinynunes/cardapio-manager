@@ -108,6 +108,14 @@ class _CustomDrawerState extends State<CustomDrawer> {
               leading: const Icon(Icons.account_circle),
               title: const Center(child: Text('Clientes')),
             ),
+            ListTile(
+              onTap: () {
+                Modular.to.pop();
+                Modular.to.navigate('/survey/');
+              },
+              leading: const Icon(Icons.star),
+              title: const Center(child: Text('Pesquisa')),
+            ),
           ],
         ),
       ),

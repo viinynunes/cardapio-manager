@@ -2,6 +2,7 @@ import 'package:cardapio_manager/src/modules/binds_and_routes/client_module.dart
 import 'package:cardapio_manager/src/modules/binds_and_routes/item_menu_module.dart';
 import 'package:cardapio_manager/src/modules/binds_and_routes/login_module.dart';
 import 'package:cardapio_manager/src/modules/binds_and_routes/order_module.dart';
+import 'package:cardapio_manager/src/modules/binds_and_routes/survey_module.dart';
 import 'package:cardapio_manager/src/modules/core/auth/domain/usecases/impl/logged_user_usecase_impl.dart';
 import 'package:cardapio_manager/src/modules/core/auth/domain/usecases/impl/login_usecase_impl.dart';
 import 'package:cardapio_manager/src/modules/core/auth/external/logged_user_shared_preferences_datasource.dart';
@@ -60,5 +61,6 @@ class MainModule extends Module {
         ModuleRoute('/auth/', module: LoginModule()),
         ModuleRoute('/order/', module: OrderModule()),
         ModuleRoute('/client/', module: ClientModule()),
+        ModuleRoute('/survey/', module: SurveyModule()),
       ];
 }
