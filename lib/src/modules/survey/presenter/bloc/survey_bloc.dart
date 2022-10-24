@@ -23,7 +23,7 @@ class SurveyBloc extends Bloc<SurveyEvents, SurveyStates> {
       final result = await surveyUsecase.createSurvey(event.survey);
 
       result.fold(
-          (l) => emit(SurveyErrorState(l)), (r) => SurveySuccessState(r));
+          (l) => emit(SurveyErrorState(l)), (r) => emit(SurveySuccessState(r)));
     });
 
     on<UpdateSurveyEvent>((event, emit) async {
@@ -32,7 +32,16 @@ class SurveyBloc extends Bloc<SurveyEvents, SurveyStates> {
       final result = await surveyUsecase.updateSurvey(event.survey);
 
       result.fold(
-          (l) => emit(SurveyErrorState(l)), (r) => SurveySuccessState(r));
+          (l) => emit(SurveyErrorState(l)), (r) => emit(SurveySuccessState(r)));
+    });
+
+    on<EnableSurveyEvent>((event, emit) async {
+      emit(SurveyLoadingState());
+
+      final result = await surveyUsecase.enableSurvey(event.survey);
+
+      result.fold(
+          (l) => emit(SurveyErrorState(l)), (r) => emit(SurveySuccessState(r)));
     });
   }
 }

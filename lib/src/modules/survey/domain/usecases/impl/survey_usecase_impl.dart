@@ -32,4 +32,9 @@ class SurveyUsecaseImpl implements ISurveyUsecase {
 
     return _repository.updateSurvey(survey);
   }
+
+  @override
+  Future<Either<SurveyErrors, Survey>> enableSurvey(Survey survey) {
+    return _repository.enableSurvey(survey);
+  }
 }

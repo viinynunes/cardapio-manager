@@ -51,4 +51,18 @@ class SurveyRepositoryImpl implements ISurveyRepository {
       return Left(SurveyErrors(e.toString()));
     }
   }
+
+  @override
+  Future<Either<SurveyErrors, Survey>> enableSurvey(Survey survey) async {
+    try {
+      final result =
+          await _datasource.enableSurvey(SurveyModel.fromSurvey(survey));
+
+      return Right(result);
+    } on SurveyErrors catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(SurveyErrors(e.toString()));
+    }
+  }
 }

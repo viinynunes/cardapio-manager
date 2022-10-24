@@ -15,3 +15,10 @@ class UpdateSurveyEvent implements SurveyEvents {
 
   UpdateSurveyEvent(this.survey);
 }
+
+class EnableSurveyEvent implements SurveyEvents {
+  final Survey survey;
+
+  EnableSurveyEvent(this.survey);
+}
+

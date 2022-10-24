@@ -55,42 +55,56 @@ class _SurveyListPageState extends State<SurveyListPage>
         },
         child: const Icon(Icons.add),
       ),
-      body: BlocBuilder<SurveyBloc, SurveyStates>(
+      body: BlocListener<SurveyBloc, SurveyStates>(
         bloc: bloc,
-        builder: (context, state) {
-          if (state is SurveyLoadingState) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+        listener: (_, state) {
+          if (state is SurveySuccessState) {
+            bloc.add(GetSurveyListEvent());
           }
+        },
+        child: BlocBuilder<SurveyBloc, SurveyStates>(
+          bloc: bloc,
+          builder: (context, state) {
+            if (state is SurveyLoadingState) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          if (state is SurveyErrorState) {
-            return Center(
-              child: Text(state.error.message),
-            );
-          }
+            if (state is SurveyErrorState) {
+              return Center(
+                child: Text(state.error.message),
+              );
+            }
 
-          if (state is GetSurveyListSuccessState) {
-            final surveyList = state.surveyList;
+            if (state is GetSurveyListSuccessState) {
+              final surveyList = state.surveyList;
 
-            return surveyList.isNotEmpty
-                ? ListView.builder(
-                    itemCount: surveyList.length,
-                    itemBuilder: (_, index) {
-                      final survey = surveyList[index];
-                      return SurveyListTile(
+              return surveyList.isNotEmpty
+                  ? ListView.builder(
+                      itemCount: surveyList.length,
+                      itemBuilder: (_, index) {
+                        var survey = surveyList[index];
+                        return SurveyListTile(
                           survey: survey,
                           onTap: () async =>
-                              await createOrUpdateSurvey(survey: survey));
-                    },
-                  )
-                : const Center(
-                    child: Text('Nenhuma pesquisa encontrada'),
-                  );
-          }
+                              await createOrUpdateSurvey(survey: survey),
+                          onEnabled: (enabled) {
+                            survey.enabled = enabled;
 
-          return Container();
-        },
+                            bloc.add(EnableSurveyEvent(survey));
+                          },
+                        );
+                      },
+                    )
+                  : const Center(
+                      child: Text('Nenhuma pesquisa encontrada'),
+                    );
+            }
+
+            return Container();
+          },
+        ),
       ),
     );
   }

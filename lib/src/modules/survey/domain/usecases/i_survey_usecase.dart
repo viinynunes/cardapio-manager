@@ -9,4 +9,6 @@ abstract class ISurveyUsecase {
   Future<Either<SurveyErrors, Survey>> createSurvey(Survey survey);
 
   Future<Either<SurveyErrors, Survey>> updateSurvey(Survey survey);
+
+  Future<Either<SurveyErrors, Survey>> enableSurvey(Survey survey);
 }

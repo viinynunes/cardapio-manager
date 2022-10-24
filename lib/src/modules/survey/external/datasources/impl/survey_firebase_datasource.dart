@@ -35,4 +35,16 @@ class SurveyFirebaseDatasourceImpl implements ISurveyDatasource {
 
     return survey;
   }
+
+  @override
+  Future<SurveyModel> enableSurvey(SurveyModel survey) async {
+    final snap =
+        await _surveyCollection.where('enabled', isEqualTo: true).get();
+
+    for (var index in snap.docs) {
+      await _surveyCollection.doc(index.id).update({'enabled': false});
+    }
+
+    return await updateSurvey(survey);
+  }
 }

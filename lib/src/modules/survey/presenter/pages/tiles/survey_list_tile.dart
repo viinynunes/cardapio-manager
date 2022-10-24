@@ -2,11 +2,16 @@ import 'package:cardapio_manager/src/modules/survey/domain/entities/survey.dart'
 import 'package:flutter/material.dart';
 
 class SurveyListTile extends StatefulWidget {
-  const SurveyListTile({Key? key, required this.survey, required this.onTap})
+  const SurveyListTile(
+      {Key? key,
+      required this.survey,
+      required this.onTap,
+      required this.onEnabled})
       : super(key: key);
 
   final Survey survey;
   final VoidCallback onTap;
+  final Function(bool enabled) onEnabled;
 
   @override
   State<SurveyListTile> createState() => _SurveyListTileState();
@@ -34,7 +39,10 @@ class _SurveyListTileState extends State<SurveyListTile> {
             padding: const EdgeInsets.all(8.0),
             child: Column(
               children: [
-                Text(widget.survey.title, style: Theme.of(context).textTheme.titleLarge,),
+                Text(
+                  widget.survey.title,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -59,6 +67,7 @@ class _SurveyListTileState extends State<SurveyListTile> {
                         onChanged: (value) {
                           setState(() {
                             enabled = value;
+                            widget.onEnabled(value);
                           });
                         },
                       ),

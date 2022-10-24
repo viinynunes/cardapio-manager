@@ -6,4 +6,6 @@ abstract class ISurveyDatasource {
   Future<SurveyModel> createSurvey(SurveyModel survey);
 
   Future<SurveyModel> updateSurvey(SurveyModel survey);
+
+  Future<SurveyModel> enableSurvey(SurveyModel survey);
 }
