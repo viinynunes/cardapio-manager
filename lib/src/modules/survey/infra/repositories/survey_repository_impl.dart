@@ -1,4 +1,5 @@
 import 'package:cardapio_manager/src/modules/survey/domain/entities/survey.dart';
+import 'package:cardapio_manager/src/modules/survey/domain/entities/survey_response.dart';
 import 'package:cardapio_manager/src/modules/survey/errors/survey_errors.dart';
 import 'package:dartz/dartz.dart';
 
@@ -57,6 +58,21 @@ class SurveyRepositoryImpl implements ISurveyRepository {
     try {
       final result =
           await _datasource.enableSurvey(SurveyModel.fromSurvey(survey));
+
+      return Right(result);
+    } on SurveyErrors catch (e) {
+      return Left(e);
+    } catch (e) {
+      return Left(SurveyErrors(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<SurveyErrors, List<SurveyResponse>>>
+      getSurveyResponseListBySurvey(Survey survey) async {
+    try {
+      final result = await _datasource
+          .getSurveyResponseListBySurvey(SurveyModel.fromSurvey(survey));
 
       return Right(result);
     } on SurveyErrors catch (e) {

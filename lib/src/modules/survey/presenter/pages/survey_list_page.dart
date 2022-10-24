@@ -94,6 +94,9 @@ class _SurveyListPageState extends State<SurveyListPage>
 
                             bloc.add(EnableSurveyEvent(survey));
                           },
+                          showResponses: () => Modular.to.pushNamed(
+                              './survey-response-list/',
+                              arguments: [survey]),
                         );
                       },
                     )

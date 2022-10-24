@@ -1,3 +1,4 @@
+import 'package:cardapio_manager/src/modules/survey/infra/models/survey_response_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../infra/datasources/i_survey_datasource.dart';
@@ -46,5 +47,20 @@ class SurveyFirebaseDatasourceImpl implements ISurveyDatasource {
     }
 
     return await updateSurvey(survey);
+  }
+
+  @override
+  Future<List<SurveyResponseModel>> getSurveyResponseListBySurvey(
+      SurveyModel survey) async {
+    List<SurveyResponseModel> surveyList = [];
+
+    final snap =
+        await _surveyCollection.doc(survey.id).collection('responses').get();
+
+    for (var index in snap.docs) {
+      surveyList.add(SurveyResponseModel.fromMap(index.data()));
+    }
+
+    return surveyList;
   }
 }

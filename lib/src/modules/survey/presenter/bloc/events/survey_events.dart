@@ -21,4 +21,3 @@ class EnableSurveyEvent implements SurveyEvents {
 
   EnableSurveyEvent(this.survey);
 }
-

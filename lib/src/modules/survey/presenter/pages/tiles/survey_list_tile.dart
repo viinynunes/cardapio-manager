@@ -6,11 +6,13 @@ class SurveyListTile extends StatefulWidget {
       {Key? key,
       required this.survey,
       required this.onTap,
-      required this.onEnabled})
+      required this.onEnabled,
+      required this.showResponses})
       : super(key: key);
 
   final Survey survey;
   final VoidCallback onTap;
+  final VoidCallback showResponses;
   final Function(bool enabled) onEnabled;
 
   @override
@@ -32,7 +34,7 @@ class _SurveyListTileState extends State<SurveyListTile> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(8)),
         child: Card(
           child: Padding(
@@ -74,6 +76,13 @@ class _SurveyListTileState extends State<SurveyListTile> {
                     ),
                   ],
                 ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextButton(
+                  onPressed: widget.showResponses,
+                  child: const Text('Respostas'),
+                )
               ],
             ),
           ),

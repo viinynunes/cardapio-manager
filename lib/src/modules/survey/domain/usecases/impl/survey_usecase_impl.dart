@@ -1,4 +1,5 @@
 import 'package:cardapio_manager/src/modules/survey/domain/entities/survey.dart';
+import 'package:cardapio_manager/src/modules/survey/domain/entities/survey_response.dart';
 import 'package:cardapio_manager/src/modules/survey/errors/survey_errors.dart';
 import 'package:dartz/dartz.dart';
 
@@ -36,5 +37,15 @@ class SurveyUsecaseImpl implements ISurveyUsecase {
   @override
   Future<Either<SurveyErrors, Survey>> enableSurvey(Survey survey) {
     return _repository.enableSurvey(survey);
+  }
+
+  @override
+  Future<Either<SurveyErrors, List<SurveyResponse>>>
+      getSurveyResponseListBySurvey(Survey survey) async {
+    if (survey.id.isEmpty) {
+      return Left(SurveyErrors('Invalid client'));
+    }
+
+    return _repository.getSurveyResponseListBySurvey(survey);
   }
 }

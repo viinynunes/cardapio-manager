@@ -2,8 +2,10 @@ import 'package:cardapio_manager/src/modules/survey/domain/usecases/impl/survey_
 import 'package:cardapio_manager/src/modules/survey/external/datasources/impl/survey_firebase_datasource.dart';
 import 'package:cardapio_manager/src/modules/survey/infra/repositories/survey_repository_impl.dart';
 import 'package:cardapio_manager/src/modules/survey/presenter/bloc/survey_bloc.dart';
+import 'package:cardapio_manager/src/modules/survey/presenter/bloc/survey_reponse_bloc.dart';
 import 'package:cardapio_manager/src/modules/survey/presenter/pages/survey_registration_page.dart';
 import 'package:cardapio_manager/src/modules/survey/presenter/pages/survey_list_page.dart';
+import 'package:cardapio_manager/src/modules/survey/presenter/pages/survey_response_list_page.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
 class SurveyModule extends Module {
@@ -12,7 +14,8 @@ class SurveyModule extends Module {
         Bind((i) => SurveyFirebaseDatasourceImpl()),
         Bind((i) => SurveyRepositoryImpl(i())),
         Bind((i) => SurveyUsecaseImpl(i())),
-        Bind((i) => SurveyBloc(i()))
+        Bind((i) => SurveyBloc(i())),
+        Bind((i) => SurveyResponseBloc(i()))
       ];
 
   @override
@@ -20,5 +23,7 @@ class SurveyModule extends Module {
         ChildRoute('/', child: (_, __) => const SurveyListPage()),
         ChildRoute('/survey-registration-page/',
             child: (_, args) => SurveyRegistrationPage(survey: args.data[0])),
+        ChildRoute('/survey-response-list/',
+            child: (_, args) => SurveyResponseListPage(survey: args.data[0])),
       ];
 }
