@@ -213,7 +213,9 @@ class _HomeOrderDetailsPageState extends State<HomeOrderDetailsPage> {
                                 final order = orderList[index];
                                 return OrdersTile(
                                   order: order,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Modular.to.pushNamed('../order-item-page/', arguments: [order]);
+                                  },
                                   selectedDay: widget.selectedDay,
                                   whenActionCompleted: () =>
                                       GetOrderListByDayAndStatusAndItemEvent(

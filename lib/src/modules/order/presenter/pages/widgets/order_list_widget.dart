@@ -51,7 +51,10 @@ class _OrderListWidgetState extends State<OrderListWidget> {
                   var order = orderList[index];
                   return OrdersTile(
                     order: order,
-                    onTap: () {},
+                    onTap: () {
+                      Modular.to
+                          .pushNamed('./order-item-page/', arguments: [order]);
+                    },
                     selectedDay: widget.day,
                     whenActionCompleted: () =>
                         bloc.add(GetOrdersByDayEvent(widget.day)),
