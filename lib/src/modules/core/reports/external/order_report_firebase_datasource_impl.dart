@@ -28,6 +28,7 @@ class OrderReportFirebaseDatasourceImpl implements IOrderReportDatasource {
     final snap = await FirebaseFirestore.instance
         .collection('orders')
         .where('registrationDate', isEqualTo: day)
+        .where('status', isNotEqualTo: 'cancelled')
         .get();
 
     for (var i in snap.docs) {
