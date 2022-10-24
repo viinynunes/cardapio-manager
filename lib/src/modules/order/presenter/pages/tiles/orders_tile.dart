@@ -156,8 +156,11 @@ class _OrdersTileState extends State<OrdersTile> {
                                 item == 'Cancelar'
                                     ? await showConfirmationDialog(
                                         'cancelar', widget.order)
-                                    : await showConfirmationDialog(
-                                        'confirmar', widget.order);
+                                    : item == 'Confirmar'
+                                        ? await showConfirmationDialog(
+                                            'confirmar', widget.order)
+                                        : await showConfirmationDialog(
+                                            'fechar', widget.order);
                                 /*setState(() {
                                   dropdownValue = item!;
                                 });*/
@@ -204,5 +207,6 @@ class _OrdersTileState extends State<OrdersTile> {
 
 final dropDownButtonItems = [
   'Confirmar',
+  'Fechar',
   'Cancelar',
 ];
