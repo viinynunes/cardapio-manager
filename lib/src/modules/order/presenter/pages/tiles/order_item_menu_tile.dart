@@ -15,9 +15,8 @@ class OrderItemMenuTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(16),
-        color: Colors.grey[300],
-      ),
+          borderRadius: BorderRadius.circular(16),
+          color: Theme.of(context).cardColor),
       child: Row(
         children: [
           Flexible(
@@ -31,7 +30,7 @@ class OrderItemMenuTile extends StatelessWidget {
                   image: NetworkImage(itemMenu.imgUrl),
                   fit: BoxFit.cover,
                   colorFilter:
-                      const ColorFilter.mode(Colors.black26, BlendMode.darken),
+                      const ColorFilter.mode(Colors.black12, BlendMode.darken),
                 ),
               ),
             ),
