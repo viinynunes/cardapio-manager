@@ -1,16 +1,28 @@
-# cardapio_manager
+<h1 align="center">Cardápio - App Gerente</h1>
 
-App to manage cardapio
+<p align="center">Aplicativo utilizado pela cozinha da empresa para o gerenciamento de pedidos da cozinha do restaurante interno. </p>
 
-## Getting Started
+### 🛠 Tecnologias
 
-This project is a starting point for a Flutter application.
+As seguintes ferramentas foram usadas na construção do projeto:
 
-A few resources to get you started if this is your first Flutter project:
+- [Dart](https://dart.dev/)
+- [Flutter](https://flutter.dev/)
+- [BloC](https://pub.dev/packages/flutter_bloc)
+- [Flutter Modular](https://pub.dev/packages/flutter_modular)
+- [Firebase](https://firebase.google.com/?hl=pt)
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+<h4 align="center"> 
+	🚧  Versão 1.0 Finalizada  🚧
+</h4>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Features já implementadas
+- Login por usuário
+- Cadastro de clientes
+- Cadastro de itens do cardápio
+- Seleção de pratos disponiveis por cada dia da semana.
+- Alteração do status do pedido.
+- Acompanhamento dos pedidos diários por status.
+- Gráfico com os pratos mais pedidos do dia.
+- Relatório de pratos por periodo.
+- Cadastro de pesquisas de satisfação
